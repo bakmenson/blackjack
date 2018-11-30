@@ -59,30 +59,100 @@ class Player:
         return self.cdv
 
 
-def game(plr):
-    end_score = 21 if len(plr.get_pl_cards()) >= 2 else 17
+def game(plr, dlr):
+    p_end_score, d_end_score = 21, 17
+    pl_cv, dl_cv = sum(plr.get_cards_value()), 0
+    zip(*plr.get_pl_cards()), zip(*dlr.get_pl_cards())
 
-    while True:
-        plz = zip(*plr.get_pl_cards())
+    print('-' * 15, 'Карты диллера', '-' * 15)
+    for x in zip(*dlr.get_pl_cards()):
+        print(*x)
 
-        for x in plz:
-            print(*x)
+    if dlr.get_cards_value()[0] == 11:
+        print(dlr.get_cards_value())
+
+    print('-' * 15, 'Ваши карты', '-' * 15)
+    for x in zip(*plr.get_pl_cards()):
+        print(*x)
+
+    if sum(plr.get_cards_value()) == p_end_score \
+            and dlr.get_cards_value()[0] < 10:
+        return f'Блэкджек!\nУ вас {sum(plr.get_cards_value())} очков.'
+    
+    elif sum(plr.get_cards_value()) == p_end_score \
+            and dlr.get_cards_value()[0] == 11:
+        while True:
+            end_q = input('У диллера первая карта туз, а у вас блэкджек, вы'
+                          ' можите закончить игру\nс результатом ничья или'
+                          ' продолжить игру:\nПродолжить игру (y/n)?\n>>> ')
+            try:
+                if end_q != 'y' and end_q != 'n':
+                    raise ValueError('Неверная команда.')
+                else:
+                    break
+            except ValueError as v_err:
+                print(v_err)
+                continue
         
-        vpl = sum(plr.get_cards_value())
-        print(f'У вас {vpl} очков.')
+        if end_q == 'n':
+            return 'Вы закончили игру с результатом ничья.'
+    
+    while True:
+        try:
+            gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
+        except ValueError:
+            print('Неверная команда.')
+            continue
 
-        if vpl == end_score:
-            print('you won!')
-            break
-        elif vpl > end_score:
-            print('перебор')
-            break
-        else:
+        if gq == 1:
             plr.cds.append(DeckOfCards(cards, card_symbol))
             plr.cdl.append([_ for _ in plr.cds[len(plr.cds) - 1].get_card()])
             plr.cdv.append(plr.cds[len(plr.cds) - 1].get_value())
-        
-        # input()
+            pl_cv = sum(plr.get_cards_value())
+            
+            for x in zip(*plr.get_pl_cards()):
+                print(*x)
+            
+        elif gq == 2:
+            if pl_cv == p_end_score:
+                print(f'Блэкджек!\nКоличество очков: {pl_cv}.')
+                break
+            elif pl_cv > p_end_score:
+                print(f'Перебор.\nКоличество очков: {pl_cv}.')
+                break
+            else:
+                print(f'Количество очков: {pl_cv}.')
+                break
+    
+    print('-' * 15, 'Карты диллера', '-' * 15)
+    while dl_cv < d_end_score:
+        dlr.cds.append(DeckOfCards(cards, card_symbol))
+        dlr.cdl.append([_ for _ in dlr.cds[len(dlr.cds) - 1].get_card()])
+        dlr.cdv.append(dlr.cds[len(dlr.cds) - 1].get_value())
+        dl_cv = sum(dlr.get_cards_value())
+
+        if dl_cv >= d_end_score:
+            for x in zip(*dlr.get_pl_cards()):
+                print(*x)
+
+            print(f'Количество очков у диллера: {dl_cv}.')
+    
+    if pl_cv <= p_end_score and dl_cv > p_end_score:
+        return 'Вы выиграли!'
+    elif pl_cv == p_end_score and dl_cv < p_end_score:
+        return 'Вы выиграли!'
+    elif pl_cv < p_end_score and dl_cv < p_end_score and pl_cv > dl_cv:
+        return 'Вы выиграли!'
+    elif pl_cv > p_end_score and dl_cv <= p_end_score:
+        return 'Выиграл диллер'
+    elif pl_cv < p_end_score and dl_cv < p_end_score and pl_cv < dl_cv:
+        return 'Выиграл диллер'
+    elif pl_cv == p_end_score and dl_cv == p_end_score:
+        return 'Ничья'
+    elif pl_cv > p_end_score and dl_cv > p_end_score:
+        return 'Ничья'
+    else:
+        return 'Ничья'
 
 
 if __name__ == '__main__':
@@ -101,5 +171,4 @@ if __name__ == '__main__':
 
     dealer = Player([DeckOfCards(cards, card_symbol)])
 
-    # game(player)
-    game(dealer)
+    print(game(player, dealer))
