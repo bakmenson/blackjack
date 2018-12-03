@@ -94,7 +94,7 @@ def game(plr, dlr):
             return 'Вы закончили игру с результатом ничья.'
     
     if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
-        print('match')
+        print('split')
     else:
         while pl_cv < p_end_score:
             try:
