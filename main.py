@@ -62,7 +62,6 @@ class Player:
 def game(plr, dlr):
     p_end_score, d_end_score = 21, 17
     pl_cv, dl_cv = sum(plr.get_cards_value()), 0
-    zip(*plr.get_pl_cards()), zip(*dlr.get_pl_cards())
 
     print('-' * 15, 'Карты диллера', '-' * 15)
     for x in zip(*dlr.get_pl_cards()):
