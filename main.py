@@ -67,9 +67,6 @@ def game(plr, dlr):
     for x in zip(*dlr.get_pl_cards()):
         print(*x)
 
-    if dlr.get_cards_value()[0] == 11:
-        print(dlr.get_cards_value())
-
     print('-' * 15, 'Ваши карты', '-' * 15)
     for x in zip(*plr.get_pl_cards()):
         print(*x)
