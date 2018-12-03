@@ -96,7 +96,7 @@ def game(plr, dlr):
         if end_q == 'n':
             return 'Вы закончили игру с результатом ничья.'
     
-    while True:
+    while pl_cv < p_end_score:
         try:
             gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
         except ValueError:
@@ -112,16 +112,14 @@ def game(plr, dlr):
             for x in zip(*plr.get_pl_cards()):
                 print(*x)
             
-        elif gq == 2:
             if pl_cv == p_end_score:
                 print(f'Блэкджек!\nКоличество очков: {pl_cv}.')
-                break
             elif pl_cv > p_end_score:
                 print(f'Перебор.\nКоличество очков: {pl_cv}.')
-                break
-            else:
-                print(f'Количество очков: {pl_cv}.')
-                break
+            
+        elif gq == 2:
+            print(f'Количество очков: {pl_cv}.')
+            break
     
     print('-' * 15, 'Карты диллера', '-' * 15)
     while dl_cv < d_end_score:
@@ -168,7 +166,7 @@ if __name__ == '__main__':
              '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
     player = Player([DeckOfCards(cards, card_symbol),
-                 DeckOfCards(cards, card_symbol)])
+                     DeckOfCards(cards, card_symbol)])
 
     dealer = Player([DeckOfCards(cards, card_symbol)])
 
