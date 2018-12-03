@@ -145,6 +145,8 @@ def game(plr, dlr):
         return 'Вы выиграли!'
     elif pl_cv > p_end_score and dl_cv <= p_end_score:
         return 'Выиграл диллер'
+    elif pl_cv < p_end_score and dl_cv == p_end_score:
+        return 'Выиграл диллер'
     elif pl_cv < p_end_score and dl_cv < p_end_score and pl_cv < dl_cv:
         return 'Выиграл диллер'
     elif pl_cv == p_end_score and dl_cv == p_end_score:
