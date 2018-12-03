@@ -63,11 +63,11 @@ def game(plr, dlr):
     p_end_score, d_end_score = 21, 17
     pl_cv, dl_cv = sum(plr.get_cards_value()), 0
 
-    print('-' * 15, 'Карты диллера', '-' * 15)
+    print('-' * 23, 'Карты диллера', '-' * 23)
     for x in zip(*dlr.get_pl_cards()):
         print(*x)
 
-    print('-' * 15, 'Ваши карты', '-' * 15)
+    print('-' * 24, 'Ваши карты', '-' * 25)
     for x in zip(*plr.get_pl_cards()):
         print(*x)
 
@@ -118,7 +118,7 @@ def game(plr, dlr):
             print(f'Количество очков: {pl_cv}.')
             break
     
-    print('-' * 15, 'Карты диллера', '-' * 15)
+    print('-' * 23, 'Карты диллера', '-' * 23)
     while dl_cv < d_end_score:
         dlr.cds.append(DeckOfCards(cards, card_symbol))
         dlr.cdl.append([_ for _ in dlr.cds[len(dlr.cds) - 1].get_card()])
@@ -130,6 +130,8 @@ def game(plr, dlr):
                 print(*x)
 
             print(f'Количество очков у диллера: {dl_cv}.')
+
+    print('-' * 23, 'Игра окончена', '-' * 23)
     
     if pl_cv <= p_end_score and dl_cv > p_end_score:
         return 'Вы выиграли!'
