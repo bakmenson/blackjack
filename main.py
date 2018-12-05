@@ -34,7 +34,7 @@ class DeckOfCards:
                     self._cd_name[0]) + '\033[0m') + chr(9474),
 
                 chr(9492) + (chr(9472) * 9) + chr(9496)]
-    
+
     def get_value(self):
         return self._cd_name[1]
 
@@ -74,7 +74,7 @@ def game(plr, dlr):
     if sum(plr.get_cards_value()) == p_end_score \
             and dlr.get_cards_value()[0] < 10:
         return f'Блэкджек!\nУ вас {sum(plr.get_cards_value())} очков.'
-    
+
     elif sum(plr.get_cards_value()) == p_end_score \
             and dlr.get_cards_value()[0] == 11:
         while True:
@@ -89,10 +89,10 @@ def game(plr, dlr):
             except ValueError as v_err:
                 print(v_err)
                 continue
-        
+
         if end_q == 'n':
             return 'Вы закончили игру с результатом ничья.'
-    
+
     if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
         print('split')
     else:
@@ -108,26 +108,34 @@ def game(plr, dlr):
                 plr.cdl.append([_ for _
                                 in plr.cds[len(plr.cds) - 1].get_card()])
                 plr.cdv.append(plr.cds[len(plr.cds) - 1].get_value())
-                pl_cv = sum(plr.get_cards_value())
-                
+
+                pl_cv_ct = tuple(x for x in plr.get_cards_value() if x != 11) \
+                    + tuple(1 for x in plr.get_cards_value() if x == 11)
+
+                pl_cv = sum(pl_cv_ct)
+
                 for x in zip(*plr.get_pl_cards()):
                     print(*x)
-                
+
                 if pl_cv == p_end_score:
                     print(f'Блэкджек!\nКоличество очков: {pl_cv}.')
                 elif pl_cv > p_end_score:
                     print(f'Перебор.\nКоличество очков: {pl_cv}.')
-                
+
             elif gq == 2:
                 print(f'Количество очков: {pl_cv}.')
                 break
-    
+
     print('-' * 23, 'Карты диллера', '-' * 23)
     while dl_cv < d_end_score:
         dlr.cds.append(DeckOfCards(cards, card_symbol))
         dlr.cdl.append([_ for _ in dlr.cds[len(dlr.cds) - 1].get_card()])
         dlr.cdv.append(dlr.cds[len(dlr.cds) - 1].get_value())
-        dl_cv = sum(dlr.get_cards_value())
+
+        dl_cv_ct = tuple(x for x in dlr.get_cards_value() if x != 11) \
+            + tuple(1 for x in dlr.get_cards_value() if x == 11)
+
+        dl_cv = sum(dl_cv_ct)
 
         if dl_cv >= d_end_score:
             for x in zip(*dlr.get_pl_cards()):
@@ -136,7 +144,7 @@ def game(plr, dlr):
             print(f'Количество очков у диллера: {dl_cv}.')
 
     print('-' * 23, 'Игра окончена', '-' * 23)
-    
+
     if pl_cv <= p_end_score < dl_cv:
         return 'Вы выиграли!'
     elif pl_cv == p_end_score > dl_cv:
