@@ -93,10 +93,19 @@ def game(plr, dlr):
         if end_q == 'n':
             return 'Вы закончили игру с результатом ничья.'
 
-    if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
-        print('split')
-    else:
-        while pl_cv < p_end_score:
+    while True:
+        sp = 'n'
+        if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
+            sp = input('Разбить пару (сплит)? y/n\n>>> ')
+            try:
+                if sp != 'y' and sp != 'n':
+                    raise ValueError('Неверная команда.')
+                else:
+                    pass
+            except ValueError as v_err:
+                print(v_err)
+        
+        if sp == 'n':
             try:
                 gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
             except ValueError:
@@ -119,12 +128,17 @@ def game(plr, dlr):
 
                 if pl_cv == p_end_score:
                     print(f'Блэкджек!\nКоличество очков: {pl_cv}.')
+                    break
                 elif pl_cv > p_end_score:
                     print(f'Перебор.\nКоличество очков: {pl_cv}.')
+                    break
 
             elif gq == 2:
                 print(f'Количество очков: {pl_cv}.')
                 break
+        else:
+            print('split')
+            break
 
     print('-' * 23, 'Карты диллера', '-' * 23)
     while dl_cv < d_end_score:
