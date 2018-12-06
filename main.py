@@ -72,7 +72,7 @@ def game(plr, dlr):
         print(*x)
 
     if sum(plr.get_cards_value()) == p_end_score \
-            and dlr.get_cards_value()[0] < 10:
+            and dlr.get_cards_value()[0] <= 10:
         return f'Блэкджек!\nУ вас {sum(plr.get_cards_value())} очков.'
 
     elif sum(plr.get_cards_value()) == p_end_score \
@@ -93,19 +93,20 @@ def game(plr, dlr):
         if end_q == 'n':
             return 'Вы закончили игру с результатом ничья.'
 
-    while True:
-        sp = 'n'
-        if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
+    sp = 'n'
+    if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
+        while True:
             sp = input('Разбить пару (сплит)? y/n\n>>> ')
             try:
                 if sp != 'y' and sp != 'n':
                     raise ValueError('Неверная команда.')
                 else:
-                    pass
+                    break
             except ValueError as v_err:
                 print(v_err)
-        
-        if sp == 'n':
+    
+    if sp == 'n':
+        while True:
             try:
                 gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
             except ValueError:
@@ -136,7 +137,8 @@ def game(plr, dlr):
             elif gq == 2:
                 print(f'Количество очков: {pl_cv}.')
                 break
-        else:
+    else:
+        while True:
             print('split')
             break
 
