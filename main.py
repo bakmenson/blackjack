@@ -62,6 +62,8 @@ class Player:
 def game(plr, dlr):
     p_end_score, d_end_score = 21, 17
     pl_cv, dl_cv = sum(plr.get_cards_value()), 0
+    pc_cv = 0
+    pvl = list()
 
     print('-' * 23, 'Карты диллера', '-' * 23)
     for x in zip(*dlr.get_pl_cards()):
@@ -104,7 +106,7 @@ def game(plr, dlr):
                     break
             except ValueError as v_err:
                 print(v_err)
-    
+
     if sp == 'n':
         while True:
             try:
@@ -138,8 +140,6 @@ def game(plr, dlr):
                 print(f'Количество очков: {pl_cv}.')
                 break
     else:
-        pc_cv = 0
-        pvl = list()
         pl = [plr.__class__([plr.cds[0]]), plr.__class__([plr.cds[1]])]
 
         for pc in pl:
@@ -156,11 +156,13 @@ def game(plr, dlr):
                 if gq == 1:
                     pc.cds.append(DeckOfCards(cards, card_symbol))
                     pc.cdl.append([_ for _
-                                in pc.cds[len(pc.cds) - 1].get_card()])
+                                   in pc.cds[len(pc.cds) - 1].get_card()])
                     pc.cdv.append(pc.cds[len(pc.cds) - 1].get_value())
 
-                    pl_cv_ct = tuple(x for x in pc.get_cards_value() if x != 11) \
-                        + tuple(1 for x in pc.get_cards_value() if x == 11)
+                    pl_cv_ct = tuple(x for x in pc.get_cards_value()
+                                     if x != 11) \
+                        + tuple(1 for x in pc.get_cards_value()
+                                if x == 11)
 
                     if pc_cv < p_end_score:
                         pc_cv = sum(pc.get_cards_value())
@@ -176,7 +178,7 @@ def game(plr, dlr):
                     elif pc_cv > p_end_score:
                         print(f'Перебор.\nКоличество очков: {pc_cv}.')
                         break
-                
+
                 elif gq == 2:
                     print(f'Количество очков: {pc_cv}.')
                     break
@@ -245,7 +247,7 @@ def game(plr, dlr):
                 tie += 1
             else:
                 tie += 1
-        
+
         return f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}'
 
 
