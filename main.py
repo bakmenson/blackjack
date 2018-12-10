@@ -62,6 +62,8 @@ class Player:
 def game(plr, dlr):
     p_end_score, d_end_score = 21, 17
     pl_cv, dl_cv = sum(plr.get_cards_value()), 0
+    pc_cv = 0
+    pvl = list()
 
     print('-' * 23, 'Карты диллера', '-' * 23)
     for x in zip(*dlr.get_pl_cards()):
@@ -138,9 +140,48 @@ def game(plr, dlr):
                 print(f'Количество очков: {pl_cv}.')
                 break
     else:
-        while True:
-            print('split')
-            break
+        pl = [plr.__class__([plr.cds[0]]), plr.__class__([plr.cds[1]])]
+
+        for pc in pl:
+            for x in zip(*pc.get_pl_cards()):
+                print(*x)
+
+            while True:
+                try:
+                    gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
+                except ValueError:
+                    print('Неверная команда.')
+                    continue
+
+                if gq == 1:
+                    pc.cds.append(DeckOfCards(cards, card_symbol))
+                    pc.cdl.append([_ for _
+                                in pc.cds[len(pc.cds) - 1].get_card()])
+                    pc.cdv.append(pc.cds[len(pc.cds) - 1].get_value())
+
+                    pl_cv_ct = tuple(x for x in pc.get_cards_value() if x != 11) \
+                        + tuple(1 for x in pc.get_cards_value() if x == 11)
+
+                    if pc_cv < p_end_score:
+                        pc_cv = sum(pc.get_cards_value())
+                    else:
+                        pc_cv = sum(pl_cv_ct)
+
+                    for x in zip(*pc.get_pl_cards()):
+                        print(*x)
+
+                    if pc_cv == p_end_score:
+                        print(f'Блэкджек!\nКоличество очков: {pc_cv}.')
+                        break
+                    elif pc_cv > p_end_score:
+                        print(f'Перебор.\nКоличество очков: {pc_cv}.')
+                        break
+                
+                elif gq == 2:
+                    print(f'Количество очков: {pc_cv}.')
+                    break
+
+            pvl.append(pc_cv)
 
     print('-' * 23, 'Карты диллера', '-' * 23)
     while dl_cv < d_end_score:
@@ -148,10 +189,14 @@ def game(plr, dlr):
         dlr.cdl.append([_ for _ in dlr.cds[len(dlr.cds) - 1].get_card()])
         dlr.cdv.append(dlr.cds[len(dlr.cds) - 1].get_value())
 
+        # TODO  неккоректно работает с тузом, когда блекджек
         dl_cv_ct = tuple(x for x in dlr.get_cards_value() if x != 11) \
             + tuple(1 for x in dlr.get_cards_value() if x == 11)
 
-        dl_cv = sum(dl_cv_ct)
+        if dl_cv < p_end_score:
+            dl_cv = sum(dlr.get_cards_value())
+        else:
+            dl_cv = sum(dl_cv_ct)
 
         if dl_cv >= d_end_score:
             for x in zip(*dlr.get_pl_cards()):
@@ -161,24 +206,48 @@ def game(plr, dlr):
 
     print('-' * 23, 'Игра окончена', '-' * 23)
 
-    if pl_cv <= p_end_score < dl_cv:
-        return 'Вы выиграли!'
-    elif pl_cv == p_end_score > dl_cv:
-        return 'Вы выиграли!'
-    elif dl_cv < p_end_score > pl_cv > dl_cv:
-        return 'Вы выиграли!'
-    elif pl_cv > p_end_score >= dl_cv:
-        return 'Выиграл диллер'
-    elif pl_cv < p_end_score == dl_cv:
-        return 'Выиграл диллер'
-    elif pl_cv < p_end_score > dl_cv > pl_cv:
-        return 'Выиграл диллер'
-    elif pl_cv == p_end_score == dl_cv:
-        return 'Ничья'
-    elif pl_cv > p_end_score < dl_cv:
-        return 'Ничья'
+    if not pc_cv:
+        if pl_cv <= p_end_score < dl_cv:
+            return 'Вы выиграли!'
+        elif pl_cv == p_end_score > dl_cv:
+            return 'Вы выиграли!'
+        elif dl_cv < p_end_score > pl_cv > dl_cv:
+            return 'Вы выиграли!'
+        elif pl_cv > p_end_score >= dl_cv:
+            return 'Выиграл диллер'
+        elif pl_cv < p_end_score == dl_cv:
+            return 'Выиграл диллер'
+        elif pl_cv < p_end_score > dl_cv > pl_cv:
+            return 'Выиграл диллер'
+        elif pl_cv == p_end_score == dl_cv:
+            return 'Ничья'
+        elif pl_cv > p_end_score < dl_cv:
+            return 'Ничья'
+        else:
+            return 'Ничья'
     else:
-        return 'Ничья'
+        win, loss, tie = 0, 0, 0
+        for x in pvl:
+            if x <= p_end_score < dl_cv:
+                win += 1
+            elif x == p_end_score > dl_cv:
+                win += 1
+            elif x < p_end_score > x > dl_cv:
+                win += 1
+            elif x > p_end_score >= dl_cv:
+                loss += 1
+            elif x < p_end_score == dl_cv:
+                loss += 1
+            elif x < p_end_score > dl_cv > x:
+                loss += 1
+            elif x == p_end_score == dl_cv:
+                tie += 1
+            elif x > p_end_score < dl_cv:
+                tie += 1
+            else:
+                tie += 1
+        
+        return f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}'
 
 
 if __name__ == '__main__':
@@ -189,8 +258,9 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
     player = Player([DeckOfCards(cards, card_symbol),
                      DeckOfCards(cards, card_symbol)])
