@@ -189,7 +189,6 @@ def game(plr, dlr):
         dlr.cdl.append([_ for _ in dlr.cds[len(dlr.cds) - 1].get_card()])
         dlr.cdv.append(dlr.cds[len(dlr.cds) - 1].get_value())
 
-        # TODO  неккоректно работает с тузом, когда блекджек
         dl_cv_ct = tuple(x for x in dlr.get_cards_value() if x != 11) \
             + tuple(1 for x in dlr.get_cards_value() if x == 11)
 
