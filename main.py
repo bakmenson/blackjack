@@ -59,22 +59,11 @@ class Player:
         return self.cdv
 
 
-def game(plr, dlr, mn):
+def game(plr, dlr):
     p_end_score, d_end_score = 21, 17
     pl_cv, dl_cv = sum(plr.get_cards_value()), 0
     pc_cv = 0
     pvl = list()
-
-    while  True:
-        try:
-            bet = int(input('Сделайте ставку:\n>>> '))
-            break
-        except ValueError:
-            print('Неверно указана ствака (кол-во денег).')
-            continue
-    
-    mn -= bet
-    print(mn)
 
     print('-' * 23, 'Карты диллера', '-' * 23)
     for x in zip(*dlr.get_pl_cards()):
@@ -261,24 +250,42 @@ def game(plr, dlr, mn):
     print('-' * 23, 'Игра окончена', '-' * 23)
 
     if not pc_cv:
+        # if pl_cv <= p_end_score < dl_cv:
+        #     rst = 'Вы выиграли!'
+        # elif pl_cv == p_end_score > dl_cv:
+        #     rst = 'Вы выиграли!'
+        # elif dl_cv < p_end_score > pl_cv > dl_cv:
+        #     rst = 'Вы выиграли!'
+        # elif pl_cv > p_end_score >= dl_cv:
+        #     rst = 'Выиграл диллер'
+        # elif pl_cv < p_end_score == dl_cv:
+        #     rst = 'Выиграл диллер'
+        # elif pl_cv < p_end_score > dl_cv > pl_cv:
+        #     rst = 'Выиграл диллер'
+        # elif pl_cv == p_end_score == dl_cv:
+        #     rst = 'Ничья'
+        # elif pl_cv > p_end_score < dl_cv:
+        #     rst = 'Ничья'
+        # else:
+        #     rst = 'Ничья'
         if pl_cv <= p_end_score < dl_cv:
-            rst = 'Вы выиграли!'
+            rst = 1
         elif pl_cv == p_end_score > dl_cv:
-            rst = 'Вы выиграли!'
+            rst = 1
         elif dl_cv < p_end_score > pl_cv > dl_cv:
-            rst = 'Вы выиграли!'
+            rst = 1
         elif pl_cv > p_end_score >= dl_cv:
-            rst = 'Выиграл диллер'
+            rst = 2
         elif pl_cv < p_end_score == dl_cv:
-            rst = 'Выиграл диллер'
+            rst = 2
         elif pl_cv < p_end_score > dl_cv > pl_cv:
-            rst = 'Выиграл диллер'
+            rst = 2
         elif pl_cv == p_end_score == dl_cv:
-            rst = 'Ничья'
+            rst = 3
         elif pl_cv > p_end_score < dl_cv:
-            rst = 'Ничья'
+            rst = 3
         else:
-            rst = 'Ничья'
+            rst = 3
     else:
         win, loss, tie = 0, 0, 0
         for x in pvl:
@@ -307,6 +314,7 @@ def game(plr, dlr, mn):
 
 
 if __name__ == '__main__':
+    end_game = None
     card_symbol = {
         'spades': '\033[0;30;47m' + chr(9824) + '\033[0m',
         'diamonds': '\033[0;31;47m' + chr(9830) + '\033[0m',
@@ -317,11 +325,6 @@ if __name__ == '__main__':
     cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
              '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
-    player = Player([DeckOfCards(cards, card_symbol),
-                     DeckOfCards(cards, card_symbol)])
-
-    dealer = Player([DeckOfCards(cards, card_symbol)])
-
     while True:
         try:
             money = int(input('Укажите сумму денег с которой хотите начать'
@@ -331,4 +334,36 @@ if __name__ == '__main__':
             continue
         break
 
-    print(game(player, dealer, money))
+    while end_game != 'n':
+        player = Player([DeckOfCards(cards, card_symbol),
+                         DeckOfCards(cards, card_symbol)])
+
+        dealer = Player([DeckOfCards(cards, card_symbol)])
+        
+        try:
+            bet = int(input('Сделайте ставку:\n>>> '))
+        except ValueError:
+            print('Неверно указана ствака (кол-во денег).')
+            continue
+
+        g = game(player, dealer)
+        print(g)
+        if g == 1:
+            money += bet * 1.5
+        elif g == 2:
+            money -= bet
+        elif g == 3:
+            pass
+
+        print(f'Ваш баланс: {money}')
+
+        end_game = input('Продолжить игру? (y/n):\n>>> ')
+        while True:
+            try:
+                if end_game != 'y' and end_game != 'n':
+                    raise ValueError('Неверная команда.')
+                else:
+                    break
+            except ValueError as v_err:
+                print(v_err)
+                continue
