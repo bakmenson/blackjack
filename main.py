@@ -250,24 +250,6 @@ def game(plr, dlr):
     print('-' * 23, 'Игра окончена', '-' * 23)
 
     if not pc_cv:
-        # if pl_cv <= p_end_score < dl_cv:
-        #     rst = 'Вы выиграли!'
-        # elif pl_cv == p_end_score > dl_cv:
-        #     rst = 'Вы выиграли!'
-        # elif dl_cv < p_end_score > pl_cv > dl_cv:
-        #     rst = 'Вы выиграли!'
-        # elif pl_cv > p_end_score >= dl_cv:
-        #     rst = 'Выиграл диллер'
-        # elif pl_cv < p_end_score == dl_cv:
-        #     rst = 'Выиграл диллер'
-        # elif pl_cv < p_end_score > dl_cv > pl_cv:
-        #     rst = 'Выиграл диллер'
-        # elif pl_cv == p_end_score == dl_cv:
-        #     rst = 'Ничья'
-        # elif pl_cv > p_end_score < dl_cv:
-        #     rst = 'Ничья'
-        # else:
-        #     rst = 'Ничья'
         if pl_cv <= p_end_score < dl_cv:
             rst = 1
         elif pl_cv == p_end_score > dl_cv:
@@ -362,10 +344,12 @@ if __name__ == '__main__':
 
         if bl_game == 1:
             money += int(bet * 1.5)
+            print('Вы выиграли!')
         elif bl_game == 2:
             money -= bet
+            print('Выиграл диллер.')
         elif bl_game == 3:
-            pass
+            print('Ничья')
 
         print(f'Ваш баланс: {money}')
 
