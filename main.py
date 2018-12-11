@@ -74,15 +74,16 @@ def game(plr, dlr):
         print(*x)
 
     if sum(plr.get_cards_value()) == p_end_score \
-            and dlr.get_cards_value()[0] <= 10:
+            and dlr.get_cards_value()[0] < 10:
         return f'Блэкджек!\nУ вас {sum(plr.get_cards_value())} очков.'
 
     elif sum(plr.get_cards_value()) == p_end_score \
-            and dlr.get_cards_value()[0] == 11:
+            and dlr.get_cards_value()[0] >= 10:
         while True:
-            end_q = input('У диллера первая карта туз, а у вас блэкджек, вы'
-                          ' можите закончить игру\nс результатом ничья или'
-                          ' продолжить игру:\nПродолжить игру (y/n)?\n>>> ')
+            end_q = input('У диллера первая карта 10, картинка или туз, \nа у'
+                          ' вас блэкджек, вы можите закончить игру\nс'
+                          ' результатом ничья или продолжить игру:\nПродолжить'
+                          ' игру (y/n)?\n>>> ')
             try:
                 if end_q != 'y' and end_q != 'n':
                     raise ValueError('Неверная команда.')
@@ -109,6 +110,13 @@ def game(plr, dlr):
 
     if sp == 'n':
         while True:
+            if pl_cv == p_end_score:
+                print(f'Блэкджек!\nКоличество очков: {pl_cv}.')
+                break
+            elif pl_cv > p_end_score:
+                print(f'Перебор.\nКоличество очков: {pl_cv}.')
+                break
+
             try:
                 gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
             except ValueError:
@@ -133,13 +141,6 @@ def game(plr, dlr):
                 for x in zip(*plr.get_pl_cards()):
                     print(*x)
 
-                if pl_cv == p_end_score:
-                    print(f'Блэкджек!\nКоличество очков: {pl_cv}.')
-                    break
-                elif pl_cv > p_end_score:
-                    print(f'Перебор.\nКоличество очков: {pl_cv}.')
-                    break
-
             elif gq == 2:
                 print(f'Количество очков: {pl_cv}.')
                 break
@@ -148,45 +149,45 @@ def game(plr, dlr):
 
         for pc in pl:
             while True:
-                while True:
-                    if len(pc.cds) <= 2:
-                        pc.cds.append(DeckOfCards(cards, card_symbol))
-                        pc.cdl.append(
-                            [_ for _ in pc.cds[len(pc.cds) - 1].get_card()]
-                        )
-                        pc.cdv.append(pc.cds[len(pc.cds) - 1].get_value())
-                        
-                        for x in zip(*pc.get_pl_cards()):
-                            print(*x)
+                if len(pc.cds) <= 2:
+                    pc.cds.append(DeckOfCards(cards, card_symbol))
+                    pc.cdl.append(
+                        [_ for _ in pc.cds[len(pc.cds) - 1].get_card()]
+                    )
+                    pc.cdv.append(pc.cds[len(pc.cds) - 1].get_value())
+                    
+                    for x in zip(*pc.get_pl_cards()):
+                        print(*x)
 
-                        pc_cv = sum(pc.get_cards_value())
+                    pc_cv = sum(pc.get_cards_value())
 
-                        if pc_cv == p_end_score:
-                            break
+                    if pc_cv == p_end_score:
+                        break
 
-                        if pc.get_cards_value()[0] == pc.get_cards_value()[1]:
-                            while True:
-                                sp = input('Разбить пару (сплит)? y/n\n>>> ')
-                                try:
-                                    if sp != 'y' and sp != 'n':
-                                        raise ValueError('Неверная команда.')
-                                    else:
-                                        break
-                                except ValueError as v_err:
-                                    print(v_err)
-                        else:
-                            break
-
-                        if sp == 'y':
-                            pl.append(plr.__class__([pc.cds[1]]))
-                            pc.cds.remove(pc.cds[-1])
-                            pc.cdl.remove(pc.cdl[-1])
-                            pc.cdv.remove(pc.cdv[-1])
-                        else:
-                            break
+                    if pc.get_cards_value()[0] == pc.get_cards_value()[1]:
+                        while True:
+                            sp = input('Разбить пару (сплит)? y/n\n>>> ')
+                            try:
+                                if sp != 'y' and sp != 'n':
+                                    raise ValueError('Неверная команда.')
+                                else:
+                                    break
+                            except ValueError as v_err:
+                                print(v_err)
                     else:
                         break
-                
+
+                    if sp == 'y':
+                        pl.append(plr.__class__([pc.cds[1]]))
+                        pc.cds.remove(pc.cds[-1])
+                        pc.cdl.remove(pc.cdl[-1])
+                        pc.cdv.remove(pc.cdv[-1])
+                    else:
+                        break
+                else:
+                    break
+
+            while True:
                 if pc_cv == p_end_score:
                     print(f'Блэкджек!\nКоличество очков: {pc_cv}.')
                     break
@@ -300,6 +301,7 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
+    # cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
     cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
              '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
@@ -308,4 +310,14 @@ if __name__ == '__main__':
 
     dealer = Player([DeckOfCards(cards, card_symbol)])
 
+    # while True:
+    #     try:
+    #         money = int(input('Укажите сумму денег с которой хотите начать'
+    #                           ' игру:\n>>> '))
+    #     except ValueError:
+    #         print('Некорректно указана сумма денег.')
+    #         continue
+    #     break
+
     print(game(player, dealer))
+    # print(money)
