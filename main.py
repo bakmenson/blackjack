@@ -340,22 +340,38 @@ if __name__ == '__main__':
 
         dealer = Player([DeckOfCards(cards, card_symbol)])
         
-        try:
-            bet = int(input('Сделайте ставку:\n>>> '))
-        except ValueError:
-            print('Неверно указана ствака (кол-во денег).')
-            continue
+        while True:
+            try:
+                bet = int(input('Сделайте ставку:\n>>> '))
+            except ValueError:
+                print('Неверно указана ствака (кол-во денег).')
+                continue
 
-        g = game(player, dealer)
-        print(g)
-        if g == 1:
-            money += bet * 1.5
-        elif g == 2:
+            try:
+                if bet > money:
+                    raise ValueError('Сумма ставки превышает ваши средства.')
+                else:
+                    break
+            except ValueError as v_err:
+                print(v_err)
+                continue
+
+        bl_game = game(player, dealer)
+
+        print(bl_game)
+
+        if bl_game == 1:
+            money += int(bet * 1.5)
+        elif bl_game == 2:
             money -= bet
-        elif g == 3:
+        elif bl_game == 3:
             pass
 
         print(f'Ваш баланс: {money}')
+
+        if not money:
+            print('У вас закончились деньги.')
+            break
 
         while True:
             end_game = input('Продолжить игру? (y/n):\n>>> ')
