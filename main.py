@@ -117,14 +117,18 @@ def game(plr, dlr):
 
             if gq == 1:
                 plr.cds.append(DeckOfCards(cards, card_symbol))
-                plr.cdl.append([_ for _
-                                in plr.cds[len(plr.cds) - 1].get_card()])
+                plr.cdl.append(
+                    [_ for _ in plr.cds[len(plr.cds) - 1].get_card()]
+                )
                 plr.cdv.append(plr.cds[len(plr.cds) - 1].get_value())
 
                 pl_cv_ct = tuple(x for x in plr.get_cards_value() if x != 11) \
                     + tuple(1 for x in plr.get_cards_value() if x == 11)
 
-                pl_cv = sum(pl_cv_ct)
+                pl_cv = sum(plr.get_cards_value())
+
+                if pl_cv > p_end_score:
+                    pl_cv = sum(pl_cv_ct)
 
                 for x in zip(*plr.get_pl_cards()):
                     print(*x)
@@ -143,10 +147,50 @@ def game(plr, dlr):
         pl = [plr.__class__([plr.cds[0]]), plr.__class__([plr.cds[1]])]
 
         for pc in pl:
-            for x in zip(*pc.get_pl_cards()):
-                print(*x)
-
             while True:
+                while True:
+                    if len(pc.cds) <= 2:
+                        pc.cds.append(DeckOfCards(cards, card_symbol))
+                        pc.cdl.append(
+                            [_ for _ in pc.cds[len(pc.cds) - 1].get_card()]
+                        )
+                        pc.cdv.append(pc.cds[len(pc.cds) - 1].get_value())
+                        
+                        for x in zip(*pc.get_pl_cards()):
+                            print(*x)
+
+                        pc_cv = sum(pc.get_cards_value())
+
+                        if pc_cv == p_end_score:
+                            break
+
+                        if pc.get_cards_value()[0] == pc.get_cards_value()[1]:
+                            while True:
+                                sp = input('Разбить пару (сплит)? y/n\n>>> ')
+                                try:
+                                    if sp != 'y' and sp != 'n':
+                                        raise ValueError('Неверная команда.')
+                                    else:
+                                        break
+                                except ValueError as v_err:
+                                    print(v_err)
+                        else:
+                            break
+
+                        if sp == 'y':
+                            pl.append(plr.__class__([pc.cds[1]]))
+                            pc.cds.remove(pc.cds[-1])
+                            pc.cdl.remove(pc.cdl[-1])
+                            pc.cdv.remove(pc.cdv[-1])
+                        else:
+                            break
+                    else:
+                        break
+                
+                if pc_cv == p_end_score:
+                    print(f'Блэкджек!\nКоличество очков: {pc_cv}.')
+                    break
+
                 try:
                     gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
                 except ValueError:
@@ -164,14 +208,11 @@ def game(plr, dlr):
                         + tuple(1 for x in pc.get_cards_value()
                                 if x == 11)
 
-                    if pc_cv < p_end_score:
-                        pc_cv = sum(pc.get_cards_value())
-                    else:
-                        pc_cv = sum(pl_cv_ct)
+                    pc_cv = sum(pl_cv_ct)
 
                     for x in zip(*pc.get_pl_cards()):
                         print(*x)
-
+                    
                     if pc_cv == p_end_score:
                         print(f'Блэкджек!\nКоличество очков: {pc_cv}.')
                         break
@@ -259,9 +300,8 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
     player = Player([DeckOfCards(cards, card_symbol),
                      DeckOfCards(cards, card_symbol)])
