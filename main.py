@@ -9,7 +9,7 @@ class DeckOfCards:
         self._cd_sbl = choice([_ for _ in self._symbol.values()])
 
     def get_card(self):
-        return [chr(9484) + (chr(9472) * 9) + chr(9488),
+        rst = [chr(9484) + (chr(9472) * 9) + chr(9488),
                 chr(9474) + ('\033[0;30;47m' + '{:<2}'.format(self._cd_name[0])
                              + '\033[0m')
                 + (('\033[0;30;47m' + ' ' + '\033[0m') * 7) + chr(9474),
@@ -36,7 +36,7 @@ class DeckOfCards:
                 chr(9492) + (chr(9472) * 9) + chr(9496)]
 
     def get_value(self):
-        return self._cd_name[1]
+        rst = self._cd_name[1]
 
 
 class Player:
@@ -53,17 +53,28 @@ class Player:
             self.cdv = [self.cds[0].get_value()]
 
     def get_pl_cards(self):
-        return self.cdl
+        rst = self.cdl
 
     def get_cards_value(self):
-        return self.cdv
+        rst = self.cdv
 
 
-def game(plr, dlr):
+def game(plr, dlr, mn):
     p_end_score, d_end_score = 21, 17
     pl_cv, dl_cv = sum(plr.get_cards_value()), 0
     pc_cv = 0
     pvl = list()
+
+    while  True:
+        try:
+            bet = int(input('Сделайте ставку:\n>>> '))
+            break
+        except ValueError:
+            print('Неверно указана ствака (кол-во денег).')
+            continue
+    
+    mn -= bet
+    print(mn)
 
     print('-' * 23, 'Карты диллера', '-' * 23)
     for x in zip(*dlr.get_pl_cards()):
@@ -75,7 +86,7 @@ def game(plr, dlr):
 
     if sum(plr.get_cards_value()) == p_end_score \
             and dlr.get_cards_value()[0] < 10:
-        return f'Блэкджек!\nВы выиграли!\nУ вас {sum(plr.get_cards_value())}' \
+        rst = f'Блэкджек!\nВы выиграли!\nУ вас {sum(plr.get_cards_value())}' \
             f' очков.'
 
     elif sum(plr.get_cards_value()) == p_end_score \
@@ -94,7 +105,7 @@ def game(plr, dlr):
                 continue
 
         if end_q == 'n':
-            return 'Вы закончили игру с результатом ничья.'
+            rst = 'Вы закончили игру с результатом ничья.'
 
     sp = 'n'
     if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
@@ -251,23 +262,23 @@ def game(plr, dlr):
 
     if not pc_cv:
         if pl_cv <= p_end_score < dl_cv:
-            return 'Вы выиграли!'
+            rst = 'Вы выиграли!'
         elif pl_cv == p_end_score > dl_cv:
-            return 'Вы выиграли!'
+            rst = 'Вы выиграли!'
         elif dl_cv < p_end_score > pl_cv > dl_cv:
-            return 'Вы выиграли!'
+            rst = 'Вы выиграли!'
         elif pl_cv > p_end_score >= dl_cv:
-            return 'Выиграл диллер'
+            rst = 'Выиграл диллер'
         elif pl_cv < p_end_score == dl_cv:
-            return 'Выиграл диллер'
+            rst = 'Выиграл диллер'
         elif pl_cv < p_end_score > dl_cv > pl_cv:
-            return 'Выиграл диллер'
+            rst = 'Выиграл диллер'
         elif pl_cv == p_end_score == dl_cv:
-            return 'Ничья'
+            rst = 'Ничья'
         elif pl_cv > p_end_score < dl_cv:
-            return 'Ничья'
+            rst = 'Ничья'
         else:
-            return 'Ничья'
+            rst = 'Ничья'
     else:
         win, loss, tie = 0, 0, 0
         for x in pvl:
@@ -290,7 +301,9 @@ def game(plr, dlr):
             else:
                 tie += 1
 
-        return f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}'
+        rst = f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}'
+    
+    return rst
 
 
 if __name__ == '__main__':
@@ -301,23 +314,21 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
     player = Player([DeckOfCards(cards, card_symbol),
                      DeckOfCards(cards, card_symbol)])
 
     dealer = Player([DeckOfCards(cards, card_symbol)])
 
-    # while True:
-    #     try:
-    #         money = int(input('Укажите сумму денег с которой хотите начать'
-    #                           ' игру:\n>>> '))
-    #     except ValueError:
-    #         print('Некорректно указана сумма денег.')
-    #         continue
-    #     break
+    while True:
+        try:
+            money = int(input('Укажите сумму денег с которой хотите начать'
+                              ' игру:\n>>> '))
+        except ValueError:
+            print('Некорректно указана сумма денег.')
+            continue
+        break
 
-    print(game(player, dealer))
-    # print(money)
+    print(game(player, dealer, money))
