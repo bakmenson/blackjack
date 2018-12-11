@@ -9,7 +9,7 @@ class DeckOfCards:
         self._cd_sbl = choice([_ for _ in self._symbol.values()])
 
     def get_card(self):
-        rst = [chr(9484) + (chr(9472) * 9) + chr(9488),
+        return [chr(9484) + (chr(9472) * 9) + chr(9488),
                 chr(9474) + ('\033[0;30;47m' + '{:<2}'.format(self._cd_name[0])
                              + '\033[0m')
                 + (('\033[0;30;47m' + ' ' + '\033[0m') * 7) + chr(9474),
@@ -36,7 +36,7 @@ class DeckOfCards:
                 chr(9492) + (chr(9472) * 9) + chr(9496)]
 
     def get_value(self):
-        rst = self._cd_name[1]
+        return self._cd_name[1]
 
 
 class Player:
@@ -53,10 +53,10 @@ class Player:
             self.cdv = [self.cds[0].get_value()]
 
     def get_pl_cards(self):
-        rst = self.cdl
+        return self.cdl
 
     def get_cards_value(self):
-        rst = self.cdv
+        return self.cdv
 
 
 def game(plr, dlr, mn):
