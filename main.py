@@ -357,8 +357,8 @@ if __name__ == '__main__':
 
         print(f'Ваш баланс: {money}')
 
-        end_game = input('Продолжить игру? (y/n):\n>>> ')
         while True:
+            end_game = input('Продолжить игру? (y/n):\n>>> ')
             try:
                 if end_game != 'y' and end_game != 'n':
                     raise ValueError('Неверная команда.')
@@ -366,4 +366,3 @@ if __name__ == '__main__':
                     break
             except ValueError as v_err:
                 print(v_err)
-                continue
