@@ -75,15 +75,15 @@ def game(plr, dlr):
 
     if sum(plr.get_cards_value()) == p_end_score \
             and dlr.get_cards_value()[0] < 10:
-        return f'Блэкджек!\nУ вас {sum(plr.get_cards_value())} очков.'
+        return f'Блэкджек!\nВы выиграли!\nУ вас {sum(plr.get_cards_value())}' \
+            f' очков.'
 
     elif sum(plr.get_cards_value()) == p_end_score \
-            and dlr.get_cards_value()[0] >= 10:
+            and dlr.get_cards_value()[0] == 11:
         while True:
-            end_q = input('У диллера первая карта 10, картинка или туз, \nа у'
-                          ' вас блэкджек, вы можите закончить игру\nс'
-                          ' результатом ничья или продолжить игру:\nПродолжить'
-                          ' игру (y/n)?\n>>> ')
+            end_q = input('У диллера первая карта туз, а у вас блэкджек, вы'
+                          ' можите закончить игру\nс результатом ничья или'
+                          ' продолжить игру:\nПродолжить игру (y/n)?\n>>> ')
             try:
                 if end_q != 'y' and end_q != 'n':
                     raise ValueError('Неверная команда.')
@@ -301,9 +301,9 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    # cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
     player = Player([DeckOfCards(cards, card_symbol),
                      DeckOfCards(cards, card_symbol)])
