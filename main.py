@@ -339,6 +339,14 @@ if __name__ == '__main__':
         except ValueError:
             print('Некорректно указана сумма денег.')
             continue
+
+        try:
+            if money == 0:
+                raise ValueError('Вы не можите начать игру без денег.')
+        except ValueError as v_err:
+            print(v_err)
+            continue
+
         break
 
     while end_game != 'n':
