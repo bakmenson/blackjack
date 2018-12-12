@@ -75,8 +75,7 @@ def game(plr, dlr):
 
     if sum(plr.get_cards_value()) == p_end_score \
             and dlr.get_cards_value()[0] < 10:
-        rst = f'Блэкджек!\nВы выиграли!\nУ вас {sum(plr.get_cards_value())}' \
-            f' очков.'
+        return 21
 
     elif sum(plr.get_cards_value()) == p_end_score \
             and dlr.get_cards_value()[0] == 11:
@@ -111,7 +110,7 @@ def game(plr, dlr):
     if sp == 'n':
         while True:
             if pl_cv == p_end_score:
-                print(f'Блэкджек!\nКоличество очков: {pl_cv}.')
+                print(f'Отлично!\nКоличество очков: {pl_cv}.')
                 break
             elif pl_cv > p_end_score:
                 print(f'Перебор.\nКоличество очков: {pl_cv}.')
@@ -189,7 +188,7 @@ def game(plr, dlr):
 
             while True:
                 if pc_cv == p_end_score:
-                    print(f'Блэкджек!\nКоличество очков: {pc_cv}.')
+                    print(f'Отлично!\nКоличество очков: {pc_cv}.')
                     break
 
                 try:
@@ -215,7 +214,7 @@ def game(plr, dlr):
                         print(*x)
                     
                     if pc_cv == p_end_score:
-                        print(f'Блэкджек!\nКоличество очков: {pc_cv}.')
+                        print(f'Отлично!\nКоличество очков: {pc_cv}.')
                         break
                     elif pc_cv > p_end_score:
                         print(f'Перебор.\nКоличество очков: {pc_cv}.')
@@ -290,7 +289,8 @@ def game(plr, dlr):
             else:
                 tie += 1
 
-        rst = f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}'
+        print(f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}')
+        rst = win, loss, tie
     
     return rst
 
@@ -304,8 +304,9 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
     while True:
         try:
@@ -324,7 +325,7 @@ if __name__ == '__main__':
         
         while True:
             try:
-                bet = int(input('Сделайте ставку:\n>>> '))
+                bet = float(input('Сделайте ставку:\n>>> '))
             except ValueError:
                 print('Неверно указана ствака (кол-во денег).')
                 continue
@@ -340,16 +341,22 @@ if __name__ == '__main__':
 
         bl_game = game(player, dealer)
 
-        print(bl_game)
-
         if bl_game == 1:
-            money += int(bet * 1.5)
+            money += bet * 1.5
             print('Вы выиграли!')
         elif bl_game == 2:
             money -= bet
             print('Выиграл диллер.')
         elif bl_game == 3:
             print('Ничья')
+        elif bl_game == 21:
+            print('Блэкджек!\nВы выиграли!')
+            money += bet * 1.5
+        elif isinstance(bl_game, tuple):
+            if bl_game[0]:
+                money += (bl_game[0] * bet) * 1.5
+            if bl_game[1]:
+                money -= bl_game[1] * bet
 
         print(f'Ваш баланс: {money}')
 
