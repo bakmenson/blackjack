@@ -93,7 +93,8 @@ def game(plr, dlr):
                 continue
 
         if end_q == 'n':
-            rst = 'Вы закончили игру с результатом ничья.'
+            print('Вы закончили игру с результатом ничья.')
+            return None
 
     sp = 'n'
     if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
@@ -249,24 +250,47 @@ def game(plr, dlr):
     print('-' * 23, 'Игра окончена', '-' * 23)
 
     if not pc_cv:
-        if pl_cv <= p_end_score < dl_cv:
-            rst = 1
-        elif pl_cv == p_end_score > dl_cv:
-            rst = 1
+        if pl_cv == p_end_score < dl_cv \
+                and len(plr.cds) == 2 and len(dlr.cds) == 2:
+            print(2)
+            return 21
+        elif pl_cv <= p_end_score < dl_cv:
+            print(3)
+            return 1
+        elif pl_cv == p_end_score > dl_cv and len(plr.cds) == 2:
+            print(4)
+            return 21
         elif dl_cv < p_end_score > pl_cv > dl_cv:
-            rst = 1
+            print(5)
+            return 1
+        elif pl_cv == p_end_score == dl_cv \
+                and len(dlr.cds) == 2 and len(plr.cds) > 2:
+            print(6)
+            return 22
+        elif pl_cv < p_end_score == dl_cv and len(dlr.cds) == 2:
+            print(6.1)
+            return 22
         elif pl_cv > p_end_score >= dl_cv:
-            rst = 2
+            print(7)
+            return 2
         elif pl_cv < p_end_score == dl_cv:
-            rst = 2
+            print(8)
+            return 2
         elif pl_cv < p_end_score > dl_cv > pl_cv:
-            rst = 2
+            print(9)
+            return 2
+        elif pl_cv == p_end_score == dl_cv and len(dlr.cds) == len(plr.cds):
+            print(10)
+            return 3
         elif pl_cv == p_end_score == dl_cv:
-            rst = 3
+            print(11)
+            return 3
         elif pl_cv > p_end_score < dl_cv:
-            rst = 3
+            print(12)
+            return 3
         else:
-            rst = 3
+            print(13)
+            return 3
     else:
         win, loss, tie = 0, 0, 0
         for x in pvl:
@@ -352,17 +376,20 @@ if __name__ == '__main__':
         elif bl_game == 21:
             print('Блэкджек!\nВы выиграли!')
             money += bet * 1.5
+        elif bl_game == 22:
+            print('Выиграл диллер.\nУ диллер блэкджек.')
+            money -= bet
         elif isinstance(bl_game, tuple):
             if bl_game[0]:
                 money += (bl_game[0] * bet) * 1.5
             if bl_game[1]:
                 money -= bl_game[1] * bet
 
-        print(f'Ваш баланс: {money}')
-
         if not money:
             print('У вас закончились деньги.')
             break
+        else:
+            print(f'Ваш баланс: {money}')
 
         while True:
             end_game = input('Продолжить игру? (y/n):\n>>> ')
