@@ -286,43 +286,58 @@ def game(plr, dlr, money):
     if not pc_cv:
         if pl_cv == p_end_score < dl_cv \
                 and len(plr.cds) == 2 and len(dlr.cds) == 2:
+            print(2)
             money += bet * 1.5
             print('Блэкджек!\nВы выиграли!')
         elif pl_cv <= p_end_score < dl_cv:
+            print(3)
             money += bet * 1.5
             print('Вы выиграли!')
         elif pl_cv == p_end_score > dl_cv and len(plr.cds) == 2:
+            print(4)
             money += bet * 1.5
             print('Блэкджек!\nВы выиграли!')
         elif pl_cv <= p_end_score > dl_cv < pl_cv:
+            print(4.1)
             money += bet * 1.5
             print('Вы выиграли!')
         elif dl_cv < p_end_score > pl_cv > dl_cv:
+            print(5)
             money += bet * 1.5
             print('Вы выиграли!')
         elif pl_cv == p_end_score == dl_cv \
                 and len(dlr.cds) == 2 and len(plr.cds) > 2:
+            print(6)
             print('Выиграл диллер.\nУ диллер блэкджек.')
         elif pl_cv < p_end_score == dl_cv and len(dlr.cds) == 2:
+            print(6.1)
             print('Выиграл диллер.\nУ диллер блэкджек.')
         elif pl_cv > p_end_score == dl_cv:
+            print(7)
             print('Выиграл диллер.\nУ диллер блэкджек.')
         elif pl_cv > p_end_score > dl_cv:
+            print(7.1)
             print('Выиграл диллер.')
         elif pl_cv < p_end_score == dl_cv:
+            print(8)
             print('Выиграл диллер.')
         elif pl_cv < p_end_score > dl_cv > pl_cv:
+            print(9)
             print('Выиграл диллер.')
         elif pl_cv == p_end_score == dl_cv and len(dlr.cds) == len(plr.cds):
+            print(10)
             money += bet
             print('Ничья')
         elif pl_cv == p_end_score == dl_cv:
+            print(11)
             money += bet
             print('Ничья')
         elif pl_cv > p_end_score < dl_cv:
+            print(12)
             money += bet
             print('Ничья')
         else:
+            print(13)
             money += bet
             print('Ничья')
     else:
