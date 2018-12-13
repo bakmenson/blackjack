@@ -236,9 +236,9 @@ def game(plr, dlr):
         dl_cv_ct = tuple(x for x in dlr.get_cards_value() if x != 11) \
             + tuple(1 for x in dlr.get_cards_value() if x == 11)
 
-        if dl_cv < p_end_score:
-            dl_cv = sum(dlr.get_cards_value())
-        else:
+        dl_cv = sum(dlr.get_cards_value())
+
+        if dl_cv > p_end_score:
             dl_cv = sum(dl_cv_ct)
 
         if dl_cv >= d_end_score:
@@ -260,7 +260,7 @@ def game(plr, dlr):
         elif pl_cv == p_end_score > dl_cv and len(plr.cds) == 2:
             print(4)
             return 21
-        elif pl_cv <= p_end_score > dl_cv:
+        elif pl_cv <= p_end_score > dl_cv < pl_cv:
             print(4.1)
             return 1
         elif dl_cv < p_end_score > pl_cv > dl_cv:
@@ -273,8 +273,11 @@ def game(plr, dlr):
         elif pl_cv < p_end_score == dl_cv and len(dlr.cds) == 2:
             print(6.1)
             return 22
-        elif pl_cv > p_end_score >= dl_cv:
+        elif pl_cv > p_end_score == dl_cv:
             print(7)
+            return 22
+        elif pl_cv > p_end_score > dl_cv:
+            print(7.1)
             return 2
         elif pl_cv < p_end_score == dl_cv:
             print(8)
@@ -331,9 +334,9 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    # cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
     while True:
         try:
