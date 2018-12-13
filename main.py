@@ -260,6 +260,9 @@ def game(plr, dlr):
         elif pl_cv == p_end_score > dl_cv and len(plr.cds) == 2:
             print(4)
             return 21
+        elif pl_cv <= p_end_score > dl_cv:
+            print(4.1)
+            return 1
         elif dl_cv < p_end_score > pl_cv > dl_cv:
             print(5)
             return 1
