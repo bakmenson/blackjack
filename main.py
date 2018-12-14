@@ -234,7 +234,7 @@ def game(plr, dlr, money):
                 print(f'Перебор.\nКоличество очков: {pl_cv}.')
                 break
             
-            if pl_cv >= 10 and db_count < 1:
+            if pl_cv >= 10 and db_count < 1 and money - bet >= 0:
                 db_count = 1
                 try:
                     gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
@@ -284,7 +284,7 @@ def game(plr, dlr, money):
 
             if gq == 3:
                 money -= bet
-                bet *= 2
+                bet += bet
                 print(f'Количество очков: {pl_cv}.')
                 
                 break
@@ -394,9 +394,9 @@ if __name__ == '__main__':
     }
 
     # cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-    # cards = {'2': 2, '3': 3, '4': 4}
-    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'2': 2, '3': 3, '4': 4}
+    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
     while True:
         try:
