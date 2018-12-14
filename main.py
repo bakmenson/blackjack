@@ -64,6 +64,7 @@ def game(plr, dlr, money):
     pl_cv, dl_cv = sum(plr.get_cards_value()), 0
     pc_cv = 0
     pvl = list()
+    insurance = 0
 
     while True:
         try:
@@ -114,7 +115,28 @@ def game(plr, dlr, money):
 
         if end_q == 'n':
             print('Вы закончили игру с результатом ничья.')
-            return None
+            return money + bet
+    
+    elif sum(plr.get_cards_value()) < p_end_score \
+            and dlr.get_cards_value()[0] == 11:
+        while True:
+            insurance_q = input('У диллера первая карта туз, вы'
+                                ' можите сделать страховую ставку,\nравную'
+                                ' половине первоначальной. В случае, если у'
+                                ' дилера\nбудет блэкджек, то игрок проигрывает'
+                                ' свою основную игровую\nставку, но выигрывает'
+                                ' страховочную в размере 2 к 1. y/n\n>>> ')
+            try:
+                if insurance_q != 'y' and insurance_q != 'n':
+                    raise ValueError('Неверная команда.')
+                elif insurance_q == 'y':
+                    insurance = bet / 2
+                    break
+                else:
+                    break
+            except ValueError as v_err:
+                print(v_err)
+                continue
 
     sp = 'n'
     if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
@@ -325,13 +347,13 @@ def game(plr, dlr, money):
     if not pc_cv:
         if pl_cv == p_end_score < dl_cv \
                 and len(plr.cds) == 2 and len(dlr.cds) == 2:
-            money += bet * 1.5
+            money += bet * 1.5 - insurance
             print('Блэкджек!\nВы выиграли!')
         elif pl_cv <= p_end_score < dl_cv:
             money += bet * 1.5
             print('Вы выиграли!')
         elif pl_cv == p_end_score > dl_cv and len(plr.cds) == 2:
-            money += bet * 1.5
+            money += bet * 1.5 - insurance
             print('Блэкджек!\nВы выиграли!')
         elif pl_cv <= p_end_score > dl_cv < pl_cv:
             money += bet * 1.5
@@ -341,10 +363,13 @@ def game(plr, dlr, money):
             print('Вы выиграли!')
         elif pl_cv == p_end_score == dl_cv \
                 and len(dlr.cds) == 2 and len(plr.cds) > 2:
+            money += insurance * 2
             print('Выиграл диллер.\nУ диллер блэкджек.')
         elif pl_cv < p_end_score == dl_cv and len(dlr.cds) == 2:
+            money += insurance * 2
             print('Выиграл диллер.\nУ диллер блэкджек.')
         elif pl_cv > p_end_score == dl_cv:
+            money += insurance * 2
             print('Выиграл диллер.\nУ диллер блэкджек.')
         elif pl_cv > p_end_score > dl_cv:
             print('Выиграл диллер.')
@@ -353,16 +378,16 @@ def game(plr, dlr, money):
         elif pl_cv < p_end_score > dl_cv > pl_cv:
             print('Выиграл диллер.')
         elif pl_cv == p_end_score == dl_cv and len(dlr.cds) == len(plr.cds):
-            money += bet
+            money += bet - insurance
             print('Ничья')
         elif pl_cv == p_end_score == dl_cv:
-            money += bet
+            money += bet - insurance
             print('Ничья')
         elif pl_cv > p_end_score < dl_cv:
-            money += bet
+            money += bet - insurance
             print('Ничья')
         else:
-            money += bet
+            money += bet - insurance
             print('Ничья')
     else:
         win, loss, tie = 0, 0, 0
