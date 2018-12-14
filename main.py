@@ -225,6 +225,7 @@ def game(plr, dlr, money):
             pvl.append(pc_cv)
     
     if sp == 'n':
+        db_count = 0
         while True:
             if pl_cv == p_end_score:
                 print(f'Отлично!\nКоличество очков: {pl_cv}.')
@@ -232,14 +233,34 @@ def game(plr, dlr, money):
             elif pl_cv > p_end_score:
                 print(f'Перебор.\nКоличество очков: {pl_cv}.')
                 break
+            
+            if pl_cv >= 10 and db_count < 1:
+                db_count = 1
+                try:
+                    gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
+                                   '3. Удвоить ставку.\n>>> '))
+                except ValueError:
+                    print('Неверная команда.')
+                    continue
+            else:
+                while True:
+                    try:
+                        gq = int(input('1. Взять ещё карту.'
+                                       '\n2. Хватит.\n>>> '))
+                    except ValueError:
+                        print('Неверная команда.')
+                        continue
 
-            try:
-                gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
-            except ValueError:
-                print('Неверная команда.')
-                continue
+                    try:
+                        if gq > 2:
+                            raise ValueError('Неверная команда.')
+                    except ValueError as v_err:
+                        print(v_err)
+                        continue
+                    
+                    break
 
-            if gq == 1:
+            if gq == 1 or gq == 3:
                 plr.cds.append(DeckOfCards(cards, card_symbol))
                 plr.cdl.append(
                     [_ for _ in plr.cds[len(plr.cds) - 1].get_card()]
@@ -259,6 +280,13 @@ def game(plr, dlr, money):
 
             elif gq == 2:
                 print(f'Количество очков: {pl_cv}.')
+                break
+
+            if gq == 3:
+                money -= bet
+                bet *= 2
+                print(f'Количество очков: {pl_cv}.')
+                
                 break
 
     print('-' * 23, 'Карты диллера', '-' * 23)
@@ -366,6 +394,7 @@ if __name__ == '__main__':
     }
 
     # cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    # cards = {'2': 2, '3': 3, '4': 4}
     cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
              '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
