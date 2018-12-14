@@ -350,16 +350,16 @@ def game(plr, dlr, money):
             money += bet * 1.5 - insurance
             print('Блэкджек!\nВы выиграли!')
         elif pl_cv <= p_end_score < dl_cv:
-            money += bet * 1.5
+            money += bet * 1.5 - insurance
             print('Вы выиграли!')
         elif pl_cv == p_end_score > dl_cv and len(plr.cds) == 2:
             money += bet * 1.5 - insurance
             print('Блэкджек!\nВы выиграли!')
         elif pl_cv <= p_end_score > dl_cv < pl_cv:
-            money += bet * 1.5
+            money += bet * 1.5 - insurance
             print('Вы выиграли!')
         elif dl_cv < p_end_score > pl_cv > dl_cv:
-            money += bet * 1.5
+            money += bet * 1.5 - insurance
             print('Вы выиграли!')
         elif pl_cv == p_end_score == dl_cv \
                 and len(dlr.cds) == 2 and len(plr.cds) > 2:
@@ -413,9 +413,11 @@ def game(plr, dlr, money):
 
         print(f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}')
         if win:
-            money += (win * bet) * 1.5
+            money += (win * bet) * 1.5 - insurance
         if tie:
-            money += tie * bet
+            money += tie * bet - insurance
+        if loss:
+            money -= insurance
     
     return money
 
