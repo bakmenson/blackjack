@@ -226,6 +226,7 @@ def game(plr, dlr, money):
     
     if sp == 'n':
         db_count = 0
+        db_bet = bet
         while True:
             if pl_cv == p_end_score:
                 print(f'Отлично!\nКоличество очков: {pl_cv}.')
@@ -235,10 +236,18 @@ def game(plr, dlr, money):
                 break
             
             if pl_cv >= 10 and db_count < 1 and money - bet >= 0:
-                db_count = 1
+                db_count += 1
                 try:
                     gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
                                    '3. Удвоить ставку.\n>>> '))
+                except ValueError:
+                    print('Неверная команда.')
+                    continue
+            elif db_count == 2 and money - bet >= 0:
+                db_count += 1
+                try:
+                    gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
+                                   '3. Утроить ставку.\n>>> '))
                 except ValueError:
                     print('Неверная команда.')
                     continue
@@ -284,9 +293,12 @@ def game(plr, dlr, money):
 
             if gq == 3:
                 money -= bet
-                bet += bet
-                print(f'Количество очков: {pl_cv}.')
+                db_bet += bet
+                db_count += 1
                 
+            if db_count > 2:
+                bet = db_bet
+                print(f'Количество очков: {pl_cv}.')
                 break
 
     print('-' * 23, 'Карты диллера', '-' * 23)
