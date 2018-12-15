@@ -107,7 +107,7 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'K': 10, 'A': 11}
     # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
     #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
     
@@ -135,10 +135,18 @@ if __name__ == '__main__':
         dealer = Player([DeckOfCards(cards, card_symbol)])
 
         p_end_score, d_end_score = 21, 17
-        pl_cv, dl_cv = sum(player.get_cards_value()), 0
+        dl_cv = 0
         pc_cv = 0
         pvl = list()
         insurance = 0
+
+        pl_cv_ct = tuple(x for x in player.get_cards_value() if x != 11) \
+        + tuple(1 for x in player.get_cards_value() if x == 11)
+
+        pl_cv = sum(player.get_cards_value())
+
+        if pl_cv > 21:
+            pl_cv = sum(pl_cv_ct)
 
         while True:
             try:
@@ -358,8 +366,6 @@ if __name__ == '__main__':
                     money -= bet
                     db_bet += bet
                     db_count += 1
-                
-                print(db_count)
                     
                 if db_count > 1:
                     bet = db_bet
