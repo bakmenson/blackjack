@@ -136,7 +136,6 @@ if __name__ == '__main__':
 
         p_end_score, d_end_score = 21, 17
         dl_cv = 0
-        pc_cv = 0
         pvl = list()
         insurance = 0
 
