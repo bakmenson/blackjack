@@ -2,12 +2,12 @@ from random import choice
 
 
 class DeckOfCards:
-    '''Класс описывает колоду карт
+    """Класс описывает колоду карт
          Args:
             card - словарь, key - название карты, value - значение
             symbol- словарь, key - название масти, value - символ и цвет
-    
-    '''
+
+    """
     def __init__(self, card, symbol):
         self._card = card
         self._symbol = symbol
@@ -15,6 +15,7 @@ class DeckOfCards:
         self._cd_symbol = choice([_ for _ in self._symbol.values()])
 
     def get_card(self):
+        """Метод возвращает случайно выбранную карту"""
         return [chr(9484) + (chr(9472) * 9) + chr(9488),
                 chr(9474) + ('\033[0;30;47m' + '{:<2}'.format(self._cd_name[0])
                              + '\033[0m')
@@ -42,10 +43,15 @@ class DeckOfCards:
                 chr(9492) + (chr(9472) * 9) + chr(9496)]
 
     def get_value(self):
+        """Метод возвращает значение случайно выбранной карты"""
         return self._cd_name[1]
 
 
 class Player:
+    """Класс описывает игрока
+         Args:
+            card_list - список розданных карт игроку
+    """
     def __init__(self, card_list):
         self.cds = card_list
 
@@ -59,373 +65,37 @@ class Player:
             self.cdv = [self.cds[0].get_value()]
 
     def get_pl_cards(self):
+        """Метод возвращает полученные карты"""
         return self.cdl
 
     def get_cards_value(self):
+        """Метод возвращает значение полученных карт"""
         return self.cdv
 
 
-def game(plr, dlr, money):
-    p_end_score, d_end_score = 21, 17
-    pl_cv, dl_cv = sum(plr.get_cards_value()), 0
-    pc_cv = 0
-    pvl = list()
-    insurance = 0
+def title(name, start, end):
+    print('-' * start, name, '-' * end)
 
-    while True:
-        try:
-            bet = float(input('Сделайте ставку:\n>>> '))
-        except ValueError:
-            print('Неверно указана ствака (кол-во денег).')
-            continue
 
-        try:
-            if bet > money:
-                raise ValueError('Сумма ставки превышает ваши средства.')
-            else:
-                break
-        except ValueError as v_err:
-            print(v_err)
-            continue
-    
-    money -= bet
-
-    print('-' * 23, 'Карты диллера', '-' * 23)
-    for x in zip(*dlr.get_pl_cards()):
+def print_cards(player_cards):
+    for x in zip(*player_cards.get_pl_cards()):
         print(*x)
 
-    print('-' * 24, 'Ваши карты', '-' * 25)
-    for x in zip(*plr.get_pl_cards()):
-        print(*x)
 
-    if sum(plr.get_cards_value()) == p_end_score \
-            and dlr.get_cards_value()[0] < 10:
-        money += bet * 1.5
-        print('Блэкджек!\nВы выиграли!')
-        return money
+def add_card(plr):
+    plr.cds.append(DeckOfCards(cards, card_symbol))
+    plr.cdl.append([_ for _ in plr.cds[len(plr.cds) - 1].get_card()])
+    plr.cdv.append(plr.cds[len(plr.cds) - 1].get_value())
 
-    elif sum(plr.get_cards_value()) == p_end_score \
-            and dlr.get_cards_value()[0] == 11:
-        while True:
-            end_q = input('У диллера первая карта туз, а у вас блэкджек, вы'
-                          ' можите закончить игру\nс результатом ничья или'
-                          ' продолжить игру:\nПродолжить игру (y/n)?\n>>> ')
-            try:
-                if end_q != 'y' and end_q != 'n':
-                    raise ValueError('Неверная команда.')
-                else:
-                    break
-            except ValueError as v_err:
-                print(v_err)
-                continue
+    pl_cv_ct = tuple(x for x in plr.get_cards_value() if x != 11) \
+        + tuple(1 for x in plr.get_cards_value() if x == 11)
 
-        if end_q == 'n':
-            print('Вы закончили игру с результатом ничья.')
-            return money + bet
+    plr_cdv = sum(plr.get_cards_value())
+
+    if plr_cdv > 21:
+        plr_cdv = sum(pl_cv_ct)
     
-    elif sum(plr.get_cards_value()) < p_end_score \
-            and dlr.get_cards_value()[0] == 11:
-        while True:
-            insurance_q = input('У диллера первая карта туз, вы'
-                                ' можите сделать страховую ставку,\nравную'
-                                ' половине первоначальной. В случае, если у'
-                                ' дилера\nбудет блэкджек, то игрок проигрывает'
-                                ' свою основную игровую\nставку, но выигрывает'
-                                ' страховочную в размере 2 к 1. y/n\n>>> ')
-            try:
-                if insurance_q != 'y' and insurance_q != 'n':
-                    raise ValueError('Неверная команда.')
-                elif insurance_q == 'y':
-                    insurance = bet / 2
-                    break
-                else:
-                    break
-            except ValueError as v_err:
-                print(v_err)
-                continue
-
-    sp = 'n'
-    if plr.get_cards_value()[0] == plr.get_cards_value()[1]:
-        if money - bet >= 0:
-            while True:
-                sp = input('Разбить пару (сплит)? y/n\n>>> ')
-                try:
-                    if sp != 'y' and sp != 'n':
-                        raise ValueError('Неверная команда.')
-                    elif sp == 'y':
-                        money -= bet
-                        break
-                    else:
-                        break
-                except ValueError as v_err:
-                    print(v_err)
-        else:
-            pass
-
-    if sp == 'y':
-        pl = [plr.__class__([plr.cds[0]]), plr.__class__([plr.cds[1]])]
-
-        for pc in pl:
-            while True:
-                if len(pc.cds) <= 2:
-                    pc.cds.append(DeckOfCards(cards, card_symbol))
-                    pc.cdl.append(
-                        [_ for _ in pc.cds[len(pc.cds) - 1].get_card()]
-                    )
-                    pc.cdv.append(pc.cds[len(pc.cds) - 1].get_value())
-                    
-                    for x in zip(*pc.get_pl_cards()):
-                        print(*x)
-
-                    pc_cv = sum(pc.get_cards_value())
-
-                    if pc_cv == p_end_score:
-                        break
-
-                    if pc.get_cards_value()[0] == pc.get_cards_value()[1]:
-                        if money - bet >= 0:
-                            while True:
-                                sp = input('Разбить пару (сплит)? y/n\n>>> ')
-                                try:
-                                    if sp != 'y' and sp != 'n':
-                                        raise ValueError('Неверная команда.')
-                                    elif sp == 'y':
-                                        money -= bet
-                                        break
-                                    else:
-                                        break
-                                except ValueError as v_err:
-                                    print(v_err)
-                        else:
-                            break
-                    else:
-                        break
-
-                    if sp == 'y':
-                        pl.append(plr.__class__([pc.cds[1]]))
-                        pc.cds.remove(pc.cds[-1])
-                        pc.cdl.remove(pc.cdl[-1])
-                        pc.cdv.remove(pc.cdv[-1])
-                    else:
-                        break
-                else:
-                    break
-
-            while True:
-                if pc_cv == p_end_score:
-                    print(f'Отлично!\nКоличество очков: {pc_cv}.')
-                    break
-
-                try:
-                    gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
-                except ValueError:
-                    print('Неверная команда.')
-                    continue
-
-                if gq == 1:
-                    pc.cds.append(DeckOfCards(cards, card_symbol))
-                    pc.cdl.append([_ for _
-                                   in pc.cds[len(pc.cds) - 1].get_card()])
-                    pc.cdv.append(pc.cds[len(pc.cds) - 1].get_value())
-
-                    pl_cv_ct = tuple(x for x in pc.get_cards_value()
-                                     if x != 11) \
-                        + tuple(1 for x in pc.get_cards_value()
-                                if x == 11)
-
-                    pc_cv = sum(pl_cv_ct)
-
-                    for x in zip(*pc.get_pl_cards()):
-                        print(*x)
-                    
-                    if pc_cv == p_end_score:
-                        print(f'Отлично!\nКоличество очков: {pc_cv}.')
-                        break
-                    elif pc_cv > p_end_score:
-                        print(f'Перебор.\nКоличество очков: {pc_cv}.')
-                        break
-
-                elif gq == 2:
-                    print(f'Количество очков: {pc_cv}.')
-                    break
-
-            pvl.append(pc_cv)
-    
-    if sp == 'n' and not pvl:
-        db_count = 0
-        db_bet = bet
-        while True:
-            if pl_cv == p_end_score:
-                print(f'Отлично!\nКоличество очков: {pl_cv}.')
-                break
-            elif pl_cv > p_end_score:
-                print(f'Перебор.\nКоличество очков: {pl_cv}.')
-                break
-            
-            if pl_cv >= 10 and db_count < 1 and money - bet >= 0:
-                db_count += 1
-                try:
-                    gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
-                                   '3. Удвоить ставку.\n>>> '))
-                except ValueError:
-                    print('Неверная команда.')
-                    continue
-            elif db_count == 2 and money - bet >= 0:
-                db_count += 1
-                try:
-                    gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
-                                   '3. Утроить ставку.\n>>> '))
-                except ValueError:
-                    print('Неверная команда.')
-                    continue
-            else:
-                while True:
-                    try:
-                        gq = int(input('1. Взять ещё карту.'
-                                       '\n2. Хватит.\n>>> '))
-                    except ValueError:
-                        print('Неверная команда.')
-                        continue
-
-                    try:
-                        if gq > 2:
-                            raise ValueError('Неверная команда.')
-                    except ValueError as v_err:
-                        print(v_err)
-                        continue
-                    
-                    break
-
-            if gq == 1 or gq == 3:
-                plr.cds.append(DeckOfCards(cards, card_symbol))
-                plr.cdl.append(
-                    [_ for _ in plr.cds[len(plr.cds) - 1].get_card()]
-                )
-                plr.cdv.append(plr.cds[len(plr.cds) - 1].get_value())
-
-                pl_cv_ct = tuple(x for x in plr.get_cards_value() if x != 11) \
-                    + tuple(1 for x in plr.get_cards_value() if x == 11)
-
-                pl_cv = sum(plr.get_cards_value())
-
-                if pl_cv > p_end_score:
-                    pl_cv = sum(pl_cv_ct)
-
-                for x in zip(*plr.get_pl_cards()):
-                    print(*x)
-
-            elif gq == 2:
-                print(f'Количество очков: {pl_cv}.')
-                break
-
-            if gq == 3:
-                money -= bet
-                db_bet += bet
-                db_count += 1
-                
-            if db_count > 2:
-                bet = db_bet
-                print(f'Количество очков: {pl_cv}.')
-                break
-
-    print('-' * 23, 'Карты диллера', '-' * 23)
-    while dl_cv < d_end_score:
-        dlr.cds.append(DeckOfCards(cards, card_symbol))
-        dlr.cdl.append([_ for _ in dlr.cds[len(dlr.cds) - 1].get_card()])
-        dlr.cdv.append(dlr.cds[len(dlr.cds) - 1].get_value())
-
-        dl_cv_ct = tuple(x for x in dlr.get_cards_value() if x != 11) \
-            + tuple(1 for x in dlr.get_cards_value() if x == 11)
-
-        dl_cv = sum(dlr.get_cards_value())
-
-        if dl_cv > p_end_score:
-            dl_cv = sum(dl_cv_ct)
-
-        if dl_cv >= d_end_score:
-            for x in zip(*dlr.get_pl_cards()):
-                print(*x)
-
-            print(f'Количество очков у диллера: {dl_cv}.')
-
-    print('-' * 23, 'Игра окончена', '-' * 23)
-
-    if not pc_cv:
-        if pl_cv == p_end_score < dl_cv \
-                and len(plr.cds) == 2 and len(dlr.cds) == 2:
-            money += bet * 1.5 - insurance
-            print('Блэкджек!\nВы выиграли!')
-        elif pl_cv <= p_end_score < dl_cv:
-            money += bet * 1.5 - insurance
-            print('Вы выиграли!')
-        elif pl_cv == p_end_score > dl_cv and len(plr.cds) == 2:
-            money += bet * 1.5 - insurance
-            print('Блэкджек!\nВы выиграли!')
-        elif pl_cv <= p_end_score > dl_cv < pl_cv:
-            money += bet * 1.5 - insurance
-            print('Вы выиграли!')
-        elif dl_cv < p_end_score > pl_cv > dl_cv:
-            money += bet * 1.5 - insurance
-            print('Вы выиграли!')
-        elif pl_cv == p_end_score == dl_cv \
-                and len(dlr.cds) == 2 and len(plr.cds) > 2:
-            money += insurance * 2
-            print('Выиграл диллер.\nУ диллер блэкджек.')
-        elif pl_cv < p_end_score == dl_cv and len(dlr.cds) == 2:
-            money += insurance * 2
-            print('Выиграл диллер.\nУ диллер блэкджек.')
-        elif pl_cv > p_end_score == dl_cv:
-            money += insurance * 2
-            print('Выиграл диллер.\nУ диллер блэкджек.')
-        elif pl_cv > p_end_score > dl_cv:
-            print('Выиграл диллер.')
-        elif pl_cv < p_end_score == dl_cv:
-            print('Выиграл диллер.')
-        elif pl_cv < p_end_score > dl_cv > pl_cv:
-            print('Выиграл диллер.')
-        elif pl_cv == p_end_score == dl_cv and len(dlr.cds) == len(plr.cds):
-            money += bet - insurance
-            print('Ничья')
-        elif pl_cv == p_end_score == dl_cv:
-            money += bet - insurance
-            print('Ничья')
-        elif pl_cv > p_end_score < dl_cv:
-            money += bet - insurance
-            print('Ничья')
-        else:
-            money += bet - insurance
-            print('Ничья')
-    else:
-        win, loss, tie = 0, 0, 0
-        for x in pvl:
-            if x <= p_end_score < dl_cv:
-                win += 1
-            elif x == p_end_score > dl_cv:
-                win += 1
-            elif x < p_end_score > x > dl_cv:
-                win += 1
-            elif x > p_end_score >= dl_cv:
-                loss += 1
-            elif x < p_end_score == dl_cv:
-                loss += 1
-            elif x < p_end_score > dl_cv > x:
-                loss += 1
-            elif x == p_end_score == dl_cv:
-                tie += 1
-            elif x > p_end_score < dl_cv:
-                tie += 1
-            else:
-                tie += 1
-
-        print(f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}')
-        if win:
-            money += (win * bet) * 1.5 - insurance
-        if tie:
-            money += tie * bet - insurance
-        if loss:
-            money -= insurance
-    
-    return money
+    return plr_cdv
 
 
 if __name__ == '__main__':
@@ -437,9 +107,10 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-
+    cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    
     while True:
         try:
             money = float(input('Укажите сумму денег с которой хотите начать'
@@ -462,16 +133,330 @@ if __name__ == '__main__':
                          DeckOfCards(cards, card_symbol)])
 
         dealer = Player([DeckOfCards(cards, card_symbol)])
+
+        p_end_score, d_end_score = 21, 17
+        pl_cv, dl_cv = sum(player.get_cards_value()), 0
+        pc_cv = 0
+        pvl = list()
+        insurance = 0
+
+        while True:
+            try:
+                bet = float(input('Сделайте ставку:\n>>> '))
+            except ValueError:
+                print('Неверно указана ствака (кол-во денег).')
+                continue
+
+            try:
+                if bet > money:
+                    raise ValueError('Сумма ставки превышает ваши средства.')
+                else:
+                    break
+            except ValueError as v_err:
+                print(v_err)
+                continue
         
-        bl_game = game(player, dealer, money)
+        money -= bet
 
-        money = bl_game
+        title('Карты диллера', 23, 23)
+        print_cards(dealer)
+        title('Ваши карты', 24, 25)
+        print_cards(player)
 
-        if not bl_game:
+        if sum(player.get_cards_value()) == p_end_score \
+                and player.get_cards_value()[0] < 10:
+            money += bet * 1.5
+            print('Блэкджек!\nВы выиграли!')
+
+        elif sum(player.get_cards_value()) == p_end_score \
+                and player.get_cards_value()[0] == 11:
+            while True:
+                end_q = input('У диллера первая карта туз, а у вас блэкджек,'
+                              ' вы можите закончить игру\nс результатом ничья'
+                              ' или продолжить игру:\nПродолжить игру (y/n)?'
+                              '\n>>> ')
+                try:
+                    if end_q != 'y' and end_q != 'n':
+                        raise ValueError('Неверная команда.')
+                    else:
+                        break
+                except ValueError as v_err:
+                    print(v_err)
+                    continue
+
+            if end_q == 'n':
+                print('Вы закончили игру с результатом ничья.')
+                money += bet
+        
+        elif sum(player.get_cards_value()) < p_end_score \
+                and player.get_cards_value()[0] == 11:
+            while True:
+                insurance_q = input('У диллера первая карта туз, вы'
+                                    ' можите сделать страховую ставку,\nравную'
+                                    ' половине первоначальной. В случае, если'
+                                    ' у дилера\nбудет блэкджек, то игрок'
+                                    ' проигрывает свою основную игровую\n'
+                                    'ставку, но выигрывает страховочную в'
+                                    ' размере 2 к 1. y/n\n>>> ')
+                try:
+                    if insurance_q != 'y' and insurance_q != 'n':
+                        raise ValueError('Неверная команда.')
+                    elif insurance_q == 'y':
+                        insurance = bet / 2
+                        break
+                    else:
+                        break
+                except ValueError as v_err:
+                    print(v_err)
+                    continue
+        
+        sp = 'n'
+        if player.get_cards_value()[0] == player.get_cards_value()[1]:
+            if money - bet >= 0:
+                while True:
+                    sp = input('Разбить пару (сплит)? y/n\n>>> ')
+                    try:
+                        if sp != 'y' and sp != 'n':
+                            raise ValueError('Неверная команда.')
+                        elif sp == 'y':
+                            money -= bet
+                            break
+                        else:
+                            break
+                    except ValueError as v_err:
+                        print(v_err)
+            else:
+                pass
+        
+        if sp == 'y':
+            pl = [player.__class__([player.cds[0]]),
+                  player.__class__([player.cds[1]])]
+
+            for pc in pl:
+                while True:
+                    if len(pc.cds) <= 2:
+                        pl_cv = add_card(pc)
+                        print_cards(pc)
+
+                        if pl_cv == p_end_score:
+                            break
+
+                        if pc.get_cards_value()[0] == pc.get_cards_value()[1]:
+                            if money - bet >= 0:
+                                while True:
+                                    sp = input('Разбить пару (сплит)?'
+                                               ' y/n\n>>> ')
+                                    try:
+                                        if sp != 'y' and sp != 'n':
+                                            raise ValueError('Неверная'
+                                                             ' команда.')
+                                        elif sp == 'y':
+                                            money -= bet
+                                            break
+                                        else:
+                                            break
+                                    except ValueError as v_err:
+                                        print(v_err)
+                            else:
+                                break
+                        else:
+                            break
+
+                        if sp == 'y':
+                            pl.append(player.__class__([pc.cds[1]]))
+                            pc.cds.remove(pc.cds[-1])
+                            pc.cdl.remove(pc.cdl[-1])
+                            pc.cdv.remove(pc.cdv[-1])
+                        else:
+                            break
+                    else:
+                        break
+
+                while True:
+                    if pl_cv == p_end_score:
+                        print(f'Отлично!\nКоличество очков: {pl_cv}.')
+                        break
+
+                    try:
+                        gq = int(input('1. Взять ещё карту.\n2. Хватит\n>>> '))
+                    except ValueError:
+                        print('Неверная команда.')
+                        continue
+
+                    if gq == 1:
+                        pl_cv = add_card(pc)
+
+                        print_cards(pc)
+                        
+                        if pl_cv == p_end_score:
+                            print(f'Отлично!\nКоличество очков: {pl_cv}.')
+                            break
+                        elif pl_cv > p_end_score:
+                            print(f'Перебор.\nКоличество очков: {pl_cv}.')
+                            break
+
+                    elif gq == 2:
+                        print(f'Количество очков: {pl_cv}.')
+                        break
+
+                pvl.append(pl_cv)
+
+        if sp == 'n' and not pvl:
+            db_count = 0
+            db_bet = bet
+            while True:
+                if pl_cv == p_end_score:
+                    print(f'Отлично!\nКоличество очков: {pl_cv}.')
+                    break
+                elif pl_cv > p_end_score:
+                    print(f'Перебор.\nКоличество очков: {pl_cv}.')
+                    break
+                
+                if pl_cv >= 10 and db_count == 0 and money - bet >= 0:
+                    try:
+                        gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
+                                       '3. Удвоить ставку.\n>>> '))
+                    except ValueError:
+                        print('Неверная команда.')
+                        continue
+                elif db_count == 1 and money - bet >= 0:
+                    try:
+                        gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
+                                       '3. Утроить ставку.\n>>> '))
+                    except ValueError:
+                        print('Неверная команда.')
+                        continue
+                else:
+                    while True:
+                        try:
+                            gq = int(input('1. Взять ещё карту.'
+                                           '\n2. Хватит.\n>>> '))
+                        except ValueError:
+                            print('Неверная команда.')
+                            continue
+
+                        try:
+                            if gq > 2:
+                                raise ValueError('Неверная команда.')
+                        except ValueError as v_err:
+                            print(v_err)
+                            continue
+                        
+                        break
+
+                if gq == 1 or gq == 3:
+                    pl_cv = add_card(player)
+                    print_cards(player)
+
+                elif gq == 2:
+                    if db_count:
+                        bet = db_bet
+                    print(f'Количество очков: {pl_cv}.')
+                    break
+
+                if gq == 3:
+                    money -= bet
+                    db_bet += bet
+                    db_count += 1
+                
+                print(db_count)
+                    
+                if db_count > 1:
+                    bet = db_bet
+                    print(f'Количество очков: {pl_cv}.')
+                    break
+        
+        title('Карты диллера', 23, 23)
+        while dl_cv < d_end_score:
+            dl_cv = add_card(dealer)
+            
+            if dl_cv >= d_end_score:
+                print_cards(dealer)
+                print(f'Количество очков у диллера: {dl_cv}.')
+        
+        title('Игра окончена', 23, 23)
+
+        if not pvl:
+            if pl_cv == p_end_score < dl_cv \
+                    and len(player.cds) == 2 and len(dealer.cds) == 2:
+                money += bet * 1.5 - insurance
+                print('Блэкджек!\nВы выиграли!')
+            elif pl_cv <= p_end_score < dl_cv:
+                money += bet * 1.5 - insurance
+                print('Вы выиграли!')
+            elif pl_cv == p_end_score > dl_cv and len(player.cds) == 2:
+                money += bet * 1.5 - insurance
+                print('Блэкджек!\nВы выиграли!')
+            elif pl_cv <= p_end_score > dl_cv < pl_cv:
+                money += bet * 1.5 - insurance
+                print('Вы выиграли!')
+            elif dl_cv < p_end_score > pl_cv > dl_cv:
+                money += bet * 1.5 - insurance
+                print('Вы выиграли!')
+            elif pl_cv == p_end_score == dl_cv \
+                    and len(dealer.cds) == 2 and len(player.cds) > 2:
+                money += insurance * 2
+                print('Выиграл диллер.\nУ диллер блэкджек.')
+            elif pl_cv < p_end_score == dl_cv and len(dealer.cds) == 2:
+                money += insurance * 2
+                print('Выиграл диллер.\nУ диллер блэкджек.')
+            elif pl_cv > p_end_score == dl_cv:
+                money += insurance * 2
+                print('Выиграл диллер.\nУ диллер блэкджек.')
+            elif pl_cv > p_end_score > dl_cv:
+                print('Выиграл диллер.')
+            elif pl_cv < p_end_score == dl_cv:
+                print('Выиграл диллер.')
+            elif pl_cv < p_end_score > dl_cv > pl_cv:
+                print('Выиграл диллер.')
+            elif pl_cv == p_end_score == dl_cv \
+                    and len(dealer.cds) == len(player.cds):
+                money += bet - insurance
+                print('Ничья')
+            elif pl_cv == p_end_score == dl_cv:
+                money += bet - insurance
+                print('Ничья')
+            elif pl_cv > p_end_score < dl_cv:
+                money += bet - insurance
+                print('Ничья')
+            else:
+                money += bet - insurance
+                print('Ничья')
+        else:
+            win, loss, tie = 0, 0, 0
+            for x in pvl:
+                if x <= p_end_score < dl_cv:
+                    win += 1
+                elif x == p_end_score > dl_cv:
+                    win += 1
+                elif x < p_end_score > x > dl_cv:
+                    win += 1
+                elif x > p_end_score >= dl_cv:
+                    loss += 1
+                elif x < p_end_score == dl_cv:
+                    loss += 1
+                elif x < p_end_score > dl_cv > x:
+                    loss += 1
+                elif x == p_end_score == dl_cv:
+                    tie += 1
+                elif x > p_end_score < dl_cv:
+                    tie += 1
+                else:
+                    tie += 1
+
+            print(f'Пар выиграло: {win}\nПар проиграло: {loss}\nНичья: {tie}')
+            if win:
+                money += (win * bet) * 1.5 - insurance
+            if tie:
+                money += tie * bet - insurance
+            if loss:
+                money -= insurance
+    
+        if not money:
             print('У вас закончились деньги.')
             break
         else:
-            print(f'Ваш баланс: {bl_game}')
+            print(f'Ваш баланс: {money}')
 
         while True:
             end_game = input('Продолжить игру? (y/n):\n>>> ')
