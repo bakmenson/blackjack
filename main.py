@@ -78,11 +78,16 @@ def title(name, start, end):
 
 
 def print_cards(player_cards):
+    """Функция отрисовывает карты игроков"""
     for x in zip(*player_cards.get_pl_cards()):
         print(*x)
 
 
 def add_card(plr):
+    """
+        Функция добовляет (раздает) карту игрокам и возвращает ее
+        заначение
+    """
     plr.cds.append(DeckOfCards(cards, card_symbol))
     plr.cdl.append([_ for _ in plr.cds[len(plr.cds) - 1].get_card()])
     plr.cdv.append(plr.cds[len(plr.cds) - 1].get_value())
@@ -100,6 +105,7 @@ def add_card(plr):
 
 if __name__ == '__main__':
     end_game = None
+
     card_symbol = {
         'spades': '\033[0;30;47m' + chr(9824) + '\033[0m',
         'diamonds': '\033[0;31;47m' + chr(9830) + '\033[0m',
@@ -107,10 +113,10 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'K': 10, 'A': 11}
-    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
     
+    # указывает сумму с которой начинаем игру
     while True:
         try:
             money = float(input('Укажите сумму денег с которой хотите начать'
@@ -128,25 +134,39 @@ if __name__ == '__main__':
 
         break
 
+    # цикл отвечает за процесс игры
     while end_game != 'n':
+        
+        # создаем игрока
         player = Player([DeckOfCards(cards, card_symbol),
                          DeckOfCards(cards, card_symbol)])
 
+        # создаем диллера
         dealer = Player([DeckOfCards(cards, card_symbol)])
 
+        # очки, которые нужно набрать, диллер обязан набирать минимум 17
         p_end_score, d_end_score = 21, 17
+        
+        # текущее кол-во очков диллера
         dl_cv = 0
+
+        # список для хранения очков игрока после сплита 
         pvl = list()
+
+        # переменная для страховки
         insurance = 0
 
+        # если у игрока после раздачи 2 туза (сумма превышает 21), то
+        # значение туза меняется с 11 на 1
         pl_cv_ct = tuple(x for x in player.get_cards_value() if x != 11) \
-        + tuple(1 for x in player.get_cards_value() if x == 11)
+            + tuple(1 for x in player.get_cards_value() if x == 11)
 
         pl_cv = sum(player.get_cards_value())
 
-        if pl_cv > 21:
+        if pl_cv > p_end_score:
             pl_cv = sum(pl_cv_ct)
 
+        # ставка на партию
         while True:
             try:
                 bet = float(input('Сделайте ставку:\n>>> '))
@@ -163,18 +183,24 @@ if __name__ == '__main__':
                 print(v_err)
                 continue
         
+        # вычитаем ставку из денег
         money -= bet
 
+        # выводим карты игроков после раздачи
         title('Карты диллера', 23, 23)
         print_cards(dealer)
         title('Ваши карты', 24, 25)
         print_cards(player)
 
+        # если у игрока блэкджек, а карта диллера значением менее 10,
+        # то игрок выигрывает
         if sum(player.get_cards_value()) == p_end_score \
                 and player.get_cards_value()[0] < 10:
             money += bet * 1.5
             print('Блэкджек!\nВы выиграли!')
 
+        # если у игрока блэкджек, а у диллера туз, игроку предлогается
+        # закончить игру ничьей или продолжить
         elif sum(player.get_cards_value()) == p_end_score \
                 and player.get_cards_value()[0] == 11:
             while True:
@@ -195,6 +221,8 @@ if __name__ == '__main__':
                 print('Вы закончили игру с результатом ничья.')
                 money += bet
         
+        # если у игрока менее 21, а у диллера туз, игроку предлогается
+        # сделать страховку
         elif sum(player.get_cards_value()) < p_end_score \
                 and player.get_cards_value()[0] == 11:
             while True:
@@ -217,6 +245,8 @@ if __name__ == '__main__':
                     print(v_err)
                     continue
         
+        # если у игрока после раздачи карт, значение обоих карт равны
+        # игроку предлогается разбить пару
         sp = 'n'
         if player.get_cards_value()[0] == player.get_cards_value()[1]:
             if money - bet >= 0:
@@ -226,6 +256,7 @@ if __name__ == '__main__':
                         if sp != 'y' and sp != 'n':
                             raise ValueError('Неверная команда.')
                         elif sp == 'y':
+                            # разбиваем пару карт и делаем еще ставку
                             money -= bet
                             break
                         else:
@@ -235,10 +266,14 @@ if __name__ == '__main__':
             else:
                 pass
         
+        # если разбиваем пару
         if sp == 'y':
+            
+            # список содержит разбитые пары карт
             pl = [player.__class__([player.cds[0]]),
                   player.__class__([player.cds[1]])]
 
+            # проходим по списку разбитых пар карт и добовляем карты
             for pc in pl:
                 while True:
                     if len(pc.cds) <= 2:
@@ -247,7 +282,9 @@ if __name__ == '__main__':
 
                         if pl_cv == p_end_score:
                             break
-
+                        
+                        # если после добавления карт значение карт равно
+                        # снова предлогается разбить пары
                         if pc.get_cards_value()[0] == pc.get_cards_value()[1]:
                             if money - bet >= 0:
                                 while True:
@@ -258,6 +295,8 @@ if __name__ == '__main__':
                                             raise ValueError('Неверная'
                                                              ' команда.')
                                         elif sp == 'y':
+                                            # разбиваем пару карт и
+                                            # делаем еще ставку
                                             money -= bet
                                             break
                                         else:
@@ -269,8 +308,13 @@ if __name__ == '__main__':
                         else:
                             break
 
+                        # если разбиваем пару
                         if sp == 'y':
+                            # добавленую карту добавляем в список
+                            # разбитых пар карт
                             pl.append(player.__class__([pc.cds[1]]))
+                            
+                            # добавленую карту удаляем (разбиваем пару)
                             pc.cds.remove(pc.cds[-1])
                             pc.cdl.remove(pc.cdl[-1])
                             pc.cdv.remove(pc.cdv[-1])
@@ -280,6 +324,8 @@ if __name__ == '__main__':
                         break
 
                 while True:
+                    # если сумма значения карт ровна 21, то переходим к
+                    # другой паре карт
                     if pl_cv == p_end_score:
                         print(f'Отлично!\nКоличество очков: {pl_cv}.')
                         break
@@ -291,6 +337,7 @@ if __name__ == '__main__':
                         continue
 
                     if gq == 1:
+                        # присваиваем функция добавления карт переменной
                         pl_cv = add_card(pc)
 
                         print_cards(pc)
@@ -306,11 +353,19 @@ if __name__ == '__main__':
                         print(f'Количество очков: {pl_cv}.')
                         break
 
+                # добавляем суммы разбитых пар карт в список
                 pvl.append(pl_cv)
 
+        # если не разбиваем пару карт
         if sp == 'n' and not pvl:
+            # счетчик для удвоения и утроения стваки
+            # делать удвоения и утроения стваки можно по одному разу
             db_count = 0
+            
+            # присваиваем переменной для удвоения и утроения ствавок
+            # значение ставки
             db_bet = bet
+
             while True:
                 if pl_cv == p_end_score:
                     print(f'Отлично!\nКоличество очков: {pl_cv}.')
@@ -352,7 +407,10 @@ if __name__ == '__main__':
                         break
 
                 if gq == 1 or gq == 3:
+                    # добавляем карту
                     pl_cv = add_card(player)
+                    
+                    # выводим карты
                     print_cards(player)
 
                 elif gq == 2:
@@ -372,6 +430,8 @@ if __name__ == '__main__':
                     break
         
         title('Карты диллера', 23, 23)
+        
+        # код отвечает за работу с картами диллера
         while dl_cv < d_end_score:
             dl_cv = add_card(dealer)
             
@@ -381,7 +441,9 @@ if __name__ == '__main__':
         
         title('Игра окончена', 23, 23)
 
+        # выводим результат партии
         if not pvl:
+            # если не было разбития пары
             if pl_cv == p_end_score < dl_cv \
                     and len(player.cds) == 2 and len(dealer.cds) == 2:
                 money += bet * 1.5 - insurance
@@ -428,6 +490,7 @@ if __name__ == '__main__':
                 money += bet - insurance
                 print('Ничья')
         else:
+            # если было разбитие пары карт
             win, loss, tie = 0, 0, 0
             for x in pvl:
                 if x <= p_end_score < dl_cv:
@@ -457,18 +520,20 @@ if __name__ == '__main__':
             if loss:
                 money -= insurance
     
+        # проверяем остаток средств, если не осталось, конец игры
         if not money:
             print('У вас закончились деньги.')
             break
         else:
             print(f'Ваш баланс: {money}')
 
-        while True:
-            end_game = input('Продолжить игру? (y/n):\n>>> ')
-            try:
-                if end_game != 'y' and end_game != 'n':
-                    raise ValueError('Неверная команда.')
-                else:
-                    break
-            except ValueError as v_err:
-                print(v_err)
+            # предлогаем продолжить игру
+            while True:
+                end_game = input('Продолжить игру? (y/n):\n>>> ')
+                try:
+                    if end_game != 'y' and end_game != 'n':
+                        raise ValueError('Неверная команда.')
+                    else:
+                        break
+                except ValueError as v_err:
+                    print(v_err)
