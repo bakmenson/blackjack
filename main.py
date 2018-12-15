@@ -158,13 +158,13 @@ if __name__ == '__main__':
 
         # если у игрока после раздачи 2 туза (сумма превышает 21), то
         # значение туза меняется с 11 на 1
-        pl_cv_ct = tuple(x for x in player.get_cards_value() if x != 11) \
+        cv_ct = tuple(x for x in player.get_cards_value() if x != 11) \
             + tuple(1 for x in player.get_cards_value() if x == 11)
 
         pl_cv = sum(player.get_cards_value())
 
         if pl_cv > p_end_score:
-            pl_cv = sum(pl_cv_ct)
+            pl_cv = sum(cv_ct)
 
         # ставка на партию
         while True:
@@ -195,14 +195,14 @@ if __name__ == '__main__':
         # если у игрока блэкджек, а карта диллера значением менее 10,
         # то игрок выигрывает
         if sum(player.get_cards_value()) == p_end_score \
-                and player.get_cards_value()[0] < 10:
+                and dealer.get_cards_value()[0] < 10:
             money += bet * 1.5
             print('Блэкджек!\nВы выиграли!')
 
         # если у игрока блэкджек, а у диллера туз, игроку предлогается
         # закончить игру ничьей или продолжить
         elif sum(player.get_cards_value()) == p_end_score \
-                and player.get_cards_value()[0] == 11:
+                and dealer.get_cards_value()[0] == 11:
             while True:
                 end_q = input('У диллера первая карта туз, а у вас блэкджек,'
                               ' вы можите закончить игру\nс результатом ничья'
@@ -224,7 +224,7 @@ if __name__ == '__main__':
         # если у игрока менее 21, а у диллера туз, игроку предлогается
         # сделать страховку
         elif sum(player.get_cards_value()) < p_end_score \
-                and player.get_cards_value()[0] == 11:
+                and dealer.get_cards_value()[0] == 11:
             while True:
                 insurance_q = input('У диллера первая карта туз, вы'
                                     ' можите сделать страховую ставку,\nравную'
@@ -424,7 +424,10 @@ if __name__ == '__main__':
                     db_bet += bet
                     db_count += 1
                     
-                if db_count > 1:
+                if db_count == 1:
+                    bet = db_bet
+                    print(f'Количество очков: {pl_cv}.')
+                elif db_count == 2:
                     bet = db_bet
                     print(f'Количество очков: {pl_cv}.')
                     break
