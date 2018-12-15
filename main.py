@@ -1,7 +1,13 @@
 from random import choice
 
 
-class Card:
+class DeckOfCards:
+    '''Класс описывает колоду карт
+         Args:
+            card - словарь, key - название карты, value - значение
+            symbol- словарь, key - название масти, value - символ и цвет
+    
+    '''
     def __init__(self, card, symbol):
         self._card = card
         self._symbol = symbol
@@ -162,7 +168,7 @@ def game(plr, dlr, money):
         for pc in pl:
             while True:
                 if len(pc.cds) <= 2:
-                    pc.cds.append(Card(cards, card_symbol))
+                    pc.cds.append(DeckOfCards(cards, card_symbol))
                     pc.cdl.append(
                         [_ for _ in pc.cds[len(pc.cds) - 1].get_card()]
                     )
@@ -217,7 +223,7 @@ def game(plr, dlr, money):
                     continue
 
                 if gq == 1:
-                    pc.cds.append(Card(cards, card_symbol))
+                    pc.cds.append(DeckOfCards(cards, card_symbol))
                     pc.cdl.append([_ for _
                                    in pc.cds[len(pc.cds) - 1].get_card()])
                     pc.cdv.append(pc.cds[len(pc.cds) - 1].get_value())
@@ -291,7 +297,7 @@ def game(plr, dlr, money):
                     break
 
             if gq == 1 or gq == 3:
-                plr.cds.append(Card(cards, card_symbol))
+                plr.cds.append(DeckOfCards(cards, card_symbol))
                 plr.cdl.append(
                     [_ for _ in plr.cds[len(plr.cds) - 1].get_card()]
                 )
@@ -324,7 +330,7 @@ def game(plr, dlr, money):
 
     print('-' * 23, 'Карты диллера', '-' * 23)
     while dl_cv < d_end_score:
-        dlr.cds.append(Card(cards, card_symbol))
+        dlr.cds.append(DeckOfCards(cards, card_symbol))
         dlr.cdl.append([_ for _ in dlr.cds[len(dlr.cds) - 1].get_card()])
         dlr.cdv.append(dlr.cds[len(dlr.cds) - 1].get_value())
 
@@ -452,10 +458,10 @@ if __name__ == '__main__':
         break
 
     while end_game != 'n':
-        player = Player([Card(cards, card_symbol),
-                         Card(cards, card_symbol)])
+        player = Player([DeckOfCards(cards, card_symbol),
+                         DeckOfCards(cards, card_symbol)])
 
-        dealer = Player([Card(cards, card_symbol)])
+        dealer = Player([DeckOfCards(cards, card_symbol)])
         
         bl_game = game(player, dealer, money)
 
