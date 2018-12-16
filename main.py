@@ -113,10 +113,9 @@ if __name__ == '__main__':
         'clubs': '\033[0;30;47m' + chr(9827) + '\033[0m',
     }
 
-    cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
-             '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-    cards1 = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8}
-    cards2 = {'K': 10, 'A': 11}
+    cards = {'10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    # cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+    #          '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
     
     # указывает сумму с которой начинаем игру
     while True:
@@ -140,11 +139,11 @@ if __name__ == '__main__':
     while end_game != 'n':
         
         # создаем игрока
-        player = Player([DeckOfCards(cards1, card_symbol),
-                         DeckOfCards(cards1, card_symbol)])
+        player = Player([DeckOfCards(cards, card_symbol),
+                         DeckOfCards(cards, card_symbol)])
 
         # создаем диллера
-        dealer = Player([DeckOfCards(cards2, card_symbol)])
+        dealer = Player([DeckOfCards(cards, card_symbol)])
 
         # очки, которые нужно набрать, диллер обязан набирать минимум 17
         p_end_score, d_end_score = 21, 17
@@ -251,23 +250,21 @@ if __name__ == '__main__':
         # если у игрока после раздачи карт, значение обоих карт равны
         # игроку предлогается разбить пару
         sp = 'n'
-        if player.get_cards_value()[0] == player.get_cards_value()[1]:
-            if money - bet >= 0:
-                while True:
-                    sp = input('Разбить пару (сплит)? y/n\n>>> ')
-                    try:
-                        if sp != 'y' and sp != 'n':
-                            raise ValueError('Неверная команда.')
-                        elif sp == 'y':
-                            # разбиваем пару карт и делаем еще ставку
-                            money -= bet
-                            break
-                        else:
-                            break
-                    except ValueError as v_err:
-                        print(v_err)
-            else:
-                pass
+        if player.get_cards_value()[0] == player.get_cards_value()[1] \
+                and money - bet >= 0:
+            while True:
+                sp = input('Разбить пару (сплит)? y/n\n>>> ')
+                try:
+                    if sp != 'y' and sp != 'n':
+                        raise ValueError('Неверная команда.')
+                    elif sp == 'y':
+                        # разбиваем пару карт и делаем еще ставку
+                        money -= bet
+                        break
+                    else:
+                        break
+                except ValueError as v_err:
+                    print(v_err)
         
         # если разбиваем пару
         if sp == 'y':
@@ -288,26 +285,24 @@ if __name__ == '__main__':
                         
                         # если после добавления карт значение карт равно
                         # снова предлогается разбить пары
-                        if pc.get_cards_value()[0] == pc.get_cards_value()[1]:
-                            if money - bet >= 0:
-                                while True:
-                                    sp = input('Разбить пару (сплит)?'
-                                               ' y/n\n>>> ')
-                                    try:
-                                        if sp != 'y' and sp != 'n':
-                                            raise ValueError('Неверная'
-                                                             ' команда.')
-                                        elif sp == 'y':
-                                            # разбиваем пару карт и
-                                            # делаем еще ставку
-                                            money -= bet
-                                            break
-                                        else:
-                                            break
-                                    except ValueError as v_err:
-                                        print(v_err)
-                            else:
-                                break
+                        if pc.get_cards_value()[0] == pc.get_cards_value()[1] \
+                                and money - bet >= 0:
+                            while True:
+                                sp = input('Разбить пару (сплит)?'
+                                            ' y/n\n>>> ')
+                                try:
+                                    if sp != 'y' and sp != 'n':
+                                        raise ValueError('Неверная'
+                                                            ' команда.')
+                                    elif sp == 'y':
+                                        # разбиваем пару карт и
+                                        # делаем еще ставку
+                                        money -= bet
+                                        break
+                                    else:
+                                        break
+                                except ValueError as v_err:
+                                    print(v_err)
                         else:
                             break
 
