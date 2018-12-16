@@ -156,6 +156,8 @@ if __name__ == '__main__':
         # переменная для страховки
         insurance = 0
 
+        bl = None
+
         # если у игрока после раздачи 2 туза (сумма превышает 21), то
         # значение туза меняется с 11 на 1
         cv_ct = tuple(x for x in player.get_cards_value() if x != 11) \
@@ -198,6 +200,7 @@ if __name__ == '__main__':
                 and dealer.get_cards_value()[0] < 10:
             money += bet * 1.5
             print('Блэкджек!\nВы выиграли!')
+            bl = True
 
         # если у игрока блэкджек, а у диллера туз, игроку предлогается
         # закончить игру ничьей или продолжить
@@ -357,7 +360,7 @@ if __name__ == '__main__':
                 pvl.append(pl_cv)
 
         # если не разбиваем пару карт
-        if sp == 'n' and not pvl:
+        if sp == 'n' and not pvl and not bl:
             # счетчик для удвоения и утроения стваки
             # делать удвоения и утроения стваки можно по одному разу
             db_count = 0
@@ -368,9 +371,13 @@ if __name__ == '__main__':
 
             while True:
                 if pl_cv == p_end_score:
+                    if db_count:
+                        bet = db_bet
                     print(f'Отлично!\nКоличество очков: {pl_cv}.')
                     break
                 elif pl_cv > p_end_score:
+                    if db_count:
+                        bet = db_bet
                     print(f'Перебор.\nКоличество очков: {pl_cv}.')
                     break
                 
@@ -424,23 +431,21 @@ if __name__ == '__main__':
                     db_bet += bet
                     db_count += 1
                     
-                if db_count == 1:
-                    bet = db_bet
-                    print(f'Количество очков: {pl_cv}.')
-                elif db_count == 2:
+                if db_count == 2:
                     bet = db_bet
                     print(f'Количество очков: {pl_cv}.')
                     break
         
-        title('Карты диллера', 23, 23)
-        
-        # код отвечает за работу с картами диллера
-        while dl_cv < d_end_score:
-            dl_cv = add_card(dealer)
+        if not bl:
+            title('Карты диллера', 23, 23)
             
-            if dl_cv >= d_end_score:
-                print_cards(dealer)
-                print(f'Количество очков у диллера: {dl_cv}.')
+            # код отвечает за работу с картами диллера
+            while dl_cv < d_end_score:
+                dl_cv = add_card(dealer)
+                
+                if dl_cv >= d_end_score:
+                    print_cards(dealer)
+                    print(f'Количество очков у диллера: {dl_cv}.')
         
         title('Игра окончена', 23, 23)
 
