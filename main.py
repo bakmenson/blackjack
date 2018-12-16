@@ -115,6 +115,8 @@ if __name__ == '__main__':
 
     cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
              '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+    cards1 = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8}
+    cards2 = {'K': 10, 'A': 11}
     
     # указывает сумму с которой начинаем игру
     while True:
@@ -138,11 +140,11 @@ if __name__ == '__main__':
     while end_game != 'n':
         
         # создаем игрока
-        player = Player([DeckOfCards(cards, card_symbol),
-                         DeckOfCards(cards, card_symbol)])
+        player = Player([DeckOfCards(cards1, card_symbol),
+                         DeckOfCards(cards1, card_symbol)])
 
         # создаем диллера
-        dealer = Player([DeckOfCards(cards, card_symbol)])
+        dealer = Player([DeckOfCards(cards2, card_symbol)])
 
         # очки, которые нужно набрать, диллер обязан набирать минимум 17
         p_end_score, d_end_score = 21, 17
@@ -225,7 +227,7 @@ if __name__ == '__main__':
         # если у игрока менее 21, а у диллера туз, игроку предлогается
         # сделать страховку
         elif sum(player.get_cards_value()) < p_end_score \
-                and dealer.get_cards_value()[0] == 11:
+                and dealer.get_cards_value()[0] == 11 and money - bet / 2 >= 0:
             while True:
                 insurance_q = input('У диллера первая карта туз, вы'
                                     ' можите сделать страховую ставку,\nравную'
@@ -491,10 +493,13 @@ if __name__ == '__main__':
                 money += insurance * 2
                 print('Выиграл диллер.\nУ диллер блэкджек.')
             elif pl_cv > p_end_score > dl_cv:
+                money -= insurance
                 print('Выиграл диллер.')
             elif pl_cv < p_end_score == dl_cv:
+                money -= insurance
                 print('Выиграл диллер.')
             elif pl_cv < p_end_score > dl_cv > pl_cv:
+                money -= insurance
                 print('Выиграл диллер.')
             elif pl_cv == p_end_score == dl_cv \
                     and len(dealer.cds) == len(player.cds):
