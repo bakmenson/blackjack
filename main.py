@@ -198,8 +198,6 @@ if __name__ == '__main__':
         # то игрок выигрывает
         if sum(player.get_cards_value()) == p_end_score \
                 and dealer.get_cards_value()[0] < 10:
-            money += bet * 1.5
-            print('Блэкджек!\nВы выиграли!')
             bl = True
 
         # если у игрока блэкджек, а у диллера туз, игроку предлогается
@@ -327,7 +325,11 @@ if __name__ == '__main__':
                         break
 
                 while True:
-                    # если сумма значения карт ровна 21, то переходим к
+                    if len(pc.cds) == 7:
+                        print(f'Количество очков: {pl_cv}.')
+                        break
+
+                    # если сумма значения двух карт ровна 21, то переходим к
                     # другой паре карт
                     if pl_cv == p_end_score:
                         print(f'Отлично!\nКоличество очков: {pl_cv}.')
@@ -370,6 +372,12 @@ if __name__ == '__main__':
             db_bet = bet
 
             while True:
+                if len(player.cds) == 7:
+                    if db_count:
+                        bet = db_bet
+                    print(f'Количество очков: {pl_cv}.')
+                    break
+
                 if pl_cv == p_end_score:
                     if db_count:
                         bet = db_bet
@@ -440,10 +448,14 @@ if __name__ == '__main__':
             title('Карты диллера', 23, 23)
             
             # код отвечает за работу с картами диллера
-            while dl_cv < d_end_score:
+            while dl_cv < d_end_score and len(dealer.cds) < 7:
                 dl_cv = add_card(dealer)
                 
                 if dl_cv >= d_end_score:
+                    print_cards(dealer)
+                    print(f'Количество очков у диллера: {dl_cv}.')
+                
+                if len(dealer.cds) == 7:
                     print_cards(dealer)
                     print(f'Количество очков у диллера: {dl_cv}.')
         
