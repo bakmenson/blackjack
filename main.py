@@ -99,7 +99,7 @@ def add_card(plr):
 
     if plr_cdv > 21:
         plr_cdv = sum(pl_cv_ct)
-    
+
     return plr_cdv
 
 
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
     cards = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
              '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-    
+
     # указывает сумму с которой начинаем игру
     while True:
         try:
@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
     # цикл отвечает за процесс игры
     while end_game != 'n':
-        
+
         # создаем игрока
         player = Player([DeckOfCards(cards, card_symbol),
                          DeckOfCards(cards, card_symbol)])
@@ -146,11 +146,11 @@ if __name__ == '__main__':
 
         # очки, которые нужно набрать, диллер обязан набирать минимум 17
         p_end_score, d_end_score = 21, 17
-        
+
         # текущее кол-во очков диллера
         dl_cv = 0
 
-        # список для хранения очков игрока после сплита 
+        # список для хранения очков игрока после сплита
         pvl = list()
 
         # переменная для страховки
@@ -184,7 +184,7 @@ if __name__ == '__main__':
             except ValueError as v_err:
                 print(v_err)
                 continue
-        
+
         # вычитаем ставку из денег
         money -= bet
 
@@ -221,7 +221,7 @@ if __name__ == '__main__':
             if end_q == 'n':
                 print('Вы закончили игру с результатом ничья.')
                 money += bet
-        
+
         # если у игрока менее 21, а у диллера туз, игроку предлогается
         # сделать страховку
         elif sum(player.get_cards_value()) < p_end_score \
@@ -245,7 +245,7 @@ if __name__ == '__main__':
                 except ValueError as v_err:
                     print(v_err)
                     continue
-        
+
         # если у игрока после раздачи карт, значение обоих карт равны
         # игроку предлогается разбить пару
         sp = 'n'
@@ -264,10 +264,10 @@ if __name__ == '__main__':
                         break
                 except ValueError as v_err:
                     print(v_err)
-        
+
         # если разбиваем пару
         if sp == 'y':
-            
+
             # список содержит разбитые пары карт
             pl = [player.__class__([player.cds[0]]),
                   player.__class__([player.cds[1]])]
@@ -281,14 +281,14 @@ if __name__ == '__main__':
 
                         if pl_cv == p_end_score:
                             break
-                        
+
                         # если после добавления карт значение карт равно
                         # снова предлогается разбить пары
                         if pc.get_cards_value()[0] == pc.get_cards_value()[1] \
                                 and money - bet >= 0:
                             while True:
                                 sp = input('Разбить пару (сплит)?'
-                                            ' y/n\n>>> ')
+                                           ' y/n\n>>> ')
                                 try:
                                     if sp != 'y' and sp != 'n':
                                         raise ValueError('Неверная команда.')
@@ -309,7 +309,7 @@ if __name__ == '__main__':
                             # добавленую карту добавляем в список
                             # разбитых пар карт
                             pl.append(player.__class__([pc.cds[1]]))
-                            
+
                             # добавленую карту удаляем (разбиваем пару)
                             pc.cds.remove(pc.cds[-1])
                             pc.cdl.remove(pc.cdl[-1])
@@ -341,7 +341,7 @@ if __name__ == '__main__':
                         pl_cv = add_card(pc)
 
                         print_cards(pc)
-                        
+
                         if pl_cv == p_end_score:
                             print(f'Отлично!\nКоличество очков: {pl_cv}.')
                             break
@@ -361,7 +361,7 @@ if __name__ == '__main__':
             # счетчик для удвоения и утроения стваки
             # делать удвоения и утроения стваки можно по одному разу
             db_count = 0
-            
+
             # присваиваем переменной для удвоения и утроения ствавок
             # значение ставки
             db_bet = bet
@@ -383,7 +383,7 @@ if __name__ == '__main__':
                         bet = db_bet
                     print(f'Перебор.\nКоличество очков: {pl_cv}.')
                     break
-                
+
                 if pl_cv >= 10 and db_count == 0 and money - bet >= 0:
                     try:
                         gq = int(input('1. Взять ещё карту.\n2. Хватит\n'
@@ -413,13 +413,13 @@ if __name__ == '__main__':
                         except ValueError as v_err:
                             print(v_err)
                             continue
-                        
+
                         break
 
                 if gq == 1 or gq == 3:
                     # добавляем карту
                     pl_cv = add_card(player)
-                    
+
                     # выводим карты
                     print_cards(player)
 
@@ -433,27 +433,27 @@ if __name__ == '__main__':
                     money -= bet
                     db_bet += bet
                     db_count += 1
-                    
+
                 if db_count == 2:
                     bet = db_bet
                     print(f'Количество очков: {pl_cv}.')
                     break
-        
+
         if not bl:
             title('Карты диллера', 23, 23)
-            
+
             # код отвечает за работу с картами диллера
             while dl_cv < d_end_score and len(dealer.cds) < 7:
                 dl_cv = add_card(dealer)
-                
+
                 if dl_cv >= d_end_score:
                     print_cards(dealer)
                     print(f'Количество очков у диллера: {dl_cv}.')
-                
+
                 if len(dealer.cds) == 7:
                     print_cards(dealer)
                     print(f'Количество очков у диллера: {dl_cv}.')
-        
+
         title('Игра окончена', 23, 23)
 
         # выводим результат партии
@@ -537,7 +537,7 @@ if __name__ == '__main__':
                 money += tie * bet - insurance
             if loss:
                 money -= insurance
-    
+
         # проверяем остаток средств, если не осталось, конец игры
         if not money:
             print('У вас закончились деньги.')
