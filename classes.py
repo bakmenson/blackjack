@@ -29,10 +29,5 @@ class DeckOfCards:
 
 class Player:
     def __init__(self, cards_lst: List) -> None:
-        self.card_lst: List[Tuple[str]]
-
-        if len(cards_lst) == 1:
-            self.card_lst = [_ for _ in zip(cards_lst[0].get_card())]
-        else:
-            self.card_lst = [_ for _ in zip(cards_lst[0].get_card(),
-                                            cards_lst[1].get_card())]
+        self.card_lst = tuple(i.get_card() for i in cards_lst)
+        self.card_values = tuple(i.get_card_value() for i in cards_lst)
