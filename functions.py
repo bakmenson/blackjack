@@ -18,7 +18,7 @@ def title(name: str) -> None:
           '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep)))
 
 
-def print_cards(player: Player) -> None:
+def print_player_cards(player: Player) -> None:
     for card in zip(*player.get_player_cards()):
         print(*card)
 
