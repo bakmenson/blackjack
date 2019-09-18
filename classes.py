@@ -31,7 +31,7 @@ class Player:
     def __init__(self, cards_list: List) -> None:
         self.cards_list = cards_list
 
-    def get_cards_list(self) -> Tuple[str, ...]:
+    def get_player_cards(self) -> Tuple[str, ...]:
         return tuple(i.get_card() for i in self.cards_list)
 
     def get_cards_value(self) -> int:
