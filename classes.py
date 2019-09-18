@@ -7,7 +7,7 @@ class DeckOfCards:
         self.card: Tuple[str, int] = choice([_ for _ in cards])
         self.symbol: str = choice([_ for _ in symbols])
 
-    def get_card(self):
+    def get_card(self) -> Tuple[str, ...]:
         return (
             f"{chr(9484)}{chr(9472) * 9}{chr(9488)}",
             f"{chr(9474)}\033[0;30;47m{self.card[0]:<2}"
@@ -23,7 +23,7 @@ class DeckOfCards:
             f"{chr(9492)}{chr(9472) * 9}{chr(9496)}"
         )
 
-    def get_card_value(self):
+    def get_card_value(self) -> int:
         return self.card[1]
 
 
