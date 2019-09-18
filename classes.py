@@ -28,12 +28,12 @@ class DeckOfCards:
 
 
 class Player:
-    def __init__(self, cards_lst: List) -> None:
-        self.cards = cards_lst
+    def __init__(self, cards_list: List) -> None:
+        self.cards_list = cards_list
 
     def get_card_lst(self) -> Tuple[str, ...]:
-        return tuple(i.get_card() for i in self.cards)
+        return tuple(i.get_card() for i in self.cards_list)
 
     def get_cards_value(self) -> int:
-        result = tuple(i.get_card_value() for i in self.cards)
+        result = tuple(i.get_card_value() for i in self.cards_list)
         return sum(result)
