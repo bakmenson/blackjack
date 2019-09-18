@@ -1,5 +1,5 @@
 from classes import DeckOfCards, Player
-from functions import add_card, print_cards
+from functions import add_card, print_player_cards, title
 from random import choice
 
 game: bool = True
@@ -15,5 +15,8 @@ cards = (('2', 2), ('3', 3), ('4', 4), ('5', 5), ('6', 6), ('7', 7), ('8', 8),
 pl = Player([DeckOfCards(cards, symbols), DeckOfCards(cards, symbols)])
 dl = Player([DeckOfCards(cards, symbols)])
 
-for i in pl.card_lst:
-    print(*i)
+print()
+title('Dialler\'s Cards')
+title('Player\'s Cards')
+
+print_player_cards(pl)
