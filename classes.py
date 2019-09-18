@@ -35,5 +35,4 @@ class Player:
         return tuple(i.get_card() for i in self.cards_list)
 
     def get_cards_value(self) -> int:
-        result = tuple(i.get_card_value() for i in self.cards_list)
-        return sum(result)
+        return sum((i.get_card_value() for i in self.cards_list))
