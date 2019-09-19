@@ -1,5 +1,5 @@
 from classes import DeckOfCards, Player
-from functions import print_player_cards, title, make_bet
+from functions import print_player_cards, title, make_bet, separator
 from typing import Tuple
 
 game: bool = True
@@ -21,5 +21,6 @@ dealer = Player([DeckOfCards(cards, card_suits)])
 player = Player([DeckOfCards(cards, card_suits),
                  DeckOfCards(cards, card_suits)])
 
+separator()
 bet = make_bet(chips)
 print(bet)

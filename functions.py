@@ -4,7 +4,7 @@ from typing import Tuple
 
 
 def separator() -> None:
-    print('-' * get_terminal_size()[0])
+    print('\n' + '-' * get_terminal_size()[0])
 
 
 def title(name: str) -> None:
