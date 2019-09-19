@@ -3,12 +3,13 @@ from typing import Tuple, List
 
 
 class DeckOfCards:
-    __slots__ = ['card_name', 'card_value', 'symbol']
+    __slots__ = ['card_name', 'card_value', 'card_suit']
     card_name: str
+    card_suit: str
     card_value: int
 
-    def __init__(self, cards: Tuple, symbols: Tuple) -> None:
-        self.symbol: str = choice([_ for _ in symbols])
+    def __init__(self, cards: Tuple, card_suits: Tuple) -> None:
+        self.card_suit = choice([_ for _ in card_suits])
         self.card_name, self.card_value = choice([_ for _ in cards])
 
     def get_card(self) -> Tuple[str, ...]:
@@ -18,7 +19,7 @@ class DeckOfCards:
             + f"\033[0m\033[0;30;47m \033[0m" * 7 + f"{chr(9474)}",
             f"{chr(9474)}" + f"\033[0;30;47m \033[0m" * 9 + f"{chr(9474)}",
             f"{chr(9474)}" + f"\033[0;30;47m \033[0m" * 9 + f"{chr(9474)}",
-            f"{chr(9474)}" + f"\033[0;30;47m \033[0m" * 4 + f"{self.symbol}"
+            f"{chr(9474)}" + f"\033[0;30;47m \033[0m" * 4 + f"{self.card_suit}"
             + f"\033[0;30;47m \033[0m" * 4 + f"{chr(9474)}",
             f"{chr(9474)}" + f"\033[0;30;47m \033[0m" * 9 + f"{chr(9474)}",
             f"{chr(9474)}" + f"\033[0;30;47m \033[0m" * 9 + f"{chr(9474)}",
