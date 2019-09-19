@@ -43,3 +43,6 @@ class Player:
 
     def get_cards_value(self) -> int:
         return sum((num.get_card_value() for num in self.cards_list))
+
+    def add_card(self, card: DeckOfCards) -> None:
+        self.cards_list.append(card)
