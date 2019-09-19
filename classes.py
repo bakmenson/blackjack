@@ -3,6 +3,7 @@ from typing import Tuple, List
 
 
 class DeckOfCards:
+    __slots__ = ['card_name', 'card_value', 'symbol']
     card_name: str
     card_value: int
 
@@ -31,6 +32,8 @@ class DeckOfCards:
 
 
 class Player:
+    __slots__ = ['cards_list']
+
     def __init__(self, cards_list: List) -> None:
         self.cards_list = cards_list
 
