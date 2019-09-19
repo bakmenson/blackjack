@@ -21,17 +21,20 @@ dealer = Player([DeckOfCards(cards, card_suits)])
 player = Player([DeckOfCards(cards, card_suits),
                  DeckOfCards(cards, card_suits)])
 
-separator()
+while game:
+    separator()
+    while True:
+        try:
+            bet = make_bet(chips)
+        except ValueError:
+            print('Error 1')
+            continue
+        except IndexError:
+            print('Error 2')
+            continue
+        break
 
-while True:
-    try:
-        bet = make_bet(chips)
-    except ValueError:
-        print('Error 1')
-        continue
-    except IndexError:
-        print('Error 2')
-        continue
-    break
+    print(bet)
 
-print(bet)
+    continue_game = input('Continue the game? (y/n)\n>>> ')
+    game = True if continue_game == 'y' else False
