@@ -1,6 +1,5 @@
 from classes import DeckOfCards, Player
-from functions import add_card, print_player_cards, title
-from random import choice
+from functions import print_player_cards, title
 
 game: bool = True
 
