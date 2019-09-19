@@ -3,7 +3,7 @@ from typing import Tuple, List
 
 
 class DeckOfCards:
-    __slots__ = ['card_name', 'card_value', 'card_suit']
+    __slots__ = ['card_name', 'card_suit', 'card_value']
     card_name: str
     card_suit: str
     card_value: int
