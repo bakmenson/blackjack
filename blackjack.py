@@ -1,13 +1,11 @@
 from classes import DeckOfCards, Player
-from functions import print_player_cards, title
+from functions import print_player_cards, title, make_bet
 from typing import Tuple
 
 game: bool = True
 money: int
 bet: int
-chips: Tuple[Tuple[str, int], ...] = (
-    ('1', 1), ('2', 5), ('3', 25), ('4', 50), ('5', 100), ('6', 500)
-)
+chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500)
 
 card_suits = (('\033[0;30;47m' + chr(9824) + '\033[0m'),
               ('\033[0;31;47m' + chr(9830) + '\033[0m'),
@@ -22,3 +20,6 @@ player_title, dealer_title = 'Player\'s Cards', 'Dealer\'s Cards'
 dealer = Player([DeckOfCards(cards, card_suits)])
 player = Player([DeckOfCards(cards, card_suits),
                  DeckOfCards(cards, card_suits)])
+
+bet = make_bet(chips)
+print(bet)
