@@ -3,6 +3,10 @@ from os import get_terminal_size
 from typing import Tuple
 
 
+def separator() -> None:
+    print('-' * get_terminal_size()[0])
+
+
 def title(name: str) -> None:
     term_width: int = get_terminal_size()[0]
     len_title: int = ((int(term_width / 2) - int((len(name) / 2) + 1))
