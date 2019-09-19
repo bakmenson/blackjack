@@ -18,7 +18,3 @@ def title(name: str) -> None:
 def print_player_cards(player: Player) -> None:
     for card in zip(*player.get_player_cards()):
         print(*card)
-
-
-def add_card(player):
-    pass
