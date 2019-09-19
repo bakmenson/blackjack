@@ -1,7 +1,13 @@
 from classes import DeckOfCards, Player
 from functions import print_player_cards, title
+from typing import Tuple
 
 game: bool = True
+money: int
+bet: int
+chips: Tuple[Tuple[str, int], ...] = (
+    ('1', 1), ('2', 5), ('3', 25), ('4', 50), ('5', 100), ('6', 500)
+)
 
 card_suits = (('\033[0;30;47m' + chr(9824) + '\033[0m'),
               ('\033[0;31;47m' + chr(9830) + '\033[0m'),
