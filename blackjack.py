@@ -3,8 +3,8 @@ from functions import print_player_cards, title, make_bet, separator
 from typing import Tuple
 
 game: bool = True
-money: int
-bet: int
+money: int = 0
+bet: int = 0
 chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500)
 
 card_suits = (('\033[0;30;47m' + chr(9824) + '\033[0m'),
@@ -22,5 +22,16 @@ player = Player([DeckOfCards(cards, card_suits),
                  DeckOfCards(cards, card_suits)])
 
 separator()
-bet = make_bet(chips)
+
+while True:
+    try:
+        bet = make_bet(chips)
+    except ValueError:
+        print('Error 1')
+        continue
+    except IndexError:
+        print('Error 2')
+        continue
+    break
+
 print(bet)
