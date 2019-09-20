@@ -35,7 +35,5 @@ while game:
             continue
         break
 
-    print(bet)
-
     continue_game = input(' Продолжить игру? (y/n)\n >>> ')
     game = True if continue_game == 'y' else False
