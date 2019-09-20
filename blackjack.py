@@ -23,15 +23,15 @@ player = Player([DeckOfCards(cards, card_suits),
 
 while game:
     separator()
-    print('\n', 'Выберите фишку и укажите номер фишки (1-6).\n')
+    print('\n', 'Выберите фишку и укажите номер фишки.\n')
     while True:
         try:
             bet = make_bet(chips)
         except ValueError:
-            print('\n Неверная команда. Укажите номер команды (1-6).\n')
+            print('\n Неверная команда. Укажите номер команды.\n')
             continue
         except IndexError:
-            print('\n Неверная команда. Такой команды нет (1-6).\n')
+            print('\n Неверная команда. Такой команды нет.\n')
             continue
         break
 
