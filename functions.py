@@ -29,8 +29,22 @@ def make_bet(chips: Tuple[int, ...]) -> Optional[int, IndexError]:
     for chip in enumerate(chips, start=1):
         print(f'{chip[0]:>5}. {chip[1]}')
 
-    chip_idx = int(input('\n >>> ')) - 1
+    chip_idx = int(input('\n>>> ')) - 1
 
     if chip_idx < 0:
         raise IndexError
     return chips[chip_idx]
+
+
+def input_money() -> int:
+    money: int = 0
+    while True:
+        try:
+            money = int(input('Введите сумму денег: '))
+            if money <= 0:
+                raise ValueError
+        except ValueError:
+            print('Неверно указанна сумма денег.')
+            continue
+        break
+    return money

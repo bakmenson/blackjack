@@ -1,5 +1,6 @@
 from classes import DeckOfCards, Player
-from functions import print_player_cards, title, make_bet, separator
+from functions import print_player_cards, title, make_bet, separator, \
+    input_money
 from typing import Tuple
 
 game: bool = True
@@ -23,7 +24,11 @@ player = Player([DeckOfCards(cards, card_suits),
 
 while game:
     separator()
-    print('\n', 'Выберите фишку и укажите номер фишки.\n')
+
+    money = input_money()
+    print(money)
+
+    print('\nВыберите фишку и укажите номер фишки.\n')
     while True:
         try:
             bet = make_bet(chips)
@@ -35,5 +40,5 @@ while game:
             continue
         break
 
-    continue_game = input(' Продолжить игру? (y/n)\n >>> ')
+    continue_game = input('Продолжить игру? (y/n)\n>>> ')
     game = True if continue_game == 'y' else False
