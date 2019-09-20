@@ -5,7 +5,7 @@ from typing import Tuple
 game: bool = True
 money: int = 0
 bet: int = 0
-chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500)
+chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
 
 card_suits = (('\033[0;30;47m' + chr(9824) + '\033[0m'),
               ('\033[0;31;47m' + chr(9830) + '\033[0m'),
