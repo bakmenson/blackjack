@@ -29,16 +29,8 @@ while game:
     print(money)
 
     print('\nВыберите фишку и укажите номер фишки.\n')
-    while True:
-        try:
-            bet = make_bet(chips)
-        except ValueError:
-            print('\n Неверная команда. Укажите номер команды.\n')
-            continue
-        except IndexError:
-            print('\n Неверная команда. Такой команды нет.\n')
-            continue
-        break
+    bet = make_bet(chips)
+    print(bet)
 
     continue_game = input('Продолжить игру? (y/n)\n>>> ')
     game = True if continue_game == 'y' else False

@@ -25,14 +25,25 @@ def print_player_cards(player: Player) -> None:
         print(*card)
 
 
-def make_bet(chips: Tuple[int, ...]) -> Optional[int, IndexError]:
-    for chip in enumerate(chips, start=1):
-        print(f'{chip[0]:>5}. {chip[1]}')
+def make_bet(chips: Tuple[int, ...]) -> int:
+    chip_idx: int = 0
 
-    chip_idx = int(input('\n>>> ')) - 1
+    while True:
+        for chip in enumerate(chips, start=1):
+            print(f'{chip[0]:>5}. {chip[1]}')
 
-    if chip_idx < 0:
-        raise IndexError
+        try:
+            chip_idx = int(input('\n>>> ')) - 1
+            if chip_idx < 0 or chip_idx > len(chips) - 1:
+                raise IndexError
+        except ValueError:
+            print('\n Неверная команда. Укажите номер команды.\n')
+            continue
+        except IndexError:
+            print('\n Неверная команда. Такой команды нет.\n')
+            continue
+        break
+
     return chips[chip_idx]
 
 
