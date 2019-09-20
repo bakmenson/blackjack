@@ -15,7 +15,7 @@ card_suits = (('\033[0;30;47m' + chr(9824) + '\033[0m'),
 cards = (('2', 2), ('3', 3), ('4', 4), ('5', 5), ('6', 6), ('7', 7), ('8', 8),
          ('9', 9), ('10', 10), ('J', 10), ('Q', 10), ('K', 10), ('A', 11))
 
-player_title, dealer_title = 'Your Cards', 'Dealer Cards'
+player_title, dealer_title = 'Ваши карты', 'Карты дилера'
 
 dealer = Player([DeckOfCards(cards, card_suits)])
 player = Player([DeckOfCards(cards, card_suits),
@@ -23,18 +23,19 @@ player = Player([DeckOfCards(cards, card_suits),
 
 while game:
     separator()
+    print('\n', 'Выберите фишку и укажите номер фишки (1-6).\n')
     while True:
         try:
             bet = make_bet(chips)
         except ValueError:
-            print('Error 1')
+            print('\n Неверная команда. Укажите номер команды (1-6).\n')
             continue
         except IndexError:
-            print('Error 2')
+            print('\n Неверная команда. Такой команды нет (1-6).\n')
             continue
         break
 
     print(bet)
 
-    continue_game = input('Continue the game? (y/n)\n>>> ')
+    continue_game = input(' Продолжить игру? (y/n)\n >>> ')
     game = True if continue_game == 'y' else False
