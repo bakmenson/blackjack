@@ -27,9 +27,10 @@ while game:
 
     money = input_money()
     print(money)
+    available_chips: Tuple[int, ...] = tuple(c for c in chips if money >= c)
 
     print('\nВыберите фишку и укажите номер фишки.\n')
-    bet = make_bet(chips)
+    bet = make_bet(available_chips)
     print(bet)
 
     continue_game = input('Продолжить игру? (y/n)\n>>> ')
