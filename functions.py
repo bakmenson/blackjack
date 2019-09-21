@@ -1,6 +1,6 @@
 from __future__ import annotations
 from os import get_terminal_size
-from typing import Tuple, Optional
+from typing import Tuple
 
 
 def separator() -> None:
