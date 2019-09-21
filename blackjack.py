@@ -4,7 +4,6 @@ from functions import print_player_cards, title, make_bet, separator, \
 from typing import Tuple
 
 game: bool = True
-money: int = 0
 bet: int = 0
 chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
 
@@ -22,16 +21,19 @@ dealer = Player([DeckOfCards(cards, card_suits)])
 player = Player([DeckOfCards(cards, card_suits),
                  DeckOfCards(cards, card_suits)])
 
-while game:
-    separator()
+separator()
+money: int = input_money()
+print(money)
 
-    money = input_money()
-    print(money)
+while game:
     available_chips: Tuple[int, ...] = tuple(c for c in chips if money >= c)
 
     print('\nВыберите фишку и укажите номер фишки.\n')
     bet = make_bet(available_chips)
     print(bet)
+    money -= bet
+
+    print(money)
 
     continue_game = input('Продолжить игру? (y/n)\n>>> ')
     game = True if continue_game == 'y' else False
