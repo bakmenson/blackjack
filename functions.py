@@ -59,3 +59,16 @@ def input_money() -> int:
             continue
         break
     return money
+
+
+def is_game() -> bool:
+    while True:
+        try:
+            check_game = input('Продолжить игру? (y/n)\n>>> ')
+            if check_game != 'y' or check_game != 'n':
+                raise ValueError
+        except ValueError:
+            print('Неверно указанна команда.')
+            continue
+
+        return True if check_game == 'y' else False

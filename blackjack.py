@@ -1,6 +1,6 @@
 from classes import DeckOfCards, Player
 from functions import print_player_cards, title, make_bet, separator, \
-    input_money
+    input_money, is_game
 from typing import Tuple
 
 game: bool = True
@@ -35,5 +35,5 @@ while game:
 
     print(money)
 
-    continue_game = input('Продолжить игру? (y/n)\n>>> ')
-    game = False if continue_game == 'n' else True
+    continue_game = is_game()
+    game = False if not continue_game else True
