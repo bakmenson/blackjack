@@ -35,5 +35,4 @@ while game:
 
     print(money)
 
-    continue_game = is_game()
-    game = False if not continue_game else True
+    game = False if not is_game() else True
