@@ -36,4 +36,4 @@ while game:
     print(money)
 
     continue_game = input('Продолжить игру? (y/n)\n>>> ')
-    game = True if continue_game == 'y' else False
+    game = False if continue_game == 'n' else True
