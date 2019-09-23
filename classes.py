@@ -8,9 +8,9 @@ class DeckOfCards:
     card_suit: str
     card_value: int
 
-    def __init__(self, cards: Tuple, card_suits: Tuple) -> None:
+    def __init__(self, face_cards: Tuple, card_suits: Tuple) -> None:
         self.card_suit = choice([_ for _ in card_suits])
-        self.card_name, self.card_value = choice([_ for _ in cards])
+        self.card_name, self.card_value = choice([_ for _ in face_cards])
 
     def get_card(self) -> Tuple[str, ...]:
         return (
