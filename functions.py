@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import annotations
 from os import get_terminal_size
 from typing import Tuple

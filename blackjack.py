@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from classes import DeckOfCards, Player
 from functions import print_player_cards, title, make_bet, separator, \
     input_money, is_game
