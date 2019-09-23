@@ -22,6 +22,8 @@ player = Player([DeckOfCards(cards, card_suits),
                  DeckOfCards(cards, card_suits)])
 
 separator()
+print_player_cards(player)
+
 money: int = input_money()
 print(money)
 

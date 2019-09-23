@@ -21,8 +21,13 @@ def title(name: str) -> None:
 
 
 def print_player_cards(player: Player) -> None:
-    for card in zip(*player.get_player_cards()):
-        print(*card)
+    cards = tuple(''.join(i) for i in zip(*player.get_player_cards()))
+    len_short_str: int = len(cards[1])
+    for card in cards:
+        align_str: int = len(card) - len_short_str \
+            if len(card) > len_short_str else 0
+        print(f"{card:^{get_terminal_size()[0] + align_str}}")
+    print()
 
 
 def make_bet(chips: Tuple[int, ...]) -> int:
