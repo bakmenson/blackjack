@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from random import choice
 from typing import Tuple, List
 
