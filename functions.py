@@ -22,7 +22,7 @@ def title(name: str) -> None:
 
 def print_player_cards(player: Player) -> None:
     cards = tuple(''.join(i) for i in zip(*player.get_player_cards()))
-    len_short_str: int = len(cards[1])
+    len_short_str: int = min(len(i) for i in cards)
     for card in cards:
         align_str: int = len(card) - len_short_str \
             if len(card) > len_short_str else 0
