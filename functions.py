@@ -41,10 +41,10 @@ def make_bet(chips: Tuple[int, ...]) -> int:
             if chip_idx < 0 or chip_idx > len(chips) - 1:
                 raise IndexError
         except ValueError:
-            print('\n Неверная команда. Укажите номер команды.\n')
+            print('Неверная команда. Укажите номер команды.\n')
             continue
         except IndexError:
-            print('\n Неверная команда. Такой команды нет.\n')
+            print('Неверная команда. Такой команды нет.\n')
             continue
         break
 
