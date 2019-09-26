@@ -24,27 +24,14 @@ player = Player([DeckOfCards(face_cards, card_suits),
                  DeckOfCards(face_cards, card_suits)])
 
 separator()
-print_player_cards(player)
-player.add_card(DeckOfCards(face_cards, card_suits))
-input()
-print_player_cards(player)
-player.add_card(DeckOfCards(face_cards, card_suits))
-input()
-print_player_cards(player)
 
-# money: int = input_money()
-# print(money)
-#
-# # TODO checkout output game stuff in same line, decorator for title
-#
-# while game:
-#     available_chips: Tuple[int, ...] = tuple(c for c in chips if money >= c)
-#
-#     print('\nВыберите фишку и укажите номер фишки.\n')
-#     bet = make_bet(available_chips)
-#     print(bet)
-#     money -= bet
-#
-#     print(money)
-#
-#     game = False if not is_game() else True
+money: int = input_money()
+
+while game:
+    available_chips: Tuple[int, ...] = tuple(c for c in chips if money >= c)
+
+    print('\nВыберите фишку и укажите номер фишки.\n')
+    bet = make_bet(available_chips)
+    money -= bet
+
+    game = False if not is_game() else True
