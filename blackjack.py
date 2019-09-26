@@ -37,10 +37,8 @@ separator()
 money: int = input_money()
 
 while game:
-    available_chips: Tuple[int, ...] = tuple(c for c in chips if money >= c)
-
     print('\nВыберите фишку и укажите номер фишки.\n')
-    bet = make_bet(available_chips)
+    bet = make_bet(chips, money)
     money -= bet
 
     game = False if not is_game() else True
