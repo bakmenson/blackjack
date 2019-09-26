@@ -29,16 +29,21 @@ def print_player_cards(player: Player) -> None:
         print(f"{card:^{get_terminal_size()[0] + align_str}}")
 
 
-def make_bet(chips: Tuple[int, ...]) -> int:
+def make_bet(chips: Tuple[int, ...], money: int) -> int:
     chip_idx: int = 0
+    available_chips: Tuple[int, ...] = tuple(c for c in chips if money >= c)
+    available_chips += (money,)
 
     while True:
-        for chip in enumerate(chips, start=1):
+        for chip in enumerate(available_chips, start=1):
+            if chip[0] == len(available_chips):
+                print(f'{chip[0]:>5}. All-in ({chip[1]})')
+                break
             print(f'{chip[0]:>5}. {chip[1]}')
 
         try:
             chip_idx = int(input('\n>>> ')) - 1
-            if chip_idx < 0 or chip_idx > len(chips) - 1:
+            if chip_idx < 0 or chip_idx > len(available_chips) - 1:
                 raise IndexError
         except ValueError:
             print('Неверная команда. Укажите номер команды.\n')
@@ -48,7 +53,7 @@ def make_bet(chips: Tuple[int, ...]) -> int:
             continue
         break
 
-    return chips[chip_idx]
+    return available_chips[chip_idx]
 
 
 def input_money() -> int:
