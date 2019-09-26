@@ -70,7 +70,7 @@ def input_money() -> int:
     return money
 
 
-def is_continue(question) -> bool:
+def is_continue(question: str) -> bool:
     while True:
         answer = input(question + '? (y/n)\n>>> ')
         if answer != 'y' and answer != 'n':
