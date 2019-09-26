@@ -25,6 +25,15 @@ player = Player([DeckOfCards(face_cards, card_suits),
 
 separator()
 
+# q = 'y'
+# while q == 'y':
+#     print_player_cards(player)
+#     player.add_card(DeckOfCards(face_cards, card_suits))
+#     print('Input')
+#     q = input('some input >>> ')
+#     print('\033[10A')
+# print('\033[10B')
+
 money: int = input_money()
 
 while game:
