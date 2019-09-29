@@ -2,7 +2,7 @@ from random import choice
 from typing import Tuple, List
 
 
-class DeckOfCards:
+class Card:
     __slots__ = ['card_name', 'card_suit', 'card_value']
     card_name: str
     card_suit: str
@@ -42,5 +42,5 @@ class Player:
     def get_cards_value(self) -> int:
         return sum((num.get_card_value() for num in self.cards_list))
 
-    def add_card(self, card: DeckOfCards) -> None:
+    def add_card(self, card: Card) -> None:
         self.cards_list.append(card)

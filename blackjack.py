@@ -1,4 +1,4 @@
-from classes import DeckOfCards, Player
+from classes import Card, Player
 from functions import print_player_cards, title, make_bet, separator, \
     input_money, is_continue
 from typing import Tuple
@@ -17,9 +17,9 @@ face_cards = (
 
 player_title, dealer_title = 'Ваши карты', 'Карты дилера'
 
-dealer = Player([DeckOfCards(face_cards, card_suits)])
-player = Player([DeckOfCards(face_cards, card_suits),
-                 DeckOfCards(face_cards, card_suits)])
+dealer = Player([Card(face_cards, card_suits)])
+player = Player([Card(face_cards, card_suits),
+                 Card(face_cards, card_suits)])
 
 separator()
 
