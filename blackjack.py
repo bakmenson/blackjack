@@ -18,8 +18,7 @@ face_cards = (
 player_title, dealer_title = 'Ваши карты', 'Карты дилера'
 
 dealer = Player([Card(face_cards, card_suits)])
-player = Player([Card(face_cards, card_suits),
-                 Card(face_cards, card_suits)])
+player = Player([Card(face_cards, card_suits), Card(face_cards, card_suits)])
 
 separator()
 
