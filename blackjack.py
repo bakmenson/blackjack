@@ -32,23 +32,25 @@ separator()
 #     print('\033[10A')
 # print('\033[10B')
 
-game: bool = True
 bet: Tuple[int, ...] = ()
 bets: Tuple[int, ...] = ()
 money: int = input_money()
 
-while game:
-    is_bet: bool = True
-
-    while is_bet:
+while True:
+    while True:
         bet = make_bet(chips, money)
         bets += (bet[0],)
         money -= bets[-1]
 
-        is_bet = False if not money else False \
-            if not is_continue('Сделать еще ставку') else True
+        separator()
+        if money and is_continue('Сделать еще ставку'):
+            continue
+        break
 
     sum_bets: int = sum(bets)
     print(bet[1])
 
-    game = False if not is_continue('Продолжить игру') else True
+    separator()
+    if money and is_continue('Продолжить игру'):
+        continue
+    break

@@ -53,6 +53,8 @@ def make_bet(chips: Tuple[int, ...], money: int) -> Tuple[int, ...]:
             continue
         break
 
+    print('\033c')
+
     return available_chips[chip_idx], len(available_chips)
 
 
