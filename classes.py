@@ -4,13 +4,11 @@ from typing import Tuple, List
 
 class Card:
     __slots__ = ['card_name', 'card_suit', 'card_value']
-    card_name: str
-    card_suit: str
-    card_value: int
 
     def __init__(self, face_cards: Tuple, card_suits: Tuple) -> None:
-        self.card_suit = choice([_ for _ in card_suits])
-        self.card_name, self.card_value = choice([_ for _ in face_cards])
+        self.card_suit: str = choice([_ for _ in card_suits])
+        self.card_name: str = choice([_[0] for _ in face_cards])
+        self.card_value: int = choice([_[1] for _ in face_cards])
 
     def get_card(self) -> Tuple[str, ...]:
         return (
