@@ -29,7 +29,7 @@ def print_player_cards(player: Player) -> None:
         print(f"{card:^{get_terminal_size()[0] + align_str}}")
 
 
-def make_bet(chips: Tuple[int, ...], money: int) -> Tuple[int, ...]:
+def make_bet(chips: Tuple[int, ...], money: int) -> int:
     chip_idx: int = 0
     available_chips: Tuple[int, ...] = tuple(c for c in chips if money >= c)
     available_chips += (money,)
@@ -53,9 +53,7 @@ def make_bet(chips: Tuple[int, ...], money: int) -> Tuple[int, ...]:
             continue
         break
 
-    print('\033c')
-
-    return available_chips[chip_idx], len(available_chips)
+    return available_chips[chip_idx]
 
 
 def input_money() -> int:
