@@ -3,7 +3,7 @@ from typing import Tuple, List
 
 
 class Card:
-    __slots__ = ['card_name', 'card_suit', 'card_value']
+    __slots__ = ('card_name', 'card_suit', 'card_value')
 
     def __init__(self, face_cards: Tuple, card_suits: Tuple) -> None:
         self.card_suit: str = choice([_ for _ in card_suits])
@@ -29,7 +29,7 @@ class Card:
 
 
 class Player:
-    __slots__ = ['cards']
+    __slots__ = 'cards'
 
     def __init__(self, cards: Tuple) -> None:
         self.cards = cards
