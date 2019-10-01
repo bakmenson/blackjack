@@ -29,16 +29,16 @@ class Card:
 
 
 class Player:
-    __slots__ = ['cards_list']
+    __slots__ = ['cards']
 
-    def __init__(self, cards_list: List) -> None:
-        self.cards_list = cards_list
+    def __init__(self, cards: Tuple) -> None:
+        self.cards = cards
 
-    def get_player_cards(self) -> Tuple[str, ...]:
-        return tuple(item.get_card() for item in self.cards_list)
+    def get_player_cards(self) -> Tuple[Tuple[str, ...], ...]:
+        return tuple(item.get_card() for item in self.cards)
 
     def get_cards_value(self) -> int:
-        return sum((num.get_card_value() for num in self.cards_list))
+        return sum((num.get_card_value() for num in self.cards))
 
     def add_card(self, card: Card) -> None:
-        self.cards_list.append(card)
+        self.cards += (card,)
