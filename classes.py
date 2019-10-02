@@ -5,10 +5,11 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Deck:
-    cards: Tuple = field(default_factory=tuple())
+    deck: Tuple = field(default_factory=tuple())
 
     def get_card(self, num: int = 1) -> Tuple[Tuple[int, str, str], ...]:
-        return tuple(sample(self.cards, num))
+        """Method return 1 (default) or num cards from deck of cards"""
+        return tuple(sample(self.deck, num))
 
 
 @dataclass
