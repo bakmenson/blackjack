@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 class Deck:
     cards: Tuple = field(default_factory=tuple())
 
-    def get_card(self, num: int = 1) -> Tuple[Tuple[str, int, str], ...]:
+    def get_card(self, num: int = 1) -> Tuple[Tuple[int, str, str], ...]:
         return tuple(sample(self.cards, num))
 
 
@@ -15,12 +15,12 @@ class Deck:
 class Player:
     cards: Deck.get_card
 
-    def get_player_cards(self) -> Tuple[Tuple[str, int, str], ...]:
+    def get_player_cards(self) -> Tuple[Tuple[int, str, str], ...]:
         return self.cards
 
     @property
     def get_cards_value(self) -> int:
         return sum((num[0] for num in self.cards))
 
-    def add_card(self, card: Tuple[Tuple[str, int, str], ...]) -> None:
+    def add_card(self, card: Tuple[Tuple[int, str, str], ...]) -> None:
         self.cards += (*card),
