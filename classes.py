@@ -18,6 +18,7 @@ class Player:
     def get_player_cards(self) -> Tuple[Tuple[str, int, str], ...]:
         return self.cards
 
+    @property
     def get_cards_value(self) -> int:
         return sum((num[0] for num in self.cards))
 
