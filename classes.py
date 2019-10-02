@@ -1,44 +1,25 @@
-from random import choice
-from typing import Tuple, List
+from typing import Tuple
+from random import sample
+from dataclasses import dataclass, field
 
 
-class Card:
-    __slots__ = ('card_name', 'card_suit', 'card_value')
+@dataclass
+class Deck:
+    cards: Tuple = field(default_factory=tuple())
 
-    def __init__(self, face_cards: Tuple, card_suits: Tuple[str, ...]) -> None:
-        self.card_suit: str = choice([_ for _ in card_suits])
-        self.card_name: str = choice([_[0] for _ in face_cards])
-        self.card_value: int = choice([_[1] for _ in face_cards])
-
-    def get_card(self) -> Tuple[str, ...]:
-        return (
-            f"{chr(9616)}\x1b[0;30;47m{self.card_name:<2}\x1b[0m"
-            + f"{chr(9608)}" * 7 + f"{chr(9612)}",
-            f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
-            f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
-            f"{chr(9616)}" + f"{chr(9608)}" * 4 + f"{self.card_suit}"
-            + f"{chr(9608)}" * 4 + f"{chr(9612)}",
-            f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
-            f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
-            f"{chr(9616)}" + f"{chr(9608)}" * 7
-            + f"\x1b[0;30;47m{self.card_name:>2}\x1b[0m{chr(9612)}",
-        )
-
-    def get_card_value(self) -> int:
-        return self.card_value
+    def get_card(self, num: int = 1) -> Tuple[Tuple[str, int, str], ...]:
+        return tuple(sample(self.cards, num))
 
 
+@dataclass
 class Player:
-    __slots__ = 'cards'
+    cards: Deck.get_card
 
-    def __init__(self, cards: Tuple) -> None:
-        self.cards = cards
-
-    def get_player_cards(self) -> Tuple[Tuple[str, ...], ...]:
-        return tuple(item.get_card() for item in self.cards)
+    def get_player_cards(self) -> Tuple[Tuple[str, int, str], ...]:
+        return self.cards
 
     def get_cards_value(self) -> int:
-        return sum((num.get_card_value() for num in self.cards))
+        return sum((num[0] for num in self.cards))
 
-    def add_card(self, card: Card) -> None:
-        self.cards += (card,)
+    def add_card(self, card: Tuple[Tuple[str, int, str], ...]) -> None:
+        self.cards += (*card),
