@@ -18,10 +18,31 @@ def title(name: str, term_width: int) -> None:
           '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep_count)))
 
 
-def print_player_cards(player: Player, term_width: int) -> None:
-    cards = tuple(''.join(i) for i in zip(*player.get_player_cards()))
-    len_short_str: int = min(len(i) for i in cards)
-    for card in cards:
+def form_cards(player: Player) -> Tuple[Tuple[str, ...]]:
+    """Function forms player cards for print() in terminal"""
+    cards = tuple()
+    for n, i in enumerate(player):
+        cards += (
+            (f"{chr(9616)}\033[0;30;47m{player[n][0]:<2}\033[0m"
+             + f"{chr(9608)}" * 7 + f"{chr(9612)}",
+             f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
+             f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
+             f"{chr(9616)}" + f"{chr(9608)}" * 4 + f"{player[n][1]}"
+             + f"{chr(9608)}" * 4 + f"{chr(9612)}",
+             f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
+             f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
+             f"{chr(9616)}" + f"{chr(9608)}" * 7
+             + f"\033[0;30;47m{player[n][2]:>2}\033[0m{chr(9612)}"),
+        )
+
+    return cards
+
+
+def print_player_cards(cards, term_width: int) -> None:
+    """Function prints cards"""
+    join_cards = tuple(''.join(i) for i in zip(*cards))
+    len_short_str: int = min(len(i) for i in join_cards)
+    for card in join_cards:
         align_str: int = (len(card) - len_short_str) \
             if (len(card) > len_short_str) else 0
         print(f"{card:^{term_width + align_str}}")
