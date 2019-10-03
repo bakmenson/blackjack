@@ -17,7 +17,7 @@ class Player:
     cards: Deck.get_card
 
     def get_player_cards(self) -> Tuple[Tuple[int, str, str], ...]:
-        return self.cards
+        return tuple((i[1], i[2], i[1]) for i in self.cards)
 
     @property
     def get_cards_value(self) -> int:
