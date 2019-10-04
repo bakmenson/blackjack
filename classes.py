@@ -24,5 +24,4 @@ class Player:
         return sum((num[0] for num in self.cards))
 
     def add_card(self, card: Tuple[Tuple[int, str, str], ...]) -> None:
-        unpacked_card = *card,
-        self.cards += unpacked_card
+        self.cards += (*card,)
