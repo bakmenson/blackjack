@@ -21,8 +21,6 @@ face_cards = (
 cards = (zip((_,) * 4, card_suits) for _ in face_cards)
 deck = tuple((*i[0], i[1]) for card in cards for i in card)
 
-player_title, dealer_title = 'Ваши карты', 'Карты дилера'
-
 deck_of_card = Deck(deck)
 
 dealer = Player(deck_of_card.get_card())
