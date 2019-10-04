@@ -18,20 +18,23 @@ face_cards = (
 )
 
 # get 4 face_cards for each card_suits
-cards = (zip((_,) * 4, card_suits) for _ in face_cards)
-deck = tuple((*i[0], i[1]) for card in cards for i in card)
+cards = tuple(
+    (*i[0], i[1])
+    for card in (zip((_,) * 4, card_suits) for _ in face_cards)
+    for i in card
+)
 
-deck_of_card = Deck(deck)
+deck = Deck(cards)
 
-dealer = Player(deck_of_card.get_card())
-player = Player(deck_of_card.get_card(2))
+dealer = Player(deck.get_card())
+player = Player(deck.get_card(2))
 
 print()
 print()
 #print_player_cards(player)
 #player.add_card(deck_of_card.get_card())
 
-player.add_card(deck_of_card.get_card())
+player.add_card(deck.get_card())
 
 # for i in zip(*form_cards(player.get_player_cards())):
 #     print(*i)
