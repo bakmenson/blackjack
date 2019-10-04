@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Tuple
+from typing import Tuple, Any
 
 
 def separator(term_width: int) -> None:
@@ -18,21 +18,21 @@ def title(name: str, term_width: int) -> None:
           '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep_count)))
 
 
-def form_cards(player: Player) -> Tuple[Tuple[str, ...]]:
+def form_cards(player_cards: Tuple) -> Tuple[Any, ...]:
     """Function forms player cards for print() in terminal"""
-    cards = tuple()
-    for n, i in enumerate(player):
+    cards: Tuple = tuple()
+    for n, i in enumerate(player_cards):
         cards += (
-            (f"{chr(9616)}\033[0;30;47m{player[n][0]:<2}\033[0m"
+            (f"{chr(9616)}\033[0;30;47m{player_cards[n][0]:<2}\033[0m"
              + f"{chr(9608)}" * 7 + f"{chr(9612)}",
              f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
              f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
-             f"{chr(9616)}" + f"{chr(9608)}" * 4 + f"{player[n][1]}"
+             f"{chr(9616)}" + f"{chr(9608)}" * 4 + f"{player_cards[n][1]}"
              + f"{chr(9608)}" * 4 + f"{chr(9612)}",
              f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
              f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
              f"{chr(9616)}" + f"{chr(9608)}" * 7
-             + f"\033[0;30;47m{player[n][2]:>2}\033[0m{chr(9612)}"),
+             + f"\033[0;30;47m{player_cards[n][2]:>2}\033[0m{chr(9612)}"),
         )
 
     return cards

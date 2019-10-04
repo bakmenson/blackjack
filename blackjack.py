@@ -1,9 +1,8 @@
-from classes import Card, Player
-from functions import print_player_cards, title, make_bet, separator, \
-    input_money, is_continue
-from typing import Tuple
-from os import system
-from os import get_terminal_size
+from classes import Deck, Player
+from functions import form_cards, title, make_bet, separator, \
+    input_money, is_continue, print_player_cards
+from typing import Tuple, Generator, Iterator, Any
+from os import get_terminal_size, system
 
 term_width: int = get_terminal_size()[0]
 chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
@@ -14,20 +13,32 @@ card_suits = ('\x1b[0;30;47m' + chr(9824) + '\x1b[0m',
               '\x1b[0;30;47m' + chr(9827) + '\x1b[0m')
 
 face_cards = (
-    ('2', 2), ('3', 3), ('4', 4), ('5', 5), ('6', 6), ('7', 7), ('8', 8),
-    ('9', 9), ('10', 10), ('J', 10), ('Q', 10), ('K', 10), ('A', 11)
+    (2, '2'), (3, '3'), (4, '4'), (5, '5'), (6, '6'), (7, 7), (8, '8'),
+    (9, '9'), (10, '10'), (10, 'J'), (10, 'Q'), (10, 'K'), (11, 'A')
 )
 
-cards = tuple(tuple(zip((i,) * 4, card_suits)) for i in face_cards)
+# get 4 face_cards for each card_suits
+cards = (zip((_,) * 4, card_suits) for _ in face_cards)
 deck = tuple((*i[0], i[1]) for card in cards for i in card)
-
-for i in deck:
-    print(i)
 
 player_title, dealer_title = 'Ваши карты', 'Карты дилера'
 
-dealer = Player((Card(face_cards, card_suits),))
-player = Player((Card(face_cards, card_suits), Card(face_cards, card_suits)))
+deck_of_card = Deck(deck)
+
+dealer = Player(deck_of_card.get_card())
+player = Player(deck_of_card.get_card(2))
+
+print()
+print()
+#print_player_cards(player)
+#player.add_card(deck_of_card.get_card())
+
+player.add_card(deck_of_card.get_card())
+
+# for i in zip(*form_cards(player.get_player_cards())):
+#     print(*i)
+
+print_player_cards(form_cards(player.get_player_cards()), term_width)
 
 # system('clear')
 #
