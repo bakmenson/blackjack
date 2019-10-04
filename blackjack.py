@@ -18,7 +18,7 @@ face_cards = (
 )
 
 # get 4 face_cards for each card_suits
-cards = tuple(
+cards: Tuple[Any, ...] = tuple(
     (*i[0], i[1])
     for card in (zip((_,) * 4, card_suits) for _ in face_cards)
     for i in card
