@@ -6,8 +6,8 @@ from dataclasses import dataclass, field
 class Player:
     cards: Tuple[Tuple[int, str, str], ...]
 
-    def get_player_cards(self) -> Tuple[Tuple[str, str, str], ...]:
-        return tuple((i[1], i[2], i[1]) for i in self.cards)
+    def get_player_cards(self) -> Tuple[Tuple[int, str, str], ...]:
+        return self.cards
 
     @property
     def get_cards_value(self) -> int:
