@@ -15,7 +15,7 @@ def title(name: str, term_width: int) -> None:
         if (len_title == term_width) else 0
 
     print('-' * (int(term_width / 2) - int((len(name) / 2) + 1)), name,
-          '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep_count)))
+          '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep_count)) + '\n')
 
 
 def form_cards(player_cards: Tuple) -> Tuple[Any, ...]:
@@ -46,6 +46,7 @@ def print_player_cards(cards, term_width: int) -> None:
         align_str: int = (len(card) - len_short_str) \
             if (len(card) > len_short_str) else 0
         print(f"{card:^{term_width + align_str}}")
+    print()
 
 
 def make_bet(chips: Tuple[int, ...], money: int, term_width: int) -> int:
