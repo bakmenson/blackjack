@@ -91,11 +91,13 @@ def input_money() -> int:
     return money
 
 
-def is_continue(question: str) -> bool:
+def is_continue(question: str, term_width: int) -> bool:
+    question += '? (y/n) >>> '
     while True:
-        answer = input(question + '? (y/n)\n>>> ')
+        #print(f"{question:>{int(term_width / 3)}}")
+        answer = input(f"{'':>{int(term_width / 3)}}{question}")
         if answer != 'y' and answer != 'n':
-            print('Неверно указанна команда.\n')
+            print(f"{'':>{int(term_width / 3)}}{'Неверно указанна команда.'}")
             continue
         break
 
