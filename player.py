@@ -15,3 +15,6 @@ class Player:
 
     def add_card(self, card: Tuple[Tuple[int, str, str], ...]) -> None:
         self.cards += (*card,)
+
+    def remove_cards(self) -> None:
+        self.cards = tuple()
