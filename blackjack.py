@@ -1,10 +1,12 @@
+from typing import Tuple, Any
+from os import get_terminal_size, system, name
 from classes import Deck, Player
 from functions import form_cards, title, make_bet, separator, \
     input_money, is_continue, print_player_cards
-from typing import Tuple, Generator, Iterator, Any
-from os import get_terminal_size, system
 
 term_width: int = get_terminal_size()[0]
+clear: str = 'cls' if name == 'nt' else 'clear'
+
 chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
 
 card_suits = ('\x1b[0;30;47m' + chr(9824) + '\x1b[0m',
@@ -26,57 +28,58 @@ cards: Tuple[Any, ...] = tuple(
 
 deck = Deck(cards)
 
-dealer = Player(deck.get_card())
-player = Player(deck.get_card(2))
+system(clear)
 
-print()
-print()
-#print_player_cards(player)
-#player.add_card(deck_of_card.get_card())
+separator(term_width)
 
-player.add_card(deck.get_card())
-
-# for i in zip(*form_cards(player.get_player_cards())):
-#     print(*i)
-
-print_player_cards(form_cards(player.get_player_cards()), term_width)
-
-# system('clear')
-#
-# separator(term_width)
-# q = 'y'
-# while q == 'y':
-#     print_player_cards(player, term_width)
-#     player.add_card(Card(face_cards, card_suits))
-#     print('Input')
-#     q = input('some input >>> ')
-#     print('\x1b[10A')
 # print('\x1b[10B')
-#
-# separator(term_width)
-# money: int = input_money()
-#
-# bet: int = 0
-# bets: Tuple[int, ...] = ()
-#
-# while True:
-#     while True:
-#         system('clear')
-#         separator(term_width)
-#         print('Сделайте ставку (укажите номер фишки).')
-#         bet = make_bet(chips, money, term_width)
-#         bets += (bet,)
-#         money -= bets[-1]
-#
-#         separator(term_width)
-#         if money and is_continue('Сделать еще ставку'):
-#             continue
-#         break
-#
-#     sum_bets: int = sum(bets)
-#
-#     system('clear')
-#     separator(term_width)
-#     if money and is_continue('Продолжить игру'):
-#         continue
-#     break
+
+money: int = input_money(term_width)
+
+bet: int = 0
+bets: Tuple[int, ...] = ()
+insurance: int = 0
+
+# game
+while True:
+    dealer = Player(deck.get_card())
+    player = Player(deck.get_card(2))
+
+    # make a bet
+    while True:
+        system(clear)
+        separator(term_width)
+        print(f"{'Сделайте ставку (укажите номер фишки).':^{term_width}}\n")
+        bet = make_bet(chips, money, term_width)
+        bets += (bet,)
+        money -= bets[-1]
+
+        separator(term_width)
+        if money and is_continue('Сделать еще ставку', term_width):
+            continue
+        break
+
+    sum_bets: int = sum(bets)
+
+    # print dealer cards
+    system(clear)
+    title('Dealer Cards', term_width)
+    print_player_cards(form_cards(dealer.get_player_cards()), term_width)
+    print(f"{'':>{int(term_width / 3)}}{'Score: '}{dealer.get_cards_value}")
+
+    # print player cards
+    title('Your Cards', term_width)
+    while True:
+        print_player_cards(form_cards(player.get_player_cards()), term_width)
+        print(f"{'':>{int(term_width / 3)}}{'Score: '}{player.get_cards_value}")
+
+        if is_continue('Continue', term_width):
+            print('\x1b[11A')
+            player.add_card(deck.get_card())
+            continue
+        break
+
+    separator(term_width)
+    if money and is_continue('Продолжить игру', term_width):
+        continue
+    break
