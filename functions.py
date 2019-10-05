@@ -15,7 +15,8 @@ def title(name: str, term_width: int) -> None:
         if (len_title == term_width) else 0
 
     print('-' * (int(term_width / 2) - int((len(name) / 2) + 1)), name,
-          '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep_count)) + '\n')
+          '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep_count))
+          + '\n')
 
 
 def form_cards(player_cards: Tuple) -> Tuple[Any, ...]:
