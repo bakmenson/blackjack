@@ -63,7 +63,7 @@ def make_bet(chips: Tuple[int, ...], money: int, term_width: int) -> int:
             print(f'{chip[0]:>{int(term_width / 3)}}. {chip[1]}')
 
         try:
-            chip_idx = int(input('\n>>> ')) - 1
+            chip_idx = int(input(f"\n{'>>>':>{int(term_width / 3) + 2}} ")) - 1
             if chip_idx < 0 or chip_idx > len(available_chips) - 1:
                 raise IndexError
         except ValueError:
