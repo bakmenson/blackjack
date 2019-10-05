@@ -1,6 +1,7 @@
 from typing import Tuple, Any
 from os import get_terminal_size, system, name
-from classes import Deck, Player
+from deck import Deck
+from player import Player
 from functions import form_cards, title, make_bet, separator, \
     input_money, is_continue, print_player_cards
 
@@ -18,6 +19,9 @@ face_cards = (
     (2, '2'), (3, '3'), (4, '4'), (5, '5'), (6, '6'), (7, 7), (8, '8'),
     (9, '9'), (10, '10'), (10, 'J'), (10, 'Q'), (10, 'K'), (11, 'A')
 )
+
+# face_cards = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
+# card_values = (2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11)
 
 # get 4 face_cards for each card_suits
 cards: Tuple[Any, ...] = tuple(
