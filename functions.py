@@ -68,12 +68,12 @@ def make_bet(chips: Tuple[int, ...], money: int, term_width: int) -> int:
             if chip_idx < 0 or chip_idx > len(available_chips) - 1:
                 raise IndexError
         except ValueError:
-            print(f"{'':^{int(term_width / 2) - 20}}"
-                  f"{'Неверная команда. Укажите номер команды.'}\n")
+            print(f"{'':^{int(term_width / 2) - 17}}"
+                  f"{'Wrong command. Select chip number.'}\n")
             continue
         except IndexError:
-            print(f"{'':^{int(term_width / 2) - 18}}"
-                  f"{'Неверная команда. Такой команды нет.'}\n")
+            print(f"{'':^{int(term_width / 2) - 16}}"
+                  f"{'Wrong command. Command not found.'}\n")
             continue
         break
 
@@ -85,13 +85,13 @@ def input_money(term_width: int) -> int:
     while True:
         try:
             money = int(input(
-                f"{' Введите сумму денег: ':>{int(term_width / 2) + 11}}"
+                f"{'Input amount of your money: ':>{int(term_width / 2) + 14}}"
             ))
             if money <= 0:
                 raise ValueError
         except ValueError:
-            print(f"{'':^{int(term_width / 2) - 10}}"
-                  f"{'Неверно указанна сумма денег.'}")
+            print(f"{'':^{int(term_width / 2) - 14}}"
+                  f"{'Invalid amount of money.'}")
             continue
         break
     return money
@@ -102,7 +102,7 @@ def is_continue(question: str, term_width: int) -> bool:
     while True:
         answer = input(f"{'':>{int(term_width / 3)}}{question}")
         if answer != 'y' and answer != 'n':
-            print(f"{'':>{int(term_width / 3)}}{'Неверно указанна команда.'}")
+            print(f"{'':>{int(term_width / 3)}}{'Wrong command.'}")
             continue
         break
 

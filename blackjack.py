@@ -52,13 +52,13 @@ while True:
     while True:
         system(clear)
         separator(term_width)
-        print(f"{'Сделайте ставку (укажите номер фишки).':^{term_width}}\n")
+        print(f"{'Make a bet (select chip number).':^{term_width}}\n")
         bet = make_bet(chips, money, term_width)
         bets += (bet,)
         money -= bets[-1]
 
         separator(term_width)
-        if money and is_continue('Сделать еще ставку', term_width):
+        if money and is_continue('Add chip', term_width):
             continue
         break
 
@@ -84,7 +84,7 @@ while True:
         break
 
     separator(term_width)
-    if money and is_continue('Продолжить игру', term_width):
+    if money and is_continue('Continue the game', term_width):
         player.remove_cards(), dealer.remove_cards()
         player.add_card(deck.get_card(2)), dealer.add_card(deck.get_card())
         continue
