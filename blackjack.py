@@ -31,9 +31,10 @@ cards: Tuple[Any, ...] = tuple(
 )
 
 deck = Deck(cards)
+dealer = Player(deck.get_card())
+player = Player(deck.get_card(2))
 
 system(clear)
-
 separator(term_width)
 
 # print('\x1b[10B')
@@ -46,8 +47,6 @@ insurance: int = 0
 
 # game
 while True:
-    dealer = Player(deck.get_card())
-    player = Player(deck.get_card(2))
 
     # make a bet
     while True:
@@ -86,5 +85,7 @@ while True:
 
     separator(term_width)
     if money and is_continue('Продолжить игру', term_width):
+        player.remove_cards(), dealer.remove_cards()
+        player.add_card(deck.get_card(2)), dealer.add_card(deck.get_card())
         continue
     break
