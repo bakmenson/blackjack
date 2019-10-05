@@ -67,25 +67,30 @@ def make_bet(chips: Tuple[int, ...], money: int, term_width: int) -> int:
             if chip_idx < 0 or chip_idx > len(available_chips) - 1:
                 raise IndexError
         except ValueError:
-            print('Неверная команда. Укажите номер команды.\n')
+            print(f"{'':^{int(term_width / 2) - 20}}"
+                  f"{'Неверная команда. Укажите номер команды.'}\n")
             continue
         except IndexError:
-            print('Неверная команда. Такой команды нет.\n')
+            print(f"{'':^{int(term_width / 2) - 18}}"
+                  f"{'Неверная команда. Такой команды нет.'}\n")
             continue
         break
 
     return available_chips[chip_idx]
 
 
-def input_money() -> int:
+def input_money(term_width: int) -> int:
     money: int = 0
     while True:
         try:
-            money = int(input('Введите сумму денег: '))
+            money = int(input(
+                f"{' Введите сумму денег: ':>{int(term_width / 2) + 11}}"
+            ))
             if money <= 0:
                 raise ValueError
         except ValueError:
-            print('Неверно указанна сумма денег.')
+            print(f"{'':^{int(term_width / 2) - 10}}"
+                  f"{'Неверно указанна сумма денег.'}")
             continue
         break
     return money
