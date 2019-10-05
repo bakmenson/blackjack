@@ -75,7 +75,8 @@ while True:
     title('Your Cards', term_width)
     while True:
         print_player_cards(form_cards(player.get_player_cards()), term_width)
-        print(f"{'':>{int(term_width / 3)}}{'Score: '}{player.get_cards_value}")
+        print(f"{'':>{int(term_width / 3)}}{'Score: '}"
+              f"{player.get_cards_value}")
 
         if is_continue('Continue', term_width):
             print('\x1b[11A')
