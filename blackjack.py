@@ -56,29 +56,30 @@ while True:
         bet = make_bet(chips, money, term_width)
         bets += (bet,)
         money -= bets[-1]
+        sum_bets: int = sum(bets)
 
         separator(term_width)
+        print(f"{'':>{int(term_width / 3)}}Your bet: {sum_bets}")
         if money and is_continue('Add chip', term_width):
             continue
         break
 
-    sum_bets: int = sum(bets)
 
     # print dealer cards
     system(clear)
     title('Dealer Cards', term_width)
     print_player_cards(form_cards(dealer.get_player_cards()), term_width)
-    print(f"{'':>{int(term_width / 3)}}{'Score: '}{dealer.get_cards_value}")
+    print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_cards_value}")
 
     # print player cards
     title('Your Cards', term_width)
     while True:
         print_player_cards(form_cards(player.get_player_cards()), term_width)
-        print(f"{'':>{int(term_width / 3)}}{'Score: '}"
+        print(f"{'':>{int(term_width / 3)}}Score: "
               f"{player.get_cards_value}")
 
         if is_continue('Continue', term_width):
-            print('\x1b[11A')
+            print('\x1b[12A')
             player.add_card(deck.get_card())
             continue
         break

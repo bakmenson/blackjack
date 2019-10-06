@@ -69,7 +69,7 @@ def make_bet(chips: Tuple[int, ...], money: int, term_width: int) -> int:
                 raise IndexError('Wrong command. Command not found.\n')
         except ValueError:
             print(f"{'':^{int(term_width / 2) - 16}}"
-                  f"{'Wrong command. Select chip number.'}\n")
+                  f"Wrong command. Select chip number.\n")
             continue
         except IndexError as e:
             print(f"{'':^{int(term_width / 2) - 17}}", e)
@@ -90,7 +90,7 @@ def input_money(term_width: int) -> int:
                 raise ValueError
         except ValueError:
             print(f"{'':^{int(term_width / 2) - 14}}"
-                  f"{'Invalid amount of money.'}")
+                  f"Invalid amount of money.")
             continue
         break
     return money
@@ -101,7 +101,7 @@ def is_continue(question: str, term_width: int) -> bool:
     while True:
         answer = input(f"{'':>{int(term_width / 3)}}{question}")
         if answer != 'y' and answer != 'n':
-            print(f"{'':>{int(term_width / 3)}}{'Wrong command.'}")
+            print(f"{'':>{int(term_width / 3)}}Wrong command.")
             continue
         break
 
