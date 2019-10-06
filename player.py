@@ -6,11 +6,11 @@ from dataclasses import dataclass, field
 class Player:
     cards: Tuple[Tuple[int, str, str], ...]
 
-    def get_player_cards(self) -> Tuple[Tuple[int, str, str], ...]:
+    def get_cards(self) -> Tuple[Tuple[int, str, str], ...]:
         return self.cards
 
     @property
-    def get_cards_value(self) -> int:
+    def get_scores(self) -> int:
         return sum((num[0] for num in self.cards))
 
     def add_card(self, card: Tuple[Tuple[int, str, str], ...]) -> None:
