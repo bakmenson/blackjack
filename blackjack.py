@@ -3,7 +3,7 @@ from os import get_terminal_size, system, name
 from deck import Deck
 from player import Player
 from functions import form_cards, title, make_bet, separator, \
-    input_money, is_continue, print_player_cards, player_action
+    input_money, is_continue, print_player_cards, print_actions
 
 term_width: int = get_terminal_size()[0]
 clear: str = 'cls' if name == 'nt' else 'clear'
@@ -77,7 +77,7 @@ while True:
         print_player_cards(form_cards(player.get_cards()), term_width)
         print(f"{'':>{int(term_width / 3)}}Score: {player.get_scores}")
 
-        player_action(player.get_scores, player.get_cards(), term_width)
+        print_actions(player.get_scores, player.get_cards(), term_width)
         if is_continue('Continue', term_width):
             print('\x1b[12A')
             player.add_card(deck.get_card())

@@ -106,3 +106,21 @@ def is_continue(question: str, term_width: int) -> bool:
         break
 
     return True if answer == 'y' else False
+
+
+def print_actions(score: int, cards: Tuple, term_width: int) -> None:
+    insurance, double_down = 0, 0
+    split = True if (len(cards) == 2) and (cards[0][1] == cards[1][1]) \
+        else False
+    surrender_num = 3
+    split_num = 3
+    print(f"{'':>{int(term_width / 3)}}1. Hit")
+    print(f"{'':>{int(term_width / 3)}}2. Stay")
+    if score >= 10:
+        surrender_num += 1
+        split_num += 1
+        print(f"{'':>{int(term_width / 3)}}3. Double down")
+    if split:
+        surrender_num += 1
+        print(f"{'':>{int(term_width / 3)}}{split_num}. Split")
+    print(f"{'':>{int(term_width / 3)}}{surrender_num}. Surrender")
