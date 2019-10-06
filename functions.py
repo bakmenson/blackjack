@@ -109,18 +109,15 @@ def is_continue(question: str, term_width: int) -> bool:
 
 
 def print_actions(score: int, cards: Tuple, term_width: int) -> None:
-    insurance, double_down = 0, 0
     split = True if (len(cards) == 2) and (cards[0][1] == cards[1][1]) \
         else False
-    surrender_num = 3
-    split_num = 3
-    print(f"{'':>{int(term_width / 3)}}1. Hit")
-    print(f"{'':>{int(term_width / 3)}}2. Stay")
+
+    actions_list = ['Hit', 'Stay', 'Surrender']
+
     if score >= 10:
-        surrender_num += 1
-        split_num += 1
-        print(f"{'':>{int(term_width / 3)}}3. Double down")
+        actions_list.insert(2, 'Double down')
     if split:
-        surrender_num += 1
-        print(f"{'':>{int(term_width / 3)}}{split_num}. Split")
-    print(f"{'':>{int(term_width / 3)}}{surrender_num}. Surrender")
+        actions_list.insert(-1, 'Split')
+
+    for number, action in enumerate(actions_list, start=1):
+        print(f"{'':>{int(term_width / 3)}}{number}. {action}")
