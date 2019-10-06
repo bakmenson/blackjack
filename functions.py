@@ -59,12 +59,12 @@ def make_bet(chips: Tuple[int, ...], money: int, term_width: int) -> int:
     while True:
         for chip in enumerate(available_chips, start=1):
             if chip[0] == len(available_chips):
-                print(f'{chip[0]:>{int(term_width / 3)}}. All-in ({chip[1]})')
+                print(f'{chip[0]:>{int(term_width / 3 + 1)}}. All-in ({chip[1]})')
                 break
-            print(f'{chip[0]:>{int(term_width / 3)}}. {chip[1]}')
+            print(f'{chip[0]:>{int(term_width / 3 + 1)}}. {chip[1]}')
 
         try:
-            chip_idx = int(input(f"\n{'>>>':>{int(term_width / 3) + 2}} ")) - 1
+            chip_idx = int(input(f"\n{'>>>':>{int(term_width / 3) + 3}} ")) - 1
             if chip_idx < 0 or chip_idx > len(available_chips) - 1:
                 raise IndexError('Wrong command. Command not found.\n')
         except ValueError:
