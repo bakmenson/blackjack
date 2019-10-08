@@ -52,30 +52,22 @@ def print_player_cards(cards, term_width: int) -> None:
 
 
 def make_bet(
-        chips: Tuple[int, ...], money: Union[int, float], term_width: int
+        available_chips: Tuple[Union[int, float], ...],
+        term_width: int
 ) -> Union[int, float]:
+    """
+    Function returns selected chip
+    """
     chip_idx: int = 0
-    available_chips: Tuple[Union[int, float], ...] = tuple(
-        c for c in chips if money >= c
-    )
-    available_chips += (money,)
 
     while True:
-        for chip in enumerate(available_chips, start=1):
-            if chip[0] == len(available_chips):
-                print(
-                    f'{chip[0]:>{int(term_width / 3 + 1)}}. All-in ({chip[1]})'
-                )
-                break
-            print(f'{chip[0]:>{int(term_width / 3 + 1)}}. {chip[1]}')
-
         try:
             chip_idx = int(input(f"\n{'>>>':>{int(term_width / 3) + 3}} ")) - 1
             if chip_idx < 0 or chip_idx > len(available_chips) - 1:
-                raise IndexError('Wrong command. Command not found.\n')
+                raise IndexError('Wrong command. Command not found.')
         except ValueError:
             print(f"{'':^{int(term_width / 2) - 16}}"
-                  f"Wrong command. Select chip number.\n")
+                  f"Wrong command. Select chip number.")
             continue
         except IndexError as e:
             print(f"{'':^{int(term_width / 2) - 17}}", e)
