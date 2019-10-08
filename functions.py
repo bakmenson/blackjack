@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Tuple, Any
+from typing import Tuple, Any, List, Union
 
 
 def separator(term_width: int) -> None:
@@ -51,15 +51,21 @@ def print_player_cards(cards, term_width: int) -> None:
     print()
 
 
-def make_bet(chips: Tuple[int, ...], money: int, term_width: int) -> int:
+def make_bet(
+        chips: Tuple[int, ...], money: Union[int, float], term_width: int
+) -> Union[int, float]:
     chip_idx: int = 0
-    available_chips: Tuple[int, ...] = tuple(c for c in chips if money >= c)
+    available_chips: Tuple[Union[int, float], ...] = tuple(
+        c for c in chips if money >= c
+    )
     available_chips += (money,)
 
     while True:
         for chip in enumerate(available_chips, start=1):
             if chip[0] == len(available_chips):
-                print(f'{chip[0]:>{int(term_width / 3 + 1)}}. All-in ({chip[1]})')
+                print(
+                    f'{chip[0]:>{int(term_width / 3 + 1)}}. All-in ({chip[1]})'
+                )
                 break
             print(f'{chip[0]:>{int(term_width / 3 + 1)}}. {chip[1]}')
 
@@ -108,16 +114,40 @@ def is_continue(question: str, term_width: int) -> bool:
     return True if answer == 'y' else False
 
 
-def print_actions(score: int, cards: Tuple, term_width: int) -> None:
+def get_actions(
+        score: int,
+        cards: Tuple,
+        money: Union[int, float],
+        bet: Union[int, float],
+        double_count: int
+) -> List:
+    """Function returns list of the actions."""
     split = True if (len(cards) == 2) and (cards[0][1] == cards[1][1]) \
         else False
 
     actions_list = ['Hit', 'Stay', 'Surrender']
 
-    if score >= 10:
+    if score >= 10 and money >= bet * 2 and not double_count:
         actions_list.insert(2, 'Double down')
     if split:
         actions_list.insert(-1, 'Split')
 
-    for number, action in enumerate(actions_list, start=1):
-        print(f"{'':>{int(term_width / 3)}}{number}. {action}")
+    return actions_list
+
+
+def choose_action(actions: List, term_width: int) -> str:
+    """Function returns the number of the selected action."""
+    action_num: int = 0
+    while True:
+        try:
+            action_num = int(input(f"{'':>{int(term_width / 3)}}>>> "))
+            if action_num <= 0 or action_num > len(actions):
+                raise IndexError
+        except ValueError:
+            print(f"{'':>{int(term_width / 3)}}Wrong command.")
+            continue
+        except IndexError:
+            print(f"{'':>{int(term_width / 3)}}Wrong command.")
+            continue
+        break
+    return actions[action_num - 1]
