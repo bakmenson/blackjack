@@ -1,5 +1,5 @@
 from typing import Tuple
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass
@@ -13,8 +13,11 @@ class Player:
     def get_scores(self) -> int:
         return sum((num[0] for num in self.cards))
 
-    def add_card(self, card: Tuple[Tuple[int, str, str], ...]) -> None:
+    def add_card(self, card: Tuple[Tuple[int, str, str], ...]) -> \
+            Tuple[Tuple[int, str, str], ...]:
         self.cards += (*card,)
+        return self.cards
 
-    def remove_cards(self) -> None:
+    def remove_cards(self) -> Tuple:
         self.cards = tuple()
+        return self.cards
