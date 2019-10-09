@@ -34,13 +34,13 @@ player = Player()
 system(clear)
 separator(term_width)
 
+# print('\x1b[10A')
 # print('\x1b[10B')
 
 money: Union[int, float] = input_money(term_width)
 
 bet: Union[int, float] = 0
 insurance: Union[int, float] = 0
-double_count: int = 0
 
 # game
 while True:
@@ -49,6 +49,7 @@ while True:
     player.add_card(deck.get_card(2))
 
     bets: Tuple[Union[int, float], ...] = ()
+    double_down_count: int = 0
 
     # make a bet
     while True:
@@ -91,18 +92,18 @@ while True:
     while True:
         print_player_cards(form_cards(player.get_cards()), term_width)
         print(f"{'':>{int(term_width / 3)}}Score: {player.get_scores}")
+        print(f"{'':>{int(term_width / 3)}}Bet: {sum_bets}")
+        print(f"{'':>{int(term_width / 3)}}Money: {money}")
+        print()
 
-        # actions(player.get_scores, player.get_cards(), term_width)
+        if player.get_scores >= 21:
+            break
 
-        # if is_continue('Continue', term_width):
-        #     print('\x1b[12A')
-        #     player.add_card(deck.get_card())
-        #     continue
         actions = get_actions(
             player.get_scores,
             player.get_cards(),
             money, sum_bets,
-            double_count
+            double_down_count
         )
 
         # output actions list
@@ -116,12 +117,15 @@ while True:
             continue
         elif choice == 'Surrender':
             money += sum_bets / 2
+            print(f"{'':>{int(term_width / 3)}}Money: {money}")
             break
         elif choice == 'Double down':
-            double_count += 1
+            # player can choice double down one time per game
+            double_down_count += 1
+
             player.add_card(deck.get_card())
-            sum_bets *= 2
             money -= sum_bets
+            sum_bets *= 2
             continue
         elif choice == 'Split':
             pass
