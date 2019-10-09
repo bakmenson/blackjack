@@ -125,7 +125,7 @@ def get_actions(
 
 
 def choose_action(actions: List, term_width: int) -> str:
-    """Function returns the number of the selected action."""
+    """Function returns selected action."""
     action_num: int = 0
     while True:
         try:
