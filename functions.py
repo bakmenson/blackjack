@@ -114,14 +114,11 @@ def get_actions(
         double_count: int
 ) -> List:
     """Function returns list of the actions."""
-    split = True if (len(cards) == 2) and (cards[0][1] == cards[1][1]) \
-        else False
-
     actions_list = ['Hit', 'Stay', 'Surrender']
 
     if score >= 10 and money >= bet * 2 and not double_count:
         actions_list.insert(2, 'Double down')
-    if split:
+    if len(cards) == 2 and cards[0][1] == cards[1][1]:
         actions_list.insert(-1, 'Split')
 
     return actions_list

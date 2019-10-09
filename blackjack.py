@@ -44,8 +44,9 @@ double_count: int = 0
 
 # game
 while True:
-    player.add_card(deck.get_card(2))
+    # players takes cards
     dealer.add_card(deck.get_card())
+    player.add_card(deck.get_card(2))
 
     bets: Tuple[Union[int, float], ...] = ()
 
