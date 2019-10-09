@@ -28,16 +28,8 @@ cards: Tuple[Any, ...] = tuple(
 )
 
 deck = Deck(cards)
-dealer = Player(deck.get_card())
-player = Player(deck.get_card(2))
-
-actions_dict = {
-    'Hit': '',
-    'Stay': '',
-    'Surrender': '',
-    'Double down': '',
-    'Split': ''
-}
+dealer = Player()
+player = Player()
 
 system(clear)
 separator(term_width)
@@ -52,6 +44,9 @@ double_count: int = 0
 
 # game
 while True:
+    player.add_card(deck.get_card(2))
+    dealer.add_card(deck.get_card())
+
     bets: Tuple[Union[int, float], ...] = ()
 
     # make a bet
@@ -120,15 +115,12 @@ while True:
             continue
         elif choice == 'Surrender':
             money += sum_bets / 2
-            print(money)
             break
         elif choice == 'Double down':
             double_count += 1
             player.add_card(deck.get_card())
             sum_bets *= 2
             money -= sum_bets
-            print(sum_bets)
-            print(money)
             continue
         elif choice == 'Split':
             pass
@@ -141,6 +133,5 @@ while True:
     separator(term_width)
     if money and is_continue('Continue the game', term_width):
         player.remove_cards(), dealer.remove_cards()
-        player.add_card(deck.get_card(2)), dealer.add_card(deck.get_card())
         continue
     break
