@@ -28,8 +28,8 @@ cards: Tuple[Any, ...] = tuple(
 )
 
 deck = Deck(cards)
-dealer = Player()
-player = Player()
+dealer = Player('dealer')
+player = Player('player')
 
 system(clear)
 separator(term_width)
@@ -83,12 +83,12 @@ while True:
 
     # print dealer cards
     system(clear)
-    title('Dealer Cards', term_width)
+    title(dealer.name, term_width)
     print_player_cards(form_cards(dealer.get_cards()), term_width)
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
     # print player cards
-    title('Your Cards', term_width)
+    title(player.name, term_width)
     while True:
         print_player_cards(form_cards(player.get_cards()), term_width)
         print(f"{'':>{int(term_width / 3)}}Score: {player.get_scores}")

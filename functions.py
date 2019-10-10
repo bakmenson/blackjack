@@ -7,6 +7,7 @@ def separator(term_width: int) -> None:
 
 
 def title(name: str, term_width: int) -> None:
+    name += ' cards'
     len_title: int = ((int(term_width / 2) - int((len(name) / 2) + 1))
                       + (int(term_width / 2) - int((len(name) / 2) + 1))
                       + len(name)) + 2
@@ -14,7 +15,7 @@ def title(name: str, term_width: int) -> None:
     end_sep_count: int = 2 if (len_title > term_width) else 1 \
         if (len_title == term_width) else 0
 
-    print('-' * (int(term_width / 2) - int((len(name) / 2) + 1)), name,
+    print('-' * (int(term_width / 2) - int((len(name) / 2) + 1)), name.title(),
           '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep_count))
           + '\n')
 

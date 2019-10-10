@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Player:
+    name: str = 'unknown player'
     cards: Tuple[Tuple[int, str, str], ...] = field(default_factory=tuple)
 
     def add_card(self, card: Tuple[Tuple[int, str, str], ...]) -> \
