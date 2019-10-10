@@ -153,23 +153,22 @@ while True:
     separator(term_width)
     # show game result if was not split
     if player.get_scores > 21 < dealer.get_scores:
-        print(f"{'':>{int(term_width / 3)}}Draw.")
+        print(f"{'':>{int(term_width / 3)}}Draw.\n")
 
     elif 21 > player.get_scores == dealer.get_scores:
-        print(f"{'':>{int(term_width / 3)}}Draw.")
+        print(f"{'':>{int(term_width / 3)}}Draw.\n")
 
     elif player.get_scores < 21 < dealer.get_scores \
             or player.get_scores == 21 < dealer.get_scores \
             or player.get_scores == 21 > dealer.get_scores:
-        print(f"{'':>{int(term_width / 3)}}Player win!")
+        print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} win!\n")
 
     elif 21 > player.get_scores > dealer.get_scores:
-        print(f"{'':>{int(term_width / 3)}}Player win!")
+        print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} win!\n")
 
     else:
-        print(f"{'':>{int(term_width / 3)}}Dealer win!")
+        print(f"{'':>{int(term_width / 3)}}{dealer.get_name().title()} win.\n")
 
-    separator(term_width)
     if money and is_continue('Continue the game', term_width):
         player.remove_cards(), dealer.remove_cards()
         continue
