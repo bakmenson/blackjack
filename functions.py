@@ -141,3 +141,15 @@ def choose_action(actions: List, term_width: int) -> str:
             continue
         break
     return actions[action_num - 1]
+
+
+def print_player_info(
+        score: int,
+        bet: Union[int, float],
+        money: Union[int, float],
+        term_width: int
+) -> None:
+    print(f"{'':>{int(term_width / 3)}}Score: {score}")
+    print(f"{'':>{int(term_width / 3)}}Bet: {bet}")
+    print(f"{'':>{int(term_width / 3)}}Money: {money}")
+    print()

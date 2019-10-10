@@ -3,7 +3,8 @@ from os import get_terminal_size, system, name
 from deck import Deck
 from player import Player
 from functions import form_cards, title, make_bet, separator, \
-    input_money, is_continue, print_player_cards, get_actions, choose_action
+    input_money, is_continue, print_player_cards, get_actions, choose_action, \
+    print_player_info
 
 term_width: int = get_terminal_size()[0]
 clear: str = 'cls' if name == 'nt' else 'clear'
@@ -91,10 +92,7 @@ while True:
     title(player.name, term_width)
     while True:
         print_player_cards(form_cards(player.get_cards()), term_width)
-        print(f"{'':>{int(term_width / 3)}}Score: {player.get_scores}")
-        print(f"{'':>{int(term_width / 3)}}Bet: {sum_bets}")
-        print(f"{'':>{int(term_width / 3)}}Money: {money}")
-        print()
+        print_player_info(player.get_scores, sum_bets, money, term_width)
 
         if player.get_scores >= 21:
             break
@@ -134,6 +132,18 @@ while True:
 
         # print('\x1b[12A')
         break
+
+    while dealer.get_scores < 17:
+        dealer.add_card(deck.get_card())
+
+    system(clear)
+    title(player.name, term_width)
+    print_player_cards(form_cards(player.get_cards()), term_width)
+    print_player_info(player.get_scores, sum_bets, money, term_width)
+
+    title(dealer.name, term_width)
+    print_player_cards(form_cards(dealer.get_cards()), term_width)
+    print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
     separator(term_width)
     if money and is_continue('Continue the game', term_width):
