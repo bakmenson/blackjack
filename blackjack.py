@@ -84,12 +84,13 @@ while True:
 
     # print dealer cards
     system(clear)
-    title(dealer.name, term_width)
+    print()
+    title(dealer.get_name(), term_width)
     print_player_cards(form_cards(dealer.get_cards()), term_width)
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
     # print player cards
-    title(player.name, term_width)
+    title(player.get_name(), term_width)
     while True:
         print_player_cards(form_cards(player.get_cards()), term_width)
         print_player_info(player.get_scores, sum_bets, money, term_width)
@@ -137,11 +138,12 @@ while True:
         dealer.add_card(deck.get_card())
 
     system(clear)
-    title(player.name, term_width)
+    print()
+    title(player.get_name(), term_width)
     print_player_cards(form_cards(player.get_cards()), term_width)
     print_player_info(player.get_scores, sum_bets, money, term_width)
 
-    title(dealer.name, term_width)
+    title(dealer.get_name(), term_width)
     print_player_cards(form_cards(dealer.get_cards()), term_width)
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 

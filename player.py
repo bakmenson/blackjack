@@ -22,3 +22,6 @@ class Player:
     def remove_cards(self) -> Tuple:
         self.cards = tuple()
         return self.cards
+
+    def get_name(self) -> str:
+        return self.name
