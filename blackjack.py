@@ -134,18 +134,40 @@ while True:
         # print('\x1b[12A')
         break
 
+    # dealer must taking cards until 17 score
     while dealer.get_scores < 17:
         dealer.add_card(deck.get_card())
 
+    # print players cards and scores
     system(clear)
     print()
-    title(player.get_name(), term_width)
-    print_player_cards(form_cards(player.get_cards()), term_width)
-    print_player_info(player.get_scores, sum_bets, money, term_width)
 
     title(dealer.get_name(), term_width)
     print_player_cards(form_cards(dealer.get_cards()), term_width)
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
+
+    title(player.get_name(), term_width)
+    print_player_cards(form_cards(player.get_cards()), term_width)
+    print_player_info(player.get_scores, sum_bets, money, term_width)
+
+    separator(term_width)
+    # show game result if was not split
+    if player.get_scores > 21 < dealer.get_scores:
+        print(f"{'':>{int(term_width / 3)}}Draw.")
+
+    elif 21 > player.get_scores == dealer.get_scores:
+        print(f"{'':>{int(term_width / 3)}}Draw.")
+
+    elif player.get_scores < 21 < dealer.get_scores \
+            or player.get_scores == 21 < dealer.get_scores \
+            or player.get_scores == 21 > dealer.get_scores:
+        print(f"{'':>{int(term_width / 3)}}Player win!")
+
+    elif 21 > player.get_scores > dealer.get_scores:
+        print(f"{'':>{int(term_width / 3)}}Player win!")
+
+    else:
+        print(f"{'':>{int(term_width / 3)}}Dealer win!")
 
     separator(term_width)
     if money and is_continue('Continue the game', term_width):
