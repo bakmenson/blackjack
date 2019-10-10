@@ -152,4 +152,3 @@ def print_player_info(
     print(f"{'':>{int(term_width / 3)}}Score: {score}")
     print(f"{'':>{int(term_width / 3)}}Bet: {bet}")
     print(f"{'':>{int(term_width / 3)}}Money: {money}")
-    print()
