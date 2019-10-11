@@ -17,7 +17,8 @@ card_suits = ('\x1b[0;30;47m' + chr(9824) + '\x1b[0m',
               '\x1b[0;30;47m' + chr(9827) + '\x1b[0m')
 
 face_cards = (
-    (10, 'K'), (11, 'A')
+    (2, '2'), (3, '3'), (4, '4'), (5, '5'), (6, '6'), (7, 7), (8, '8'),
+    (9, '9'), (10, '10'), (10, 'J'), (10, 'Q'), (10, 'K'), (11, 'A')
 )
 
 # get 4 face_cards for each card_suits
@@ -51,6 +52,7 @@ while True:
     bets: Tuple[Union[int, float], ...] = ()
     double_down_count: int = 0
     blackjack: bool = False
+    stop_game: bool = False
 
     # make a bet
     while True:
@@ -98,18 +100,26 @@ while True:
         # check if player has blackjack with 2 cards
         if player.get_scores == 21 and len(player.get_cards()) == 2:
             if dealer.get_scores == 11:
-                q = f"{player.get_name().title()} has blackjack but " \
-                    f"{dealer.get_name().title()} has first card Ace, " \
-                    f"continue (y) or end the game and take the bet back (n)"
+                print(
+                    f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+                    f"has blackjack but {dealer.get_name().title()} "
+                    f"has first card Ace,"
+                )
+                q = f"continue (y) or end the game and take the bet back (n)"
                 if not is_continue(q, term_width):
                     money += sum_bets
-                    blackjack = True
+                    stop_game = True
                     break
             elif dealer.get_scores < 10:
                 money += sum_bets * 1.5
                 break
+            elif dealer.get_scores == 10:
+                break
+            else:
+                blackjack = True
+                break
 
-        if not blackjack:
+        if not blackjack and not stop_game:
             if player.get_scores >= 21:
                 break
 
@@ -151,7 +161,7 @@ while True:
         break
 
     # dealer must taking cards until 17 score
-    if not blackjack:
+    if not blackjack and not stop_game:
         while dealer.get_scores < 17:
             dealer.add_card(deck.get_card())
 
@@ -169,10 +179,15 @@ while True:
 
     separator(term_width)
     # show game result if was not split
-    if blackjack:
-        print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
-              f"take bet back\n")
-        print_player_money(player.get_name().title(), money, term_width)
+    if blackjack or stop_game:
+        if blackjack:
+            print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+                  f"win! Blackjack!\n")
+            print_player_money(player.get_name().title(), money, term_width)
+        if stop_game:
+            print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+                  f"stopped the game and took the bet back.")
+            print_player_money(player.get_name().title(), money, term_width)
 
     elif player.get_scores > 21 < dealer.get_scores \
             or 21 > player.get_scores == dealer.get_scores \
