@@ -157,7 +157,6 @@ while True:
             else:
                 pass
 
-        # print('\x1b[12A')
         break
 
     # dealer must taking cards until 17 score
