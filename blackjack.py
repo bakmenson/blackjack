@@ -17,8 +17,7 @@ card_suits = ('\x1b[0;30;47m' + chr(9824) + '\x1b[0m',
               '\x1b[0;30;47m' + chr(9827) + '\x1b[0m')
 
 face_cards = (
-    (2, '2'), (3, '3'), (4, '4'), (5, '5'), (6, '6'), (7, 7), (8, '8'),
-    (9, '9'), (10, '10'), (10, 'J'), (10, 'Q'), (10, 'K'), (11, 'A')
+    (10, 'K'), (11, 'A')
 )
 
 # get 4 face_cards for each card_suits
@@ -51,6 +50,7 @@ while True:
 
     bets: Tuple[Union[int, float], ...] = ()
     double_down_count: int = 0
+    blackjack: bool = False
 
     # make a bet
     while True:
@@ -95,65 +95,88 @@ while True:
         print_player_cards(form_cards(player.get_cards()), term_width)
         print_player_info(player.get_scores, sum_bets, money, term_width)
 
-        if player.get_scores >= 21:
-            break
+        # check if player has blackjack with 2 cards
+        if player.get_scores == 21 and len(player.get_cards()) == 2:
+            if dealer.get_scores == 11:
+                q = f"{player.get_name().title()} has blackjack but " \
+                    f"{dealer.get_name().title()} has first card Ace, " \
+                    f"continue (y) or end the game and take the bet back (n)"
+                if not is_continue(q, term_width):
+                    money += sum_bets
+                    blackjack = True
+                    break
+            elif dealer.get_scores < 10:
+                money += sum_bets * 1.5
+                break
 
-        actions = get_actions(
-            player.get_scores,
-            player.get_cards(),
-            money, sum_bets,
-            double_down_count
-        )
+        if not blackjack:
+            if player.get_scores >= 21:
+                break
 
-        # output actions list
-        for number, action in enumerate(actions, start=1):
-            print(f"{'':>{int(term_width / 3)}}{number}. {action}")
+            actions = get_actions(
+                player.get_scores,
+                player.get_cards(),
+                money, sum_bets,
+                double_down_count
+            )
 
-        choice = choose_action(actions, term_width)
+            # output actions list
+            for number, action in enumerate(actions, start=1):
+                print(f"{'':>{int(term_width / 3)}}{number}. {action}")
 
-        if choice == 'Hit':
-            player.add_card(deck.get_card())
-            continue
-        elif choice == 'Surrender':
-            money += sum_bets / 2
-            print(f"{'':>{int(term_width / 3)}}Money: {money}")
-            break
-        elif choice == 'Double down':
-            # player can choice double down one time per game
-            double_down_count += 1
+            choice = choose_action(actions, term_width)
 
-            player.add_card(deck.get_card())
-            money -= sum_bets
-            sum_bets *= 2
-            continue
-        elif choice == 'Split':
-            pass
-        else:
-            pass
+            if choice == 'Hit':
+                player.add_card(deck.get_card())
+                continue
+            elif choice == 'Surrender':
+                # TODO: to do surrender work correctly
+                money += sum_bets / 2
+                print(f"{'':>{int(term_width / 3)}}Money: {money}")
+                break
+            elif choice == 'Double down':
+                # player can choice double down one time per game
+                double_down_count += 1
+
+                player.add_card(deck.get_card())
+                money -= sum_bets
+                sum_bets *= 2
+                continue
+            elif choice == 'Split':
+                pass
+            else:
+                pass
 
         # print('\x1b[12A')
         break
 
     # dealer must taking cards until 17 score
-    while dealer.get_scores < 17:
-        dealer.add_card(deck.get_card())
+    if not blackjack:
+        while dealer.get_scores < 17:
+            dealer.add_card(deck.get_card())
 
-    # print players cards and scores
-    system(clear)
-    print()
+        # print players cards and scores
+        system(clear)
+        print()
 
-    title(dealer.get_name(), term_width)
-    print_player_cards(form_cards(dealer.get_cards()), term_width)
-    print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
+        title(dealer.get_name(), term_width)
+        print_player_cards(form_cards(dealer.get_cards()), term_width)
+        print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
-    title(player.get_name(), term_width)
-    print_player_cards(form_cards(player.get_cards()), term_width)
-    print_player_info(player.get_scores, sum_bets, money, term_width)
+        title(player.get_name(), term_width)
+        print_player_cards(form_cards(player.get_cards()), term_width)
+        print_player_info(player.get_scores, sum_bets, money, term_width)
 
     separator(term_width)
     # show game result if was not split
-    if player.get_scores > 21 < dealer.get_scores \
-            or 21 > player.get_scores == dealer.get_scores:
+    if blackjack:
+        print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+              f"take bet back\n")
+        print_player_money(player.get_name().title(), money, term_width)
+
+    elif player.get_scores > 21 < dealer.get_scores \
+            or 21 > player.get_scores == dealer.get_scores \
+            or player.get_scores == 21 == dealer.get_scores:
         money += sum_bets
         print(f"{'':>{int(term_width / 3)}}Draw.\n")
         print_player_money(player.get_name().title(), money, term_width)
