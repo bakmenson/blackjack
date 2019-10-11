@@ -4,7 +4,7 @@ from deck import Deck
 from player import Player
 from functions import form_cards, title, make_bet, separator, \
     input_money, is_continue, print_player_cards, get_actions, choose_action, \
-    print_player_info
+    print_player_info, print_player_money
 
 term_width: int = get_terminal_size()[0]
 clear: str = 'cls' if name == 'nt' else 'clear'
@@ -152,22 +152,27 @@ while True:
 
     separator(term_width)
     # show game result if was not split
-    if player.get_scores > 21 < dealer.get_scores:
+    if player.get_scores > 21 < dealer.get_scores \
+            or 21 > player.get_scores == dealer.get_scores:
+        money += sum_bets
         print(f"{'':>{int(term_width / 3)}}Draw.\n")
-
-    elif 21 > player.get_scores == dealer.get_scores:
-        print(f"{'':>{int(term_width / 3)}}Draw.\n")
+        print_player_money(player.get_name().title(), money, term_width)
 
     elif player.get_scores < 21 < dealer.get_scores \
             or player.get_scores == 21 < dealer.get_scores \
             or player.get_scores == 21 > dealer.get_scores:
+        money += sum_bets * 1.5
         print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} win!\n")
+        print_player_money(player.get_name().title(), money, term_width)
 
     elif 21 > player.get_scores > dealer.get_scores:
+        money += sum_bets * 1.5
         print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} win!\n")
+        print_player_money(player.get_name().title(), money, term_width)
 
     else:
         print(f"{'':>{int(term_width / 3)}}{dealer.get_name().title()} win.\n")
+        print_player_money(player.get_name().title(), money, term_width)
 
     if money and is_continue('Continue the game', term_width):
         player.remove_cards(), dealer.remove_cards()
