@@ -126,11 +126,9 @@ while True:
                     break
             elif dealer.get_scores < 10:
                 money += sum_bets * 1.5
-                break
-            elif dealer.get_scores == 10:
+                blackjack = True
                 break
             else:
-                blackjack = True
                 break
 
         if not blackjack and not stop_game:
