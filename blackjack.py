@@ -178,7 +178,7 @@ while True:
             or 21 > player.get_scores == dealer.get_scores \
             or player.get_scores == 21 == dealer.get_scores:
         money += sum_bets
-        print(f"{'':>{int(term_width / 3)}}Draw.\n")
+        print(f"{'':>{int(term_width / 3)}}Push.\n")
         print_player_money(player.get_name().title(), money, term_width)
 
     elif player.get_scores < 21 < dealer.get_scores \
