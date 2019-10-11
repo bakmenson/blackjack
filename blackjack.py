@@ -28,11 +28,25 @@ cards: Tuple[Any, ...] = tuple(
     for i in card
 )
 
+system(clear)
+separator(term_width)
+player_name = str()
+while True:
+    try:
+        player_name = input(f"{'':>{int(term_width / 2 - 14)}}"
+                            f"Enter your name >>> ")
+        if not player_name or player_name == ' ' or player_name.isdigit() \
+                or player_name[0].isdigit():
+            raise ValueError
+    except ValueError:
+        print(f"{'':>{int(term_width / 2 - 14)}}Incorrect player name")
+        continue
+    break
+
 deck = Deck(cards)
 dealer = Player('dealer')
-player = Player('player')
+player = Player(player_name)
 
-system(clear)
 separator(term_width)
 
 # print('\x1b[10A')
