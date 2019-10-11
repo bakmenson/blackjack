@@ -159,4 +159,4 @@ def print_player_money(
         money: Union[int, float],
         term_width: int
 ) -> None:
-    print(f"{'':>{int(term_width / 3)}}"f"{name} money: {money}")
+    print(f"{'':>{int(term_width / 3)}}{name}'s money: {money}")
