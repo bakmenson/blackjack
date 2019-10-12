@@ -108,19 +108,24 @@ def is_continue(question: str, term_width: int) -> bool:
 
 
 def get_actions(
-        score: int,
-        cards: Tuple,
+        player_score: int,
+        player_cards: Tuple,
+        dealer_score: int,
+        dealer_len_cards: int,
         money: Union[int, float],
         bet: Union[int, float],
-        double_count: int
+        double_count: int,
+        insurance_count: int
 ) -> List:
     """Function returns list of the actions."""
     actions_list = ['Hit', 'Stay', 'Surrender']
 
-    if score >= 10 and money >= bet * 2 and not double_count:
+    if player_score >= 10 and money >= bet * 2 and not double_count:
         actions_list.insert(2, 'Double down')
-    if len(cards) == 2 and cards[0][1] == cards[1][1]:
+    if len(player_cards) == 2 and player_cards[0][1] == player_cards[1][1]:
         actions_list.insert(-1, 'Split')
+    if dealer_score == 11 and dealer_len_cards == 1 and not insurance_count:
+        actions_list.insert(-1, 'Insurance')
 
     return actions_list
 
@@ -147,8 +152,11 @@ def print_player_info(
         score: int,
         bet: Union[int, float],
         money: Union[int, float],
+        insurance: Union[int, float],
         term_width: int
 ) -> None:
     print(f"{'':>{int(term_width / 3)}}Score: {score}")
     print(f"{'':>{int(term_width / 3)}}Bet: {bet}")
-    print(f"{'':>{int(term_width / 3)}}Money: {money}\n")
+    print(f"{'':>{int(term_width / 3)}}Money: {money - insurance}")
+    if insurance:
+        print(f"{'':>{int(term_width / 3)}}Insurance: {insurance}")
