@@ -67,6 +67,7 @@ while True:
     double_down_count: int = 0
     blackjack: bool = False
     stop_game: bool = False
+    surrender: bool = False
 
     # make a bet
     while True:
@@ -152,9 +153,8 @@ while True:
                 player.add_card(deck.get_card())
                 continue
             elif choice == 'Surrender':
-                # TODO: to do surrender work correctly
                 money += sum_bets / 2
-                print(f"{'':>{int(term_width / 3)}}Money: {money}")
+                surrender = True
                 break
             elif choice == 'Double down':
                 # player can choice double down one time per game
@@ -172,7 +172,7 @@ while True:
         break
 
     # dealer must taking cards until 17 score
-    if not blackjack and not stop_game:
+    if not blackjack and not stop_game and not surrender:
         while dealer.get_scores < 17:
             dealer.add_card(deck.get_card())
 
@@ -190,7 +190,7 @@ while True:
 
     separator(term_width)
     # show game result if was not split
-    if blackjack or stop_game:
+    if blackjack or stop_game or surrender:
         if blackjack:
             print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
                   f"win! Blackjack!\n")
@@ -198,6 +198,10 @@ while True:
         if stop_game:
             print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
                   f"stopped the game and took the bet back.")
+            print_player_money(player.get_name().title(), money, term_width)
+        if surrender:
+            print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+                  f"surrendered.")
             print_player_money(player.get_name().title(), money, term_width)
 
     elif player.get_scores > 21 < dealer.get_scores \
