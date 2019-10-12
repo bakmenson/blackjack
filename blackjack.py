@@ -35,8 +35,7 @@ while True:
     try:
         player_name = input(f"{'':>{int(term_width / 2 - 14)}}"
                             f"Enter your name >>> ")
-        if not player_name or player_name == ' ' or player_name.isdigit() \
-                or player_name[0].isdigit():
+        if not player_name or player_name == ' ' or player_name.isdigit():
             raise ValueError
     except ValueError:
         print(f"{'':>{int(term_width / 2 - 14)}}Incorrect player name")
