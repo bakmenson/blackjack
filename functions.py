@@ -152,11 +152,3 @@ def print_player_info(
     print(f"{'':>{int(term_width / 3)}}Score: {score}")
     print(f"{'':>{int(term_width / 3)}}Bet: {bet}")
     print(f"{'':>{int(term_width / 3)}}Money: {money}\n")
-
-
-def print_player_money(
-        name: str,
-        money: Union[int, float],
-        term_width: int
-) -> None:
-    print(f"{'':>{int(term_width / 3)}}{name}'s money: {money}")

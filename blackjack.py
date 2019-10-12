@@ -4,7 +4,7 @@ from deck import Deck
 from player import Player
 from functions import form_cards, title, make_bet, separator, \
     input_money, is_continue, print_player_cards, get_actions, choose_action, \
-    print_player_info, print_player_money
+    print_player_info
 
 term_width: int = get_terminal_size()[0]
 clear: str = 'cls' if name == 'nt' else 'clear'
@@ -194,38 +194,37 @@ while True:
         if blackjack:
             print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
                   f"win! Blackjack!\n")
-            print_player_money(player.get_name().title(), money, term_width)
         if stop_game:
             print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
                   f"stopped the game and took the bet back.")
-            print_player_money(player.get_name().title(), money, term_width)
         if surrender:
             print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
                   f"surrendered.")
-            print_player_money(player.get_name().title(), money, term_width)
 
     elif player.get_scores > 21 < dealer.get_scores \
             or 21 > player.get_scores == dealer.get_scores \
             or player.get_scores == 21 == dealer.get_scores:
         money += sum_bets
         print(f"{'':>{int(term_width / 3)}}Push.\n")
-        print_player_money(player.get_name().title(), money, term_width)
 
     elif player.get_scores < 21 < dealer.get_scores \
             or player.get_scores == 21 < dealer.get_scores \
             or player.get_scores == 21 > dealer.get_scores:
         money += sum_bets * 1.5
         print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} win!\n")
-        print_player_money(player.get_name().title(), money, term_width)
 
     elif 21 > player.get_scores > dealer.get_scores:
         money += sum_bets * 1.5
         print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} win!\n")
-        print_player_money(player.get_name().title(), money, term_width)
 
     else:
         print(f"{'':>{int(term_width / 3)}}{dealer.get_name().title()} win.\n")
-        print_player_money(player.get_name().title(), money, term_width)
+
+    # print player money after the game
+    print(
+        f"{'':>{int(term_width / 3)}}{player.get_name().title()}'s money: "
+        f"{money}"
+    )
 
     if money and is_continue('Continue the game', term_width):
         player.remove_cards(), dealer.remove_cards()
