@@ -35,12 +35,12 @@ def title(player_name: str) -> None:
     )
 
 
-def form_cards(player_cards: Tuple) -> Tuple[Any, ...]:
+def form_cards(player_cards: List) -> List[Any]:
     """Function forms player cards for print() in terminal"""
     cards = tuple((i[1], i[2], i[1]) for i in player_cards)
-    result: Tuple = tuple()
+    result: List = list()
     for n, i in enumerate(cards):
-        result += (
+        result.append(
             (f"{chr(9616)}\033[0;30;47m{cards[n][0]:<2}\033[0m"
              + f"{chr(9608)}" * 7 + f"{chr(9612)}",
              f"{chr(9616)}" + f"{chr(9608)}" * 9 + f"{chr(9612)}",
@@ -123,7 +123,7 @@ def is_continue(question: str) -> bool:
 
 def get_actions(
         player_score: int,
-        player_cards: Tuple,
+        player_cards: List,
         dealer_score: int,
         dealer_len_cards: int,
         money: Union[int, float],

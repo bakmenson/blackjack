@@ -9,4 +9,4 @@ class Deck:
 
     def get_card(self, num: int = 1) -> List[Tuple[int, str, str]]:
         """Method return 1 (default) or num cards from deck of cards"""
-        return list(sample(self._deck, num))
+        return sample(self._deck, num)
