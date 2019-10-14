@@ -101,12 +101,12 @@ while True:
     # print dealer cards
     system(clear)
     print()
-    title(dealer.get_name(), term_width)
+    title(dealer.get_name, term_width)
     print_player_cards(form_cards(dealer.get_cards()), term_width)
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
     # print player cards
-    title(player.get_name(), term_width)
+    title(player.get_name, term_width)
     while True:
         print_player_cards(form_cards(player.get_cards()), term_width)
 
@@ -122,8 +122,8 @@ while True:
         if player.get_scores == 21 and len(player.get_cards()) == 2:
             if dealer.get_scores == 11:
                 print(
-                    f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
-                    f"has blackjack but {dealer.get_name().title()} "
+                    f"{'':>{int(term_width / 3)}}{player.get_name.title()} "
+                    f"has blackjack but {dealer.get_name.title()} "
                     f"has first card Ace,"
                 )
                 q = f"continue (y) or end the game and take the bet back (n)"
@@ -196,11 +196,11 @@ while True:
         system(clear)
         print()
 
-        title(dealer.get_name(), term_width)
+        title(dealer.get_name, term_width)
         print_player_cards(form_cards(dealer.get_cards()), term_width)
         print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
-        title(player.get_name(), term_width)
+        title(player.get_name, term_width)
         print_player_cards(form_cards(player.get_cards()), term_width)
 
         print_player_info(
@@ -215,13 +215,13 @@ while True:
     # show game result if was not split
     if blackjack or stop_game or surrender:
         if blackjack:
-            print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+            print(f"{'':>{int(term_width / 3)}}{player.get_name.title()} "
                   f"win! Blackjack!\n")
         if stop_game:
-            print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+            print(f"{'':>{int(term_width / 3)}}{player.get_name.title()} "
                   f"stopped the game and took the bet back.")
         if surrender:
-            print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+            print(f"{'':>{int(term_width / 3)}}{player.get_name.title()} "
                   f"surrendered.")
 
     elif player.get_scores > 21 < dealer.get_scores \
@@ -229,15 +229,13 @@ while True:
             or player.get_scores == 21 == dealer.get_scores:
         money += sum_bets
         print(f"{'':>{int(term_width / 3)}}Push.\n")
-        if insurance:
-            print(f"{'':>{int(term_width / 3)}}Lost insurance")
 
     elif player.get_scores < 21 < dealer.get_scores \
             or player.get_scores == 21 < dealer.get_scores \
             or player.get_scores == 21 > dealer.get_scores \
             or 21 > player.get_scores > dealer.get_scores:
         money += sum_bets * 1.5
-        print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} win!\n")
+        print(f"{'':>{int(term_width / 3)}}{player.get_name.title()} win!\n")
         if insurance:
             money -= insurance
             print(f"{'':>{int(term_width / 3)}}Lost insurance")
@@ -245,14 +243,14 @@ while True:
     else:
         if dealer.get_scores == 21 != player.get_scores \
                 and len(dealer.get_cards()) == 2 and insurance_count:
-            print(f"{'':>{int(term_width / 3)}}{player.get_name().title()} "
+            print(f"{'':>{int(term_width / 3)}}{player.get_name.title()} "
                   f"received insurance.\n")
             money += insurance * 2
-        print(f"{'':>{int(term_width / 3)}}{dealer.get_name().title()} win.\n")
+        print(f"{'':>{int(term_width / 3)}}{dealer.get_name.title()} win.\n")
 
     # print player money after the game
     print(
-        f"{'':>{int(term_width / 3)}}{player.get_name().title()}'s money: "
+        f"{'':>{int(term_width / 3)}}{player.get_name.title()}'s money: "
         f"{money}"
     )
 

@@ -23,5 +23,6 @@ class Player:
         self._cards = tuple()
         return self._cards
 
+    @property
     def get_name(self) -> str:
         return self._name
