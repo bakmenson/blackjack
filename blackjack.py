@@ -13,7 +13,7 @@ card_suits = ('\x1b[0;30;47m' + chr(9824) + '\x1b[0m',
               '\x1b[0;30;47m' + chr(9827) + '\x1b[0m')
 
 card_faces = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
-card_values = [*[_ for _ in range(2, 10)], *[10 for _ in range(4)], 11]
+card_values = (*(_ for _ in range(2, 10)), *(10 for _ in range(4)), 11)
 
 # get 4 face_cards for each card_suits
 cards: Tuple[Any, ...] = tuple(
