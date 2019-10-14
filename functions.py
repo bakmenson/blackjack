@@ -6,21 +6,26 @@ term_width: int = get_terminal_size()[0]
 
 
 def clear() -> None:
+    """Function clear terminal window"""
     system('cls' if name == 'nt' else 'clear')
 
 
 def separator() -> None:
+    """Function print separator"""
     print('\n' + '-' * term_width)
 
 
 def title(player_name: str) -> None:
+    """Function print separator with player title"""
     player_name += ' cards'
-    len_title: int = ((int(term_width / 2) - int((len(player_name) / 2) + 1))
-                      + (int(term_width / 2) - int((len(player_name) / 2) + 1))
-                      + len(player_name)) + 2
+    len_title_line: int = (
+        (int(term_width / 2) - int((len(player_name) / 2) + 1))
+        + (int(term_width / 2) - int((len(player_name) / 2) + 1))
+        + len(player_name)
+    ) + 2
 
-    end_sep_count: int = 2 if (len_title > term_width) else 1 \
-        if (len_title == term_width) else 0
+    end_sep_count: int = 2 if (len_title_line > term_width) else 1 \
+        if (len_title_line == term_width) else 0
 
     print(
         '-' * (int(term_width / 2) - int((len(player_name) / 2) + 1)),
@@ -73,7 +78,7 @@ def make_bet(
     while True:
         try:
             chip_idx = int(
-                input(f"\n{'>>>':>{int(term_width / 3)+ 3}} ")
+                input(f"\n{'>>> ':>{int(term_width / 3) + 3}}")
             ) - 1
             if chip_idx < 0 or chip_idx > len(available_chips) - 1:
                 raise IndexError('Wrong command. Command not found.')
@@ -94,16 +99,11 @@ def input_money() -> int:
     input_text = 'Input amount of your money: '
     while True:
         try:
-            money = int(
-                input(
-                    f"{input_text:>{int(term_width / 2) + 14}}"
-                )
-            )
+            money = int(input(f"{input_text:>{int(term_width / 2) + 14}}"))
             if money <= 0:
                 raise ValueError
         except ValueError:
-            print(f"{'':^{int(term_width / 2) - 14}}"
-                  f"Invalid amount of money.")
+            print(f"{'':^{int(term_width / 2) - 14}}Invalid amount of money.")
             continue
         break
     return money
@@ -149,9 +149,7 @@ def choose_action(actions: List) -> str:
     action_num: int = 0
     while True:
         try:
-            action_num = int(
-                input(f"{'':>{int(term_width / 3)}}>>> ")
-            )
+            action_num = int(input(f"{'':>{int(term_width / 3)}}>>> "))
             if action_num <= 0 or action_num > len(actions):
                 raise IndexError
         except ValueError:
