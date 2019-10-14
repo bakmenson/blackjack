@@ -1,23 +1,33 @@
 from __future__ import annotations
 from typing import Tuple, Any, List, Union
+from os import get_terminal_size, system, name
+
+term_width: int = get_terminal_size()[0]
 
 
-def separator(term_width: int) -> None:
+def clear() -> None:
+    system('cls' if name == 'nt' else 'clear')
+
+
+def separator() -> None:
     print('\n' + '-' * term_width)
 
 
-def title(name: str, term_width: int) -> None:
-    name += ' cards'
-    len_title: int = ((int(term_width / 2) - int((len(name) / 2) + 1))
-                      + (int(term_width / 2) - int((len(name) / 2) + 1))
-                      + len(name)) + 2
+def title(player_name: str) -> None:
+    player_name += ' cards'
+    len_title: int = ((int(term_width / 2) - int((len(player_name) / 2) + 1))
+                      + (int(term_width / 2) - int((len(player_name) / 2) + 1))
+                      + len(player_name)) + 2
 
     end_sep_count: int = 2 if (len_title > term_width) else 1 \
         if (len_title == term_width) else 0
 
-    print('-' * (int(term_width / 2) - int((len(name) / 2) + 1)), name.title(),
-          '-' * (int(term_width / 2) - int((len(name) / 2) + end_sep_count))
-          + '\n')
+    print(
+        '-' * (int(term_width / 2) - int((len(player_name) / 2) + 1)),
+        player_name.title(),
+        '-' * (int(term_width / 2) - int((len(player_name) / 2)
+                                         + end_sep_count)) + '\n'
+    )
 
 
 def form_cards(player_cards: Tuple) -> Tuple[Any, ...]:
@@ -41,7 +51,7 @@ def form_cards(player_cards: Tuple) -> Tuple[Any, ...]:
     return result
 
 
-def print_player_cards(cards, term_width: int) -> None:
+def print_player_cards(cards) -> None:
     """Function prints cards"""
     join_cards = tuple(''.join(i) for i in zip(*cards))
     len_short_str: int = min(len(i) for i in join_cards)
@@ -53,8 +63,7 @@ def print_player_cards(cards, term_width: int) -> None:
 
 
 def make_bet(
-        available_chips: Tuple[Union[int, float], ...],
-        term_width: int
+        available_chips: Tuple[Union[int, float], ...]
 ) -> Union[int, float]:
     """
     Function returns selected chip
@@ -63,7 +72,9 @@ def make_bet(
 
     while True:
         try:
-            chip_idx = int(input(f"\n{'>>>':>{int(term_width / 3) + 3}} ")) - 1
+            chip_idx = int(
+                input(f"\n{'>>>':>{int(term_width / 3)+ 3}} ")
+            ) - 1
             if chip_idx < 0 or chip_idx > len(available_chips) - 1:
                 raise IndexError('Wrong command. Command not found.')
         except ValueError:
@@ -78,13 +89,16 @@ def make_bet(
     return available_chips[chip_idx]
 
 
-def input_money(term_width: int) -> int:
+def input_money() -> int:
     money: int = 0
+    input_text = 'Input amount of your money: '
     while True:
         try:
-            money = int(input(
-                f"{'Input amount of your money: ':>{int(term_width / 2) + 14}}"
-            ))
+            money = int(
+                input(
+                    f"{input_text:>{int(term_width / 2) + 14}}"
+                )
+            )
             if money <= 0:
                 raise ValueError
         except ValueError:
@@ -95,7 +109,7 @@ def input_money(term_width: int) -> int:
     return money
 
 
-def is_continue(question: str, term_width: int) -> bool:
+def is_continue(question: str) -> bool:
     question += '? (y/n) >>> '
     while True:
         answer = input(f"{'':>{int(term_width / 3)}}{question}")
@@ -130,12 +144,14 @@ def get_actions(
     return actions_list
 
 
-def choose_action(actions: List, term_width: int) -> str:
+def choose_action(actions: List) -> str:
     """Function returns selected action."""
     action_num: int = 0
     while True:
         try:
-            action_num = int(input(f"{'':>{int(term_width / 3)}}>>> "))
+            action_num = int(
+                input(f"{'':>{int(term_width / 3)}}>>> ")
+            )
             if action_num <= 0 or action_num > len(actions):
                 raise IndexError
         except ValueError:
@@ -153,7 +169,6 @@ def print_player_info(
         bet: Union[int, float],
         money: Union[int, float],
         insurance: Union[int, float],
-        term_width: int
 ) -> None:
     print(f"{'':>{int(term_width / 3)}}Score: {score}")
     print(f"{'':>{int(term_width / 3)}}Bet: {bet}")

@@ -1,13 +1,9 @@
 from typing import Tuple, Any, Union
-from os import get_terminal_size, system, name
 from deck import Deck
 from player import Player
-from functions import form_cards, title, make_bet, separator, \
+from functions import term_width, form_cards, title, make_bet, separator, \
     input_money, is_continue, print_player_cards, get_actions, choose_action, \
-    print_player_info
-
-term_width: int = get_terminal_size()[0]
-clear: str = 'cls' if name == 'nt' else 'clear'
+    print_player_info, clear
 
 chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
 
@@ -28,8 +24,8 @@ cards: Tuple[Any, ...] = tuple(
     for i in card
 )
 
-system(clear)
-separator(term_width)
+clear()
+separator()
 player_name = str()
 while True:
     try:
@@ -46,12 +42,12 @@ deck = Deck(cards)
 dealer = Player('dealer')
 player = Player(player_name)
 
-separator(term_width)
+separator()
 
 # print('\x1b[10A')
 # print('\x1b[10B')
 
-money: Union[int, float] = input_money(term_width)
+money: Union[int, float] = input_money()
 
 bet: Union[int, float] = 0
 bets: Tuple[Union[int, float], ...] = ()
@@ -70,8 +66,8 @@ while True:
 
     # make a bet
     while True:
-        system(clear)
-        separator(term_width)
+        clear()
+        separator()
 
         available_chips: Tuple[Union[int, float], ...] = tuple(
             chip for chip in chips if money >= chip
@@ -87,35 +83,34 @@ while True:
                 break
             print(f'{number:>{int(term_width / 3 + 1)}}. {chip}')
 
-        bet = make_bet(available_chips, term_width)
+        bet = make_bet(available_chips)
         bets += (bet,)
         money -= bets[-1]
         sum_bets: Union[int, float] = sum(bets)
 
-        separator(term_width)
+        separator()
         print(f"{'':>{int(term_width / 3)}}Your bet: {sum_bets}")
-        if money and is_continue('Add chip', term_width):
+        if money and is_continue('Add chip'):
             continue
         break
 
     # print dealer cards
-    system(clear)
+    clear()
     print()
-    title(dealer.get_name, term_width)
-    print_player_cards(form_cards(dealer.get_cards()), term_width)
+    title(dealer.get_name)
+    print_player_cards(form_cards(dealer.get_cards()))
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
     # print player cards
-    title(player.get_name, term_width)
+    title(player.get_name)
     while True:
-        print_player_cards(form_cards(player.get_cards()), term_width)
+        print_player_cards(form_cards(player.get_cards()))
 
         print_player_info(
             player.get_scores,
             sum_bets,
             money,
-            insurance,
-            term_width
+            insurance
         )
 
         # check if player has blackjack with 2 cards
@@ -127,7 +122,7 @@ while True:
                     f"has first card Ace,"
                 )
                 q = f"continue (y) or end the game and take the bet back (n)"
-                if not is_continue(q, term_width):
+                if not is_continue(q):
                     money += sum_bets
                     stop_game = True
                     break
@@ -158,7 +153,7 @@ while True:
             for number, action in enumerate(actions, start=1):
                 print(f"{'':>{int(term_width / 3)}}{number}. {action}")
 
-            choice = choose_action(actions, term_width)
+            choice = choose_action(actions)
 
             if choice == 'Hit':
                 player.add_card(deck.get_card())
@@ -193,25 +188,24 @@ while True:
             dealer.add_card(deck.get_card())
 
         # print players cards and scores
-        system(clear)
+        clear()
         print()
 
-        title(dealer.get_name, term_width)
-        print_player_cards(form_cards(dealer.get_cards()), term_width)
+        title(dealer.get_name)
+        print_player_cards(form_cards(dealer.get_cards()))
         print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
-        title(player.get_name, term_width)
-        print_player_cards(form_cards(player.get_cards()), term_width)
+        title(player.get_name)
+        print_player_cards(form_cards(player.get_cards()))
 
         print_player_info(
             player.get_scores,
             sum_bets,
             money,
-            insurance,
-            term_width
+            insurance
         )
 
-    separator(term_width)
+    separator()
     # show game result if was not split
     if blackjack or stop_game or surrender:
         if blackjack:
@@ -254,7 +248,7 @@ while True:
         f"{money}"
     )
 
-    if money and is_continue('Continue the game', term_width):
+    if money and is_continue('Continue the game'):
         # set default values if continue the game
         player.remove_cards(), dealer.remove_cards()
         insurance, insurance_count, double_down_count = 0, 0, 0
