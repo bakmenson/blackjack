@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Tuple, Any, List, Union
+from typing import Any, List, Union
 from os import get_terminal_size, system, name
 
 term_width: int = get_terminal_size()[0]
