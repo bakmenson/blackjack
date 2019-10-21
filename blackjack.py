@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from typing import Tuple, Union, List
 from deck import Deck
 from player import Player
 from functions import term_width, form_cards, title, make_bet, separator, \
@@ -30,7 +30,7 @@ separator()
 
 money: Union[int, float] = input_money()
 
-chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
+chips: List[int] = [1, 5, 25, 50, 100, 500, 1000]
 bet: Union[int, float] = 0
 bets: Tuple[Union[int, float], ...] = ()
 insurance: Union[int, float] = 0
@@ -55,10 +55,10 @@ while True:
         clear()
         separator()
 
-        available_chips: Tuple[Union[int, float], ...] = tuple(
+        available_chips: List[Union[int, float]] = [
             chip for chip in chips if money >= chip
-        )
-        available_chips += (money,)
+        ]
+        available_chips.append(money)
 
         print(f"{'Make a bet (select chip number).':^{term_width}}\n")
         for number, chip in enumerate(available_chips, start=1):

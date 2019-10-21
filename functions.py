@@ -68,7 +68,7 @@ def print_player_cards(cards) -> None:
 
 
 def make_bet(
-        available_chips: Tuple[Union[int, float], ...]
+        available_chips: List[Union[int, float], ...]
 ) -> Union[int, float]:
     """
     Function returns selected chip
