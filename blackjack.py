@@ -5,8 +5,6 @@ from functions import term_width, form_cards, title, make_bet, separator, \
     input_money, is_continue, print_player_cards, get_actions, choose_action, \
     print_player_info, clear
 
-chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
-
 clear()
 separator()
 player_name = str()
@@ -32,6 +30,7 @@ separator()
 
 money: Union[int, float] = input_money()
 
+chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
 bet: Union[int, float] = 0
 bets: Tuple[Union[int, float], ...] = ()
 insurance: Union[int, float] = 0
