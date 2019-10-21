@@ -1,4 +1,4 @@
-from typing import Tuple, Any, Union
+from typing import Tuple, Union
 from deck import Deck
 from player import Player
 from functions import term_width, form_cards, title, make_bet, separator, \
@@ -6,22 +6,6 @@ from functions import term_width, form_cards, title, make_bet, separator, \
     print_player_info, clear
 
 chips: Tuple[int, ...] = (1, 5, 25, 50, 100, 500, 1000)
-
-card_suits = ('\x1b[0;30;47m' + chr(9824) + '\x1b[0m',
-              '\x1b[0;31;47m' + chr(9830) + '\x1b[0m',
-              '\x1b[0;31;47m' + chr(9829) + '\x1b[0m',
-              '\x1b[0;30;47m' + chr(9827) + '\x1b[0m')
-
-card_faces = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
-card_values = (*(_ for _ in range(2, 10)), *(10 for _ in range(4)), 11)
-
-# get 4 face_cards for each card_suits
-cards: Tuple[Any, ...] = tuple(
-    (*i[0], i[1]) for card in (
-        zip((_,) * 4, card_suits) for _ in zip(card_values, card_faces)
-    )
-    for i in card
-)
 
 clear()
 separator()
@@ -37,7 +21,7 @@ while True:
         continue
     break
 
-deck = Deck(cards)
+deck = Deck()
 dealer = Player('dealer')
 player = Player(player_name)
 
@@ -62,6 +46,10 @@ while True:
     # players takes cards
     dealer.add_card(deck.get_card())
     player.add_card(deck.get_card(2))
+
+    # split_cards = [_ for _ in map(list, zip(player.get_cards(),
+    #                                         deck.get_card(2)))]
+    # player.get_cards(split_cards)
 
     # make a bet
     while True:
@@ -175,10 +163,9 @@ while True:
                 insurance += sum_bets / 2
                 continue
             elif choice == 'Split':
-                pass
+                break
             else:
                 break
-
         break
 
     # dealer must taking cards until 17 score
