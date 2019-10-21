@@ -18,6 +18,7 @@ class Deck:
     _card_values = (*(_ for _ in range(2, 10)), *(10 for _ in range(4)), 11)
 
     def _get_deck(self) -> Tuple[Any, ...]:
+        """Method returns deck of cards (4 cards for each suit)"""
         return tuple(
             (*i[0], i[1]) for card in (
                 zip((_,) * 4, self._card_suits) for _ in zip(self._card_values,
