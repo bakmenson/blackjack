@@ -1,4 +1,3 @@
-# from __future__ import annotations
 from typing import Any, List, Union
 from os import get_terminal_size, system, name
 
