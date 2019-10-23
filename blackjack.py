@@ -56,9 +56,8 @@ while True:
         separator()
 
         available_chips: List[Union[int, float]] = [
-            chip for chip in chips if money >= chip
+            *(chip for chip in chips if money >= chip), money
         ]
-        available_chips.append(money)
 
         print(f"{'Make a bet (select chip number).':^{term_width}}\n")
         for number, chip in enumerate(available_chips, start=1):
