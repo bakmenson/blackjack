@@ -34,8 +34,8 @@ def title(player_name: str) -> None:
     )
 
 
-def form_cards(player_cards: List) -> List[Any]:
-    """Function forms player cards for print() in terminal"""
+def forming_cards(player_cards: List) -> List[Any]:
+    """Function forming player cards for print() in terminal"""
     cards = tuple((i[1], i[2], i[1]) for i in player_cards)
     result: List = list()
     for n, i in enumerate(cards):
