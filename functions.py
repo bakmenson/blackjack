@@ -56,7 +56,7 @@ def forming_cards(player_cards: List) -> List[Any]:
 
 
 def print_player_cards(cards) -> None:
-    """Function prints cards"""
+    """Function prints formed (forming_cards()) cards"""
     join_cards = tuple(''.join(i) for i in zip(*cards))
     len_short_str: int = min(len(i) for i in join_cards)
     for card in join_cards:
