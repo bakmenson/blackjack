@@ -1,7 +1,7 @@
 from typing import Tuple, Union, List
 from deck import Deck
 from player import Player
-from functions import term_width, form_cards, title, make_bet, separator, \
+from functions import term_width, forming_cards, title, make_bet, separator, \
     input_money, is_continue, print_player_cards, get_actions, choose_action, \
     print_player_info, clear
 
@@ -41,18 +41,16 @@ stop_game: bool = False
 surrender: bool = False
 
 # game
+# TODO: try change while not blackjack and not stop_game and not surrender
 while True:
     # players takes cards
     dealer.add_card(deck.get_card())
     player.add_card(deck.get_card(2))
 
-    # split_cards = [_ for _ in map(list, zip(player.get_cards(),
-    #                                         deck.get_card(2)))]
-    # player.get_cards(split_cards)
-
     # make a bet
     while True:
         clear()
+        print(player.get_cards())
         separator()
 
         available_chips: List[Union[int, float]] = [
@@ -83,14 +81,13 @@ while True:
     clear()
     print()
     title(dealer.get_name)
-    print_player_cards(form_cards(dealer.get_cards()))
+    print_player_cards(forming_cards(dealer.get_cards()))
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
     # print player cards
     title(player.get_name)
     while True:
-        print_player_cards(form_cards(player.get_cards()))
-
+        print_player_cards(forming_cards(player.get_cards()))
         print_player_info(
             player.get_scores,
             sum_bets,
@@ -161,7 +158,7 @@ while True:
                 insurance += sum_bets / 2
                 continue
             elif choice == 'Split':
-                break
+                continue
             else:
                 break
         break
@@ -176,11 +173,11 @@ while True:
         print()
 
         title(dealer.get_name)
-        print_player_cards(form_cards(dealer.get_cards()))
+        print_player_cards(forming_cards(dealer.get_cards()))
         print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_scores}")
 
         title(player.get_name)
-        print_player_cards(form_cards(player.get_cards()))
+        print_player_cards(forming_cards(player.get_cards()))
 
         print_player_info(
             player.get_scores,
