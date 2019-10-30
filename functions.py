@@ -1,4 +1,6 @@
 from typing import Any, List, Union
+
+# TODO: using subprocess instead of os
 from os import get_terminal_size, system, name
 
 term_width: int = get_terminal_size()[0]
