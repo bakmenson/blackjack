@@ -7,11 +7,9 @@ class Player:
     _name: str = 'unknown player'
     _cards: List[Tuple[int, str, str]] = field(default_factory=list)
 
-    def add_card(self, card: List[Tuple[int, str, str]]) -> \
-            List[Tuple[int, str, str]]:
+    def add_card(self, card: List[Tuple[int, str, str]]) -> None:
         """Method add card into player cards"""
         self._cards.extend(card)
-        return self._cards
 
     def get_cards(self) -> List[Tuple[int, str, str]]:
         """Method returns player cards"""
