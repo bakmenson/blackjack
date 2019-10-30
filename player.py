@@ -19,8 +19,18 @@ class Player:
     def get_scores(self) -> int:
         return sum((num[0] for num in self._cards))
 
+    def remove_card(self, card):
+        """Method remove card from player cards"""
+        self._cards.remove(card)
+        return self._cards
+
     def remove_cards(self) -> List:
         self._cards = list()
+        return self._cards
+
+    def insert_card(self, index, card):
+        """Method insert card in player cards into index position"""
+        self._cards.insert(index, card)
         return self._cards
 
     @property
