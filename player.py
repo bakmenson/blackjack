@@ -20,20 +20,17 @@ class Player:
         """Method returns player scores"""
         return sum((num[0] for num in self._cards))
 
-    def remove_card(self, card):
+    def remove_card(self, card) -> None:
         """Method remove card from player cards"""
         self._cards.remove(card)
-        return self._cards
 
-    def remove_cards(self) -> List:
+    def remove_cards(self) -> None:
         """Method remove all player cards"""
         self._cards = list()
-        return self._cards
 
-    def insert_card(self, index, card):
+    def insert_card(self, index, card) -> None:
         """Method insert card in player cards into index position"""
         self._cards.insert(index, card)
-        return self._cards
 
     @property
     def get_name(self) -> str:
