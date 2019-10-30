@@ -9,14 +9,17 @@ class Player:
 
     def add_card(self, card: List[Tuple[int, str, str]]) -> \
             List[Tuple[int, str, str]]:
+        """Method add card into player cards"""
         self._cards.extend(card)
         return self._cards
 
     def get_cards(self) -> List[Tuple[int, str, str]]:
+        """Method returns player cards"""
         return self._cards
 
     @property
     def get_scores(self) -> int:
+        """Method returns player scores"""
         return sum((num[0] for num in self._cards))
 
     def remove_card(self, card):
@@ -25,6 +28,7 @@ class Player:
         return self._cards
 
     def remove_cards(self) -> List:
+        """Method remove all player cards"""
         self._cards = list()
         return self._cards
 
@@ -35,4 +39,5 @@ class Player:
 
     @property
     def get_name(self) -> str:
+        """Method returns player name"""
         return self._name
