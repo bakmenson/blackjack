@@ -15,10 +15,9 @@ class Player:
         """Method returns player cards"""
         return self._cards
 
-    @property
-    def get_scores(self) -> int:
+    def get_scores(self, card) -> int:
         """Method returns player scores"""
-        return sum((num[0] for num in self._cards))
+        return sum((num[0] for num in self._cards[card]))
 
     def remove_card(self, card) -> None:
         """Method remove card from player cards"""
