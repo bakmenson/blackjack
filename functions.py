@@ -1,4 +1,4 @@
-from typing import Any, List, Union
+from typing import Any, List, Union, Tuple
 
 # TODO: using subprocess instead of os
 from os import get_terminal_size, system, name
@@ -6,6 +6,7 @@ from os import get_terminal_size, system, name
 term_width: int = get_terminal_size()[0]
 
 
+# TODO: rename func name
 def clear() -> None:
     """Function clear terminal window"""
     system('cls' if name == 'nt' else 'clear')
@@ -36,7 +37,7 @@ def title(player_name: str) -> None:
     )
 
 
-def forming_cards(player_cards: List) -> List[Any]:
+def forming_cards(player_cards: Tuple) -> List[Any]:
     """Function forming player cards for print() in terminal"""
     cards = tuple((i[1], i[2], i[1]) for i in player_cards)
     result: List = list()
