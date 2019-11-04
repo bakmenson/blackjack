@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import Tuple, List, Union
 from dataclasses import dataclass, field
 
 
@@ -7,29 +7,26 @@ class Player:
     _name: str = 'unknown player'
     _cards: List[Tuple[int, str, str]] = field(default_factory=list)
 
-    def add_card(self, card: List[Tuple[int, str, str]]) -> None:
+    def add_card(
+            self,
+            card: Union[
+                List[Tuple[int, str, str]], List[List[Tuple[int, str, str]]]
+            ],
+            idx=None
+    ) -> None:
         """Method add card into player cards"""
-        self._cards.extend(card)
+        if idx is None:
+            self._cards.extend(card)
+        if idx is not None:
+            self._cards[idx].extend(card)
 
     def get_cards(self) -> List[Tuple[int, str, str]]:
         """Method returns player cards"""
         return self._cards
 
-    def get_score(self, card) -> int:
+    def get_score(self, card_index: int = 0):
         """Method returns player scores"""
-        return sum((num[0] for num in self._cards[card]))
-
-    def remove_card(self, card) -> None:
-        """Method remove card from player cards"""
-        self._cards.remove(card)
-
-    def remove_cards(self) -> None:
-        """Method remove all player cards"""
-        self._cards = list()
-
-    def insert_card(self, index, card) -> None:
-        """Method insert card in player cards into index position"""
-        self._cards.insert(index, card)
+        return sum(num[0] for num in self._cards[card_index])
 
     @property
     def get_name(self) -> str:
