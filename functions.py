@@ -6,8 +6,7 @@ from os import get_terminal_size, system, name
 term_width: int = get_terminal_size()[0]
 
 
-# TODO: rename func name
-def clear() -> None:
+def clear_terminal() -> None:
     """Function clear terminal window"""
     system('cls' if name == 'nt' else 'clear')
 
