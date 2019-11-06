@@ -11,6 +11,7 @@ class Player:
     ] = field(default_factory=list)
 
     def set_cards(self, cards: List[Tuple[int, str, str]]) -> None:
+        """Method gives player cards in start of the game"""
         if len(cards) == 2:
             self._cards = [cards]
         else:
@@ -23,7 +24,7 @@ class Player:
         ],
         idx=None
     ) -> None:
-        """Method add card into player cards"""
+        """Method hit (adds) card into player cards"""
         if idx is None:
             self._cards.extend(card)
         if idx is not None:
