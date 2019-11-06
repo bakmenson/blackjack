@@ -36,7 +36,7 @@ def title(player_name: str) -> None:
     )
 
 
-def forming_cards(player_cards: Tuple) -> List[Any]:
+def forming_cards(player_cards: Union[Tuple, List]) -> List[Any]:
     """Function forming player cards for print() in terminal"""
     cards = tuple((i[1], i[2], i[1]) for i in player_cards)
     result: List = list()
@@ -124,7 +124,7 @@ def is_continue(question: str) -> bool:
 
 def get_actions(
         player_score: int,
-        player_cards: List,
+        player_cards: Tuple,
         dealer_score: int,
         dealer_len_cards: int,
         money: Union[int, float],
