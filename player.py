@@ -48,3 +48,6 @@ class Player:
     def get_name(self) -> str:
         """Method returns player name"""
         return self._name
+
+    def remove_card(self, card) -> None:
+        self._cards.remove(card)
