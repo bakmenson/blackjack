@@ -38,7 +38,7 @@ class Player:
         """Method returns player cards"""
         return self._cards
 
-    def get_score(self, card_index=None):
+    def get_score(self, card_index=None) -> int:
         """Method returns player scores"""
         if card_index is None:
             return sum(num[0] for num in self._cards)
