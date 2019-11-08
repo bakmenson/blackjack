@@ -31,7 +31,10 @@ class Player:
             self._cards[idx].extend(card)
 
     @property
-    def get_cards(self) -> List[Tuple[int, str, str]]:
+    def get_cards(self) -> Union[
+        List[Tuple[int, str, str]],
+        List[List[Tuple[int, str, str]]]
+    ]:
         """Method returns player cards"""
         return self._cards
 
