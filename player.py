@@ -10,9 +10,9 @@ class Player:
     def set_cards(self, cards: List[Tuple[int, str, str]]) -> None:
         """Method gives player cards in start of the game"""
         if len(cards) == 2:
-            self._cards = [cards]
+            self._cards: List[List[Tuple[int, str, str]]] = [cards]
         else:
-            self._cards = cards
+            self._cards: List[Tuple[int, str, str]] = cards
 
     def hit(
         self,
