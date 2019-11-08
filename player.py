@@ -5,10 +5,7 @@ from dataclasses import dataclass, field
 @dataclass
 class Player:
     _name: str = 'unknown player'
-    _cards: Union[
-        List[Tuple[int, str, str]],
-        List[List[Tuple[int, str, str]]]
-    ] = field(default_factory=list)
+    _cards: List = field(default_factory=list)
 
     def set_cards(self, cards: List[Tuple[int, str, str]]) -> None:
         """Method gives player cards in start of the game"""
@@ -19,9 +16,7 @@ class Player:
 
     def hit(
         self,
-        card: Union[
-            List[Tuple[int, str, str]], List[List[Tuple[int, str, str]]]
-        ],
+        card: List[Tuple[int, str, str]],
         idx=None
     ) -> None:
         """Method hit (adds) card into player cards"""
@@ -49,5 +44,5 @@ class Player:
         """Method returns player name"""
         return self._name
 
-    def remove_card(self, card) -> None:
+    def remove_card(self, card: Tuple[int, str, str]) -> None:
         self._cards.remove(card)
