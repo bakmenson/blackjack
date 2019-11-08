@@ -1,4 +1,4 @@
-from typing import Tuple, List, Union
+from typing import Tuple, List, Union, Optional
 from dataclasses import dataclass, field
 
 
@@ -33,7 +33,7 @@ class Player:
         """Method returns player cards"""
         return self._cards
 
-    def get_score(self, card_index=None) -> int:
+    def get_score(self, card_index: Optional[int] = None) -> int:
         """Method returns player scores"""
         if card_index is None:
             return sum(num[0] for num in self._cards)
