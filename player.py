@@ -64,7 +64,6 @@ class HumanPlayer(Player):
             card: List[List[Union[int, str, str]]]
     ) -> None:
         """Method splits player cards"""
-        # adding new cards instead of splitted card
-        self._cards[card_index] = card
-        # unpacking new cards in player cards list
-        self._cards = [y for x in self._cards for y in x]
+        self._cards.remove(self._cards[card_index])
+        for i in card:
+            self._cards.insert(card_index, i)
