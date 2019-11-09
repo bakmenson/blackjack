@@ -7,7 +7,16 @@ class Player:
     _name: str = 'unknown player'
     _cards: List = field(default_factory=list)
 
-    def set_cards(self, cards: List[Tuple[int, str, str]]) -> None:
+    @property
+    def get_cards(self) -> Union[
+        List[Tuple[int, str, str]],
+        List[List[Tuple[int, str, str]]]
+    ]:
+        """Method returns player cards"""
+        return self._cards
+
+    @get_cards.setter
+    def get_cards(self, cards: List[Tuple[int, str, str]]) -> None:
         """Method gives player cards in start of the game"""
         if len(cards) == 2:
             self._cards: List[List[Tuple[int, str, str]]] = [cards]
@@ -24,14 +33,6 @@ class Player:
             self._cards.extend(card)
         if idx is not None:
             self._cards[idx].extend(card)
-
-    @property
-    def get_cards(self) -> Union[
-        List[Tuple[int, str, str]],
-        List[List[Tuple[int, str, str]]]
-    ]:
-        """Method returns player cards"""
-        return self._cards
 
     def get_score(self, card_index: Optional[int] = None) -> int:
         """Method returns player scores"""
