@@ -42,7 +42,7 @@ class Player:
         """Method hit (adds) card into player cards"""
         if card_index is None:
             self._cards.extend(card)
-        if card_index is not None:
+        else:
             self._cards[card_index].extend(card)
 
     def get_score(self, card_index: Optional[int] = None) -> int:
