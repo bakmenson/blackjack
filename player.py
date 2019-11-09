@@ -30,9 +30,9 @@ class Player:
             self._cards = []
 
     def hit(
-        self,
-        card: List[Tuple[int, str, str]],
-        idx=None
+            self,
+            card: List[Tuple[int, str, str]],
+            idx=None
     ) -> None:
         """Method hit (adds) card into player cards"""
         if idx is None:
@@ -50,3 +50,16 @@ class Player:
     def get_name(self) -> str:
         """Method returns player name"""
         return self._name
+
+
+class HumanPlayer(Player):
+    def split_cards(
+            self,
+            card_index: int,
+            card: List[List[Union[int, str, str]]]
+    ) -> None:
+        """Method splits player cards"""
+        # adding new cards instead of splitted card
+        self._cards[card_index] = card
+        # unpacking new cards in player cards list
+        self._cards = [y for x in self._cards for y in x]
