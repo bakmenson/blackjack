@@ -7,6 +7,9 @@ class Player:
     _name: str = 'unknown player'
     _cards: List = field(default_factory=list)
 
+    def __len__(self):
+        return len(self._cards)
+
     @property
     def get_cards(self) -> Union[
         List[Tuple[int, str, str]],
