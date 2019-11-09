@@ -17,7 +17,13 @@ class Player:
         return self._cards
 
     @get_cards.setter
-    def get_cards(self, cards: List[Tuple[int, str, str]]) -> None:
+    def get_cards(
+            self,
+            cards: Union[
+                List[Tuple[int, str, str]],
+                List[Any]
+            ]
+    ) -> None:
         """Method gives player cards for start new game"""
         if len(cards) == 1:
             self._cards: List[Tuple[int, str, str]] = cards
