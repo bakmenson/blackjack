@@ -43,6 +43,3 @@ class Player:
     def get_name(self) -> str:
         """Method returns player name"""
         return self._name
-
-    def remove_card(self, card: List[Tuple[int, str, str]]) -> None:
-        self._cards.remove(card)
