@@ -27,10 +27,8 @@ class Player:
         """Method gives player cards for start new game"""
         if len(cards) == 1:
             self._cards: List[Tuple[int, str, str]] = cards
-        elif len(cards) == 2:
-            self._cards: List[List[Tuple[int, str, str]]] = [cards]
         else:
-            self._cards = []
+            self._cards: List[List[Tuple[int, str, str]]] = [cards]
 
     @get_cards.deleter
     def get_cards(self) -> None:
