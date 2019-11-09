@@ -11,7 +11,7 @@ class Player:
         return len(self._cards)
 
     @property
-    def get_cards(self) -> Union[
+    def cards(self) -> Union[
         List[Tuple[int, str, str]],
         List[List[Tuple[int, str, str]]],
         List[Any]
@@ -19,8 +19,8 @@ class Player:
         """Method returns player cards"""
         return self._cards
 
-    @get_cards.setter
-    def get_cards(
+    @cards.setter
+    def cards(
             self,
             cards: Union[List[Tuple[int, str, str]], List[Any]]
     ) -> None:
@@ -30,8 +30,8 @@ class Player:
         else:
             self._cards: List[List[Tuple[int, str, str]]] = [cards]
 
-    @get_cards.deleter
-    def get_cards(self) -> None:
+    @cards.deleter
+    def cards(self) -> None:
         self._cards = []
 
     def hit(
