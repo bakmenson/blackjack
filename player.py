@@ -1,4 +1,4 @@
-from typing import Tuple, List, Union, Optional
+from typing import Tuple, List, Union, Optional, Any
 from dataclasses import dataclass, field
 
 
@@ -10,7 +10,8 @@ class Player:
     @property
     def get_cards(self) -> Union[
         List[Tuple[int, str, str]],
-        List[List[Tuple[int, str, str]]]
+        List[List[Tuple[int, str, str]]],
+        List[Any]
     ]:
         """Method returns player cards"""
         return self._cards
