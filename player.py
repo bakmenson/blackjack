@@ -37,13 +37,13 @@ class Player:
     def hit(
             self,
             card: List[Tuple[int, str, str]],
-            idx=None
+            card_index: Optional[int] = None
     ) -> None:
         """Method hit (adds) card into player cards"""
-        if idx is None:
+        if card_index is None:
             self._cards.extend(card)
-        if idx is not None:
-            self._cards[idx].extend(card)
+        if card_index is not None:
+            self._cards[card_index].extend(card)
 
     def get_score(self, card_index: Optional[int] = None) -> int:
         """Method returns player scores"""
