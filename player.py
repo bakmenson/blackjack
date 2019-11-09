@@ -19,10 +19,7 @@ class Player:
     @get_cards.setter
     def get_cards(
             self,
-            cards: Union[
-                List[Tuple[int, str, str]],
-                List[Any]
-            ]
+            cards: Union[List[Tuple[int, str, str]], List[Any]]
     ) -> None:
         """Method gives player cards for start new game"""
         if len(cards) == 1:
