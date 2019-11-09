@@ -29,6 +29,10 @@ class Player:
         else:
             self._cards = []
 
+    @get_cards.deleter
+    def get_cards(self) -> None:
+        self._cards = []
+
     def hit(
             self,
             card: List[Tuple[int, str, str]],
