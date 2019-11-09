@@ -18,7 +18,7 @@ class Player:
 
     @get_cards.setter
     def get_cards(self, cards: List[Tuple[int, str, str]]) -> None:
-        """Method gives player cards in start of the game"""
+        """Method gives player cards for start new game"""
         if len(cards) == 1:
             self._cards: List[Tuple[int, str, str]] = cards
         elif len(cards) == 2:
