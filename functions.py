@@ -137,7 +137,8 @@ def get_actions(
 
     if player_score >= 10 and money >= bet * 2 and not double_count:
         actions_list.insert(2, 'Double down')
-    if len(player_cards) == 2 and player_cards[0][1] == player_cards[1][1]:
+    if len(player_cards) == 2 and player_cards[0][1] == player_cards[1][1] \
+            and money > bet * 2:
         actions_list.insert(-1, 'Split')
     if dealer_score == 11 and dealer_len_cards == 1 and not insurance_count:
         actions_list.insert(-1, 'Insurance')
