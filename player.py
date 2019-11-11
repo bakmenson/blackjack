@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 
 
 @dataclass
-class Player:
+class BasePlayer:
     _name: str = 'unknown player'
     _cards: List = field(default_factory=list)
 
@@ -56,7 +56,7 @@ class Player:
         return self._name
 
 
-class HumanPlayer(Player):
+class HumanPlayer(BasePlayer):
     def split_cards(
             self,
             card_index: int,
