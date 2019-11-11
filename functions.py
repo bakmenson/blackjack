@@ -131,7 +131,7 @@ def get_actions(
         bet: Union[int, float],
         is_double_down: bool,
         is_split: bool,
-        insurance_count: int
+        is_insurance: bool
 ) -> List:
     """Function returns list of the actions."""
     actions_list = ['Hit', 'Stay', 'Surrender']
@@ -142,7 +142,7 @@ def get_actions(
     if len(player_cards) == 2 and player_cards[0][1] == player_cards[1][1] \
             and money >= bet:
         actions_list.insert(-1, 'Split')
-    if dealer_score == 11 and dealer_len_cards == 1 and not insurance_count:
+    if dealer_score == 11 and dealer_len_cards == 1 and not is_insurance:
         actions_list.insert(-1, 'Insurance')
 
     return actions_list
