@@ -124,7 +124,7 @@ def is_continue(question: str) -> bool:
 
 def get_actions(
         player_score: int,
-        player_cards: List,
+        player_cards: List[Tuple[int, str, str]],
         dealer_score: int,
         dealer_len_cards: int,
         money: Union[int, float],
