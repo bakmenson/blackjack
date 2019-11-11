@@ -44,7 +44,7 @@ class BasePlayer:
 
     @property
     def get_score_list(self) -> List[int]:
-        """Method returns player scores in list. Needs if split cards"""
+        """Method returns player scores in list."""
         return [
             sum(num[0] for num in self._cards[n])
             for n, card in enumerate(self._cards)
