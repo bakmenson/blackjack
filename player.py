@@ -40,7 +40,7 @@ class BasePlayer:
         self._cards[card_index].extend(card)
 
     def get_score(self, card_index: int = 0) -> int:
-        """Method returns player scores"""
+        """Method returns player score"""
         return self.get_score_list[card_index]
 
     @property
