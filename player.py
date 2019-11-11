@@ -56,7 +56,7 @@ class BasePlayer:
         return self._name
 
 
-class HumanPlayer(BasePlayer):
+class Player(BasePlayer):
     def split_cards(
             self,
             card_index: int,
