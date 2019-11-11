@@ -45,7 +45,7 @@ is_split: bool = False
 # game
 while True:
     # players takes cards
-    dealer.cards = deck.get_card()
+    player.cards = deck.get_card(2)
     dealer.cards = deck.get_card()
 
     # make a bet
