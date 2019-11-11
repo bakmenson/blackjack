@@ -255,7 +255,6 @@ while True:
 
     if money and is_continue('Continue the game'):
         # set default values if continue the game
-        # player.cards, dealer.cards = [], []
         del player.cards
         del dealer.cards
         insurance, cards_index = 0, 0
