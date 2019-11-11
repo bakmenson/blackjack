@@ -28,6 +28,7 @@ class BasePlayer:
 
     @cards.deleter
     def cards(self) -> None:
+        """Method remove all cards"""
         self._cards = []
 
     def hit(
