@@ -1,4 +1,4 @@
-from typing import Tuple, List, Union, Optional, Any
+from typing import Tuple, List, Union, Any
 from dataclasses import dataclass, field
 
 
@@ -12,7 +12,6 @@ class Player:
 
     @property
     def cards(self) -> Union[
-        List[Tuple[int, str, str]],
         List[List[Tuple[int, str, str]]],
         List[Any]
     ]:
@@ -25,10 +24,7 @@ class Player:
             cards: Union[List[Tuple[int, str, str]], List[Any]]
     ) -> None:
         """Method gives player cards for start new game"""
-        if len(cards) == 1:
-            self._cards: List[Tuple[int, str, str]] = cards
-        else:
-            self._cards: List[List[Tuple[int, str, str]]] = [cards]
+        self._cards: List[List[Tuple[int, str, str]]] = [cards]
 
     @cards.deleter
     def cards(self) -> None:
@@ -37,19 +33,22 @@ class Player:
     def hit(
             self,
             card: List[Tuple[int, str, str]],
-            card_index: Optional[int] = None
+            card_index: int = 0
     ) -> None:
         """Method hit (adds) card into player cards"""
-        if card_index is None:
-            self._cards.extend(card)
-        else:
-            self._cards[card_index].extend(card)
+        self._cards[card_index].extend(card)
 
-    def get_score(self, card_index: Optional[int] = None) -> int:
+    def get_score(self, card_index: int = 0) -> int:
         """Method returns player scores"""
-        if card_index is None:
-            return sum(num[0] for num in self._cards)
-        return sum(num[0] for num in self._cards[card_index])
+        return self.get_score_list[card_index]
+
+    @property
+    def get_score_list(self) -> List[int]:
+        """Method returns player scores in list. Needs if split cards"""
+        return [
+            sum(num[0] for num in self._cards[n])
+            for n, card in enumerate(self._cards)
+        ]
 
     @property
     def get_name(self) -> str:
@@ -61,9 +60,9 @@ class HumanPlayer(Player):
     def split_cards(
             self,
             card_index: int,
-            card: List[List[Union[int, str, str]]]
+            split_cards: List[List[Union[int, str, str]]]
     ) -> None:
         """Method splits player cards"""
         self._cards.remove(self._cards[card_index])
-        for i in card:
-            self._cards.insert(card_index, i)
+        for card in split_cards:
+            self._cards.insert(card_index, card)
