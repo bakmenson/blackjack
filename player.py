@@ -48,7 +48,7 @@ class BasePlayer:
         """Method returns player scores in list."""
         return [
             sum(num[0] for num in self._cards[n])
-            for n, card in enumerate(self._cards)
+            for n in range(len(self._cards))
         ]
 
     @property
