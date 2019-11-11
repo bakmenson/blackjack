@@ -21,7 +21,7 @@ while True:
 
 deck = Deck()
 dealer = BasePlayer('dealer')
-player = Player('tom')
+player = Player(player_name)
 
 separator()
 
@@ -32,7 +32,8 @@ money: Union[int, float] = input_money()
 
 chips: List[int] = [1, 5, 25, 50, 100, 500, 1000]
 bet: Union[int, float] = 0
-bets: Tuple[Union[int, float], ...] = ()
+bets: List[Union[int, float]] = []
+sum_bets: Union[int, float] = 0
 cards_index: int = 0
 insurance: Union[int, float] = 0
 is_insurance: bool = False
@@ -67,15 +68,17 @@ while True:
             print(f'{number:>{int(term_width / 3 + 1)}}. {chip}')
 
         bet = make_bet(available_chips)
-        bets += (bet,)
+        bets.append(bet)
         money -= bets[-1]
-        sum_bets: Union[int, float] = sum(bets)
 
         separator()
-        print(f"{'':>{int(term_width / 3)}}Your bet: {sum_bets}")
+        print(f"{'':>{int(term_width / 3)}}Your bet: {sum(bets)}")
         if money and is_continue('Add chip'):
             continue
         break
+
+    bet = sum(bets)
+    sum_bets = bet
 
     # print dealer cards
     clear_terminal()
@@ -147,7 +150,11 @@ while True:
                     cards_index -= 1
                     break
                 elif choice == 'Surrender':
-                    money += sum_bets / 2
+                    if is_split:
+                        money += bet / 2
+                        sum_bets -= bet
+                    else:
+                        money += sum_bets / 2
                     surrender = True
                     break
                 elif choice == 'Double down':
@@ -170,8 +177,8 @@ while True:
                         [player_card[0], *deck.get_card()]
                     ]
                     player.split_cards(cards_index, split_card)
-                    money -= sum_bets
-                    sum_bets *= 2
+                    money -= bet
+                    sum_bets += bet
                     cards_index -= 1
                     break
                 else:
@@ -207,7 +214,7 @@ while True:
         else:
             title(player.get_name)
             print(f"{'':>{int(term_width / 3)}}"
-                  f"{player.get_name.capitalize()}"
+                  f"{player.get_name.title()}"
                   f" score list: {player.get_score_list}")
 
     separator()
@@ -260,6 +267,6 @@ while True:
         insurance, cards_index = 0, 0
         is_insurance, is_double_down, is_split = False, False, False
         blackjack, stop_game, surrender = False, False, False
-        bets = ()
+        bets = []
         continue
     break
