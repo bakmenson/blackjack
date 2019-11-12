@@ -3,6 +3,8 @@ from typing import Any, List, Union, Tuple
 # TODO: using subprocess instead of os
 from os import get_terminal_size, system, name
 
+# TODO: split file on modules for each task (actions, cards)
+
 term_width: int = get_terminal_size()[0]
 
 
@@ -134,8 +136,10 @@ def get_actions(
         is_insurance: bool
 ) -> List:
     """Function returns list of the actions."""
-    actions_list = ['Hit', 'Stay', 'Surrender']
+    actions_list = ['Hit', 'Stay']
 
+    if not is_split:
+        actions_list.append('Surrender')
     if player_score >= 10 and money >= bet and not is_double_down \
             and not is_split:
         actions_list.insert(2, 'Double down')
