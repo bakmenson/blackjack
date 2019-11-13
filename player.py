@@ -8,7 +8,7 @@ class BasePlayer:
     _cards: List = field(default_factory=list)
 
     def __len__(self):
-        return len(self._cards)
+        return len(self._cards[0])
 
     @property
     def cards(self) -> Union[
