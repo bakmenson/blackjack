@@ -138,7 +138,7 @@ def get_actions(
     """Function returns list of the actions."""
     actions_list = ['Hit', 'Stay']
 
-    if not is_split:
+    if len(player_cards) == 2:
         actions_list.append('Surrender')
     if player_score >= 10 and money >= bet and not is_double_down \
             and not is_split:
