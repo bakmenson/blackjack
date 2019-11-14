@@ -163,6 +163,7 @@ while True:
                     is_double_down = True
                     player.hit(deck.get_card(), cards_index)
                     player.money -= bet
+                    sum_bets += bet
                     cards_index -= 1
                     break
                 elif choice == 'Insurance':
