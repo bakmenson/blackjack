@@ -46,8 +46,12 @@ player.money = input_money()
 # game
 while True:
     # players takes cards
-    player.cards = deck.get_card(2)
-    dealer.cards = deck.get_card()
+    # player.cards = deck.get_card(2)
+    # dealer.cards = deck.get_card()
+
+    dealer.cards = [(11, 'A', '\x1b[0;30;47m♣\x1b[0m')]
+    player.cards = [(3, '3', '\x1b[0;30;47m♣\x1b[0m'),
+                    (3, '3', '\x1b[0;30;47m♣\x1b[0m')]
 
     # make a bet
     while True:
@@ -103,7 +107,7 @@ while True:
             )
 
             # check if player has blackjack with 2 cards
-            if player.get_score() == 21 and len(player) == 1:
+            if player.get_score() == 21 and len(player) == 2:
                 if dealer.get_score() == 11:
                     print(
                         f"{'':>{int(term_width / 3)}}{player.get_name.title()}"
@@ -170,9 +174,32 @@ while True:
                     # player can choice insurance one time per game
                     is_insurance = True
                     player.money -= bet / 2
+                    sum_bets += bet / 2
                     dealer.hit(deck.get_card())
 
                     if dealer.get_score() == 21:
+                        clear_terminal()
+                        print()
+
+                        # print dealer cards
+                        title(dealer.get_name)
+                        for card in dealer.cards:
+                            print_player_cards(forming_cards(card))
+                        print(
+                            f"{'':>{int(term_width / 3)}}Score:"
+                            f" {dealer.get_score()}")
+
+                        # print player cards
+                        title(player.get_name)
+                        for card in player.cards[cards_index:]:
+                            print_player_cards(forming_cards(player_card))
+                            print_player_info(
+                                player.get_score(cards_index),
+                                sum_bets,
+                                player.money,
+                                insurance
+                            )
+
                         cards_index += 1
                     else:
                         cards_index -= 1
@@ -194,36 +221,36 @@ while True:
                     break
         cards_index += 1
 
-    if not blackjack and not stop_game and dealer.get_score() < 21:
+    if not blackjack and not stop_game:
         # dealer must taking cards until 17 score
         while dealer.get_score() < 17:
             dealer.hit(deck.get_card())
 
-        clear_terminal()
-        print()
+    clear_terminal()
+    print()
 
-        # print final dealer and player card
-        title(dealer.get_name)
-        for dealer_card in dealer.cards:
-            print_player_cards(forming_cards(dealer_card))
-        print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_score()}")
+    # print final dealer and player card
+    title(dealer.get_name)
+    for dealer_card in dealer.cards:
+        print_player_cards(forming_cards(dealer_card))
+    print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_score()}")
 
-        if not is_split:
-            title(player.get_name)
-            for card in player.cards:
-                print_player_cards(forming_cards(card))
+    if not is_split:
+        title(player.get_name)
+        for card in player.cards:
+            print_player_cards(forming_cards(card))
 
-            print_player_info(
-                player.get_score(0),
-                sum_bets,
-                player.money,
-                insurance
-            )
-        else:
-            title(player.get_name)
-            print(f"{'':>{int(term_width / 3)}}"
-                  f"{player.get_name.title()}"
-                  f" score list: {player.get_score_list}")
+        print_player_info(
+            player.get_score(0),
+            sum_bets,
+            player.money,
+            insurance
+        )
+    else:
+        title(player.get_name)
+        print(f"{'':>{int(term_width / 3)}}"
+              f"{player.get_name.title()}"
+              f" score list: {player.get_score_list}")
 
     separator()
     # show game result if was not split
