@@ -46,10 +46,6 @@ class BasePlayer:
     @property
     def get_score_list(self) -> List[int]:
         """Method returns player scores in list."""
-        # return [
-        #     sum(num[0] for num in self._cards[n])
-        #     for n in range(len(self._cards))
-        # ]
 
         result, values = [], []
         for i in range(len(self._cards)):
