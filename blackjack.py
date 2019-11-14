@@ -46,8 +46,7 @@ player.money = input_money()
 while True:
     # players takes cards
     player.cards = deck.get_card(2)
-    # dealer.cards = deck.get_card()
-    dealer.cards = [(11, 'A', '\x1b[0;31;47m♦\x1b[0m')]
+    dealer.cards = deck.get_card()
 
     # make a bet
     while True:
