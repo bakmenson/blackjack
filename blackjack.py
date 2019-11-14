@@ -158,7 +158,6 @@ while True:
 
                 if choice == 'Hit':
                     player.hit(deck.get_card(), cards_index)
-
                     cards_index -= 1
                     break
                 elif choice == 'Surrender':
