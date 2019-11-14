@@ -46,7 +46,8 @@ player.money = input_money()
 while True:
     # players takes cards
     player.cards = deck.get_card(2)
-    dealer.cards = deck.get_card()
+    # dealer.cards = deck.get_card()
+    dealer.cards = [(11, 'A', '\x1b[0;31;47m♦\x1b[0m')]
 
     # make a bet
     while True:
@@ -94,6 +95,15 @@ while True:
         title(player.get_name)
         for player_card in player.cards[cards_index:]:
             print_player_cards(forming_cards(player_card))
+
+            if is_insurance:
+                if dealer.get_score() == 21:
+                    break
+                else:
+                    if len(player) == 2:
+                        sum_bets -= bet / 2
+                        print(f"{'':>{int(term_width / 3)}}Lost insurance.\n")
+
             print_player_info(
                 player.get_score(cards_index),
                 sum_bets,
@@ -171,36 +181,8 @@ while True:
                     player.money -= bet / 2
                     sum_bets += bet / 2
                     dealer.hit(deck.get_card())
-
-                    if dealer.get_score() == 21:
-                        clear_terminal()
-                        print()
-
-                        # print dealer cards
-                        title(dealer.get_name)
-                        for card in dealer.cards:
-                            print_player_cards(forming_cards(card))
-                        print(
-                            f"{'':>{int(term_width / 3)}}Score:"
-                            f" {dealer.get_score()}")
-
-                        # print player cards
-                        title(player.get_name)
-                        for card in player.cards[cards_index:]:
-                            print_player_cards(forming_cards(player_card))
-                            print_player_info(
-                                player.get_score(cards_index),
-                                sum_bets,
-                                player.money,
-                                insurance
-                            )
-
-                        cards_index += 1
-                    else:
-                        cards_index -= 1
-                        title(player.get_name)
-                        print(f"{'':>{int(term_width / 3)}}Lost insurance.")
-                        continue
+                    cards_index -= 1
+                    break
                 elif choice == 'Split':
                     is_split = True
                     split_card: List = [
@@ -273,8 +255,6 @@ while True:
                     player.money += (bet * 2) * 1.5
                 else:
                     player.money += bet * 1.5
-                if is_insurance:
-                    print(f"{'':>{int(term_width / 3)}}Lost insurance")
 
             else:
                 if dealer.get_score() == 21 != player.get_score(index) \
