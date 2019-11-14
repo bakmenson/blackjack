@@ -46,10 +46,22 @@ class BasePlayer:
     @property
     def get_score_list(self) -> List[int]:
         """Method returns player scores in list."""
-        return [
-            sum(num[0] for num in self._cards[n])
-            for n in range(len(self._cards))
-        ]
+        # return [
+        #     sum(num[0] for num in self._cards[n])
+        #     for n in range(len(self._cards))
+        # ]
+
+        result, values = [], []
+        for i in range(len(self._cards)):
+            for value in self._cards[i]:
+                values.append(value[0])
+            if sum(values) > 21:
+                for num in range(len(values)):
+                    if values[num] == 11:
+                        values[num] = 1
+            result.append(sum(values))
+            values = []
+        return result
 
     @property
     def get_name(self) -> str:
