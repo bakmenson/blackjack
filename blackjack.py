@@ -23,8 +23,6 @@ deck = Deck()
 dealer = BasePlayer('dealer')
 player = Player(player_name)
 
-separator()
-
 chips: List[int] = [1, 5, 25, 50, 100, 500, 1000]
 bet: Union[int, float] = 0
 bets: List[Union[int, float]] = []
@@ -41,6 +39,7 @@ blackjack: bool = False
 stop_game: bool = False
 is_split: bool = False
 
+separator()
 player.money = input_money()
 
 # game

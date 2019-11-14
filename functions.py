@@ -70,6 +70,34 @@ def print_player_cards(cards) -> None:
     print()
 
 
+def print_player_info(
+        score: int,
+        bet: Union[int, float],
+        money: Union[int, float],
+        insurance: Union[int, float],
+) -> None:
+    print(f"{'':>{int(term_width / 3)}}Score: {score}")
+    print(f"{'':>{int(term_width / 3)}}Bet: {bet}")
+    print(f"{'':>{int(term_width / 3)}}Money: {money - insurance}")
+    if insurance:
+        print(f"{'':>{int(term_width / 3)}}Insurance: {insurance}")
+
+
+def input_money() -> int:
+    money: int = 0
+    input_text = 'Input amount of your money: '
+    while True:
+        try:
+            money = int(input(f"{input_text:>{int(term_width / 2) + 14}}"))
+            if money <= 0:
+                raise ValueError
+        except ValueError:
+            print(f"{'':^{int(term_width / 2) - 14}}Invalid amount of money.")
+            continue
+        break
+    return money
+
+
 def make_bet(
         available_chips: List[Union[int, float]]
 ) -> Union[int, float]:
@@ -95,21 +123,6 @@ def make_bet(
         break
 
     return available_chips[chip_idx]
-
-
-def input_money() -> int:
-    money: int = 0
-    input_text = 'Input amount of your money: '
-    while True:
-        try:
-            money = int(input(f"{input_text:>{int(term_width / 2) + 14}}"))
-            if money <= 0:
-                raise ValueError
-        except ValueError:
-            print(f"{'':^{int(term_width / 2) - 14}}Invalid amount of money.")
-            continue
-        break
-    return money
 
 
 def is_continue(question: str) -> bool:
@@ -169,16 +182,3 @@ def choose_action(actions: List) -> str:
             continue
         break
     return actions[action_num - 1]
-
-
-def print_player_info(
-        score: int,
-        bet: Union[int, float],
-        money: Union[int, float],
-        insurance: Union[int, float],
-) -> None:
-    print(f"{'':>{int(term_width / 3)}}Score: {score}")
-    print(f"{'':>{int(term_width / 3)}}Bet: {bet}")
-    print(f"{'':>{int(term_width / 3)}}Money: {money - insurance}")
-    if insurance:
-        print(f"{'':>{int(term_width / 3)}}Insurance: {insurance}")
