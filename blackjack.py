@@ -45,10 +45,8 @@ player.money = input_money()
 # game
 while True:
     # players takes cards
-    # player.cards = deck.get_card(2)
+    player.cards = deck.get_card(2)
     dealer.cards = deck.get_card()
-
-    player.cards = [(4, '4', '\x1b[0;31;47m♥\x1b[0m'), (4, '4', '\x1b[0;31;47m♦\x1b[0m')]
 
     # make a bet
     while True:
@@ -198,10 +196,10 @@ while True:
                     cards_index -= 1
                     break
                 else:
+                    surrender.append(0)
                     break
         cards_index += 1
 
-    # TODO: add if not surrender
     if not blackjack and not stop_game and len(surrender) > 1:
         # dealer must taking cards until 17 score
         while dealer.get_score() < 17:
