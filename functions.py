@@ -149,7 +149,7 @@ def get_actions(
         is_insurance: bool
 ) -> List:
     """Function returns list of the actions."""
-    actions_list = ['Hit', 'Stay']
+    actions_list = ['Hit', 'Stand']
 
     if len(player_cards) == 2:
         actions_list.append('Surrender')
