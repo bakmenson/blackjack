@@ -110,7 +110,7 @@ while True:
                 insurance
             )
 
-            # check if player has blackjack with 2 cards
+            # check if player has blackjack on first hand
             if player.get_score() == 21 and len(player) == 2:
                 if dealer.get_score() == 11:
                     print(
