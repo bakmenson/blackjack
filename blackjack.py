@@ -29,7 +29,7 @@ bets: List[Union[int, float]] = []
 sum_bets: Union[int, float] = 0
 cards_index: int = 0
 insurance: Union[int, float] = 0
-surrender: List[int] = []
+surrender: List[int] = [0]
 win: int = 0
 push: int = 0
 lose: int = 0
@@ -200,7 +200,7 @@ while True:
                     break
         cards_index += 1
 
-    if not blackjack and not stop_game and len(surrender) > 1:
+    if not blackjack and not stop_game and len(surrender) >= 1:
         # dealer must taking cards until 17 score
         while dealer.get_score() < 17:
             dealer.hit(deck.get_card())
@@ -301,6 +301,6 @@ while True:
         cards_index, win, lose, push = 0, 0, 0, 0
         is_insurance, is_double_down, is_split = False, False, False
         blackjack, stop_game = False, False
-        bets, surrender = [], []
+        bets, surrender = [], [0]
         continue
     break
