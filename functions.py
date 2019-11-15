@@ -1,7 +1,7 @@
 from typing import Any, List, Union, Tuple
-
-# TODO: using subprocess instead of os
-from os import get_terminal_size, system, name
+from os import name
+from subprocess import call
+from shutil import get_terminal_size
 
 # TODO: split file on modules for each task (actions, cards)
 
@@ -10,7 +10,7 @@ term_width: int = get_terminal_size()[0]
 
 def clear_terminal() -> None:
     """Function clear terminal window"""
-    system('cls' if name == 'nt' else 'clear')
+    call('cls' if name == 'nt' else 'clear', shell=True)
 
 
 def separator() -> None:
