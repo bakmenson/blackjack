@@ -42,7 +42,7 @@ is_split: bool = False
 separator()
 player.money = input_money()
 
-# game
+# the game
 while True:
     # players takes cards
     player.cards = deck.get_card(2)

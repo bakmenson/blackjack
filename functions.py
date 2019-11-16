@@ -3,8 +3,6 @@ from os import name
 from subprocess import call
 from shutil import get_terminal_size
 
-# TODO: split file on modules for each task (actions, cards)
-
 term_width: int = get_terminal_size()[0]
 
 
