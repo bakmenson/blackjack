@@ -110,6 +110,13 @@ while True:
                 insurance
             )
 
+            if surrender:
+                if surrender[cards_index]:
+                    surrender.remove(surrender[cards_index])
+                    surrender.append(0)
+            else:
+                surrender.append(0)
+
             # check if player has blackjack on first hand
             if player.get_score() == 21 and len(player) == 2:
                 if dealer.get_score() == 11:
@@ -152,13 +159,6 @@ while True:
                 print()
                 for number, action in enumerate(actions, start=1):
                     print(f"{'':>{int(term_width / 3)}}{number}. {action}")
-
-                if surrender:
-                    if surrender[cards_index]:
-                        surrender.remove(surrender[cards_index])
-                        surrender.append(0)
-                else:
-                    surrender.append(0)
 
                 choice = choose_action(actions)
 
