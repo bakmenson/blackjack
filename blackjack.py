@@ -106,8 +106,7 @@ while True:
             print_player_info(
                 player.get_score(cards_index),
                 sum_bets,
-                player.money,
-                insurance
+                player.money
             )
 
             if surrender:
@@ -228,8 +227,7 @@ while True:
         print_player_info(
             player.get_score(0),
             sum_bets,
-            player.money,
-            insurance
+            player.money
         )
     else:
         title(player.get_name)

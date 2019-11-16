@@ -73,14 +73,11 @@ def print_player_cards(cards) -> None:
 def print_player_info(
         score: int,
         bet: Union[int, float],
-        money: Union[int, float],
-        insurance: Union[int, float],
+        money: Union[int, float]
 ) -> None:
     print(f"{'':>{int(term_width / 3)}}Score: {score}")
     print(f"{'':>{int(term_width / 3)}}Bet: {bet}")
-    print(f"{'':>{int(term_width / 3)}}Money: {money - insurance}")
-    if insurance:
-        print(f"{'':>{int(term_width / 3)}}Insurance: {insurance}")
+    print(f"{'':>{int(term_width / 3)}}Money: {money}")
 
 
 def input_money() -> int:
