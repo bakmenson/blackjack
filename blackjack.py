@@ -29,7 +29,7 @@ bets: List[Union[int, float]] = []
 sum_bets: Union[int, float] = 0
 cards_index: int = 0
 insurance: Union[int, float] = 0
-surrender: List[int] = [0]
+surrender: List[int] = []
 win: int = 0
 push: int = 0
 lose: int = 0
@@ -153,25 +153,29 @@ while True:
                 for number, action in enumerate(actions, start=1):
                     print(f"{'':>{int(term_width / 3)}}{number}. {action}")
 
+                if surrender:
+                    if surrender[cards_index]:
+                        surrender.remove(surrender[cards_index])
+                        surrender.append(0)
+                else:
+                    surrender.append(0)
+
                 choice = choose_action(actions)
 
                 if choice == 'Hit':
                     player.hit(deck.get_card(), cards_index)
                     cards_index -= 1
-                    surrender.append(0)
-                    if len(surrender) > 1:
-                        surrender.remove(surrender[cards_index - 1])
                     break
                 elif choice == 'Surrender':
                     player.money += bet / 2
                     sum_bets -= bet / 2
-                    surrender.append(1)
+                    surrender.remove(surrender[cards_index])
+                    surrender.insert(cards_index, 1)
                     break
                 elif choice == 'Double down':
                     # player can choice double down one time per game
                     is_double_down = True
                     player.hit(deck.get_card(), cards_index)
-                    surrender.append(0)
                     player.money -= bet
                     sum_bets += bet
                     cards_index -= 1
@@ -191,16 +195,18 @@ while True:
                         [player_card[0], *deck.get_card()]
                     ]
                     player.split_cards(cards_index, split_card)
+                    surrender.remove(surrender[cards_index])
+                    surrender.append(0)
+                    surrender.append(0)
                     player.money -= bet
                     sum_bets += bet
                     cards_index -= 1
                     break
                 else:
-                    surrender.append(0)
                     break
         cards_index += 1
 
-    if not blackjack and not stop_game and len(surrender) >= 1:
+    if not blackjack and not stop_game:
         # dealer must taking cards until 17 score
         while dealer.get_score() < 17:
             dealer.hit(deck.get_card())
@@ -301,6 +307,6 @@ while True:
         cards_index, win, lose, push = 0, 0, 0, 0
         is_insurance, is_double_down, is_split = False, False, False
         blackjack, stop_game = False, False
-        bets, surrender = [], [0]
+        bets, surrender = [], []
         continue
     break
