@@ -75,12 +75,14 @@ def print_player_info(
         bet: Union[int, float],
         money: Union[int, float]
 ) -> None:
+    """Print current info about player score, bet, money"""
     print(f"{'':>{int(term_width / 3)}}Score: {score}")
     print(f"{'':>{int(term_width / 3)}}Bet: {bet}")
     print(f"{'':>{int(term_width / 3)}}Money: {money}")
 
 
 def input_money() -> int:
+    """Function accepts and returns amount of money for start game"""
     money: int = 0
     input_text = 'Input amount of your money: '
     while True:
