@@ -214,7 +214,6 @@ while True:
     clear_terminal()
     print()
 
-    # TODO: make function
     # print final dealer and player card
     title(dealer.get_name)
     for dealer_card in dealer.cards:
@@ -239,7 +238,7 @@ while True:
               f" score list: {player.get_score_list}")
 
     separator()
-    # show game result if was not split
+    # result of the game
     if blackjack or stop_game:
         if blackjack:
             print(f"{'':>{int(term_width / 3)}}{player.get_name.title()} "
@@ -276,7 +275,7 @@ while True:
                           f"received insurance.\n")
                 lose += 1
 
-    # result of the game
+    # show the game result
     if len(player.get_score_list) > 1:
         print(f"{'':>{int(term_width / 3)}}Push: {push} pair of cards.")
         print(f"{'':>{int(term_width / 3)}}Win: {win} pair of cards.")
