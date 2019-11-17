@@ -1,6 +1,7 @@
 from typing import Union, List
 from deck import Deck
-from player import BasePlayer, Player
+from dealer import Dealer
+from player import Player
 from functions import term_width, forming_cards, player_title, make_bet, \
     separator, input_money, is_continue, print_player_cards, get_actions, \
     choose_action, print_player_info, clear_terminal
@@ -15,12 +16,12 @@ while True:
         if not player_name or player_name == ' ' or player_name.isdigit():
             raise ValueError
     except ValueError:
-        print(f"{'':>{int(term_width / 2 - 14)}}Incorrect player name")
+        print(f"{'':>{int(term_width / 2 - 14)}}Incorrect player name.")
         continue
     break
 
 deck = Deck()
-dealer = BasePlayer('dealer')
+dealer = Dealer('dealer')
 player = Player(player_name)
 
 chips: List[int] = [1, 5, 25, 50, 100, 500, 1000]
