@@ -290,10 +290,10 @@ while True:
                 print(f"{'':>{int(term_width / 3)}}Push.\n")
             if win:
                 print(f"{'':>{int(term_width / 3)}}"
-                      f"{player.get_name.title()} win!\n")
+                      f"{player.get_name.title()} won!\n")
             if lose:
                 print(f"{'':>{int(term_width / 3)}}"
-                      f"{dealer.get_name.title()} win.\n")
+                      f"{dealer.get_name.title()} won.\n")
 
     print(
         f"{'':>{int(term_width / 3)}}{player.get_name.title()}'s money: "
