@@ -1,9 +1,9 @@
 from typing import Union, List
 from deck import Deck
 from player import BasePlayer, Player
-from functions import term_width, forming_cards, title, make_bet, separator, \
-    input_money, is_continue, print_player_cards, get_actions, choose_action, \
-    print_player_info, clear_terminal
+from functions import term_width, forming_cards, player_title, make_bet, \
+    separator, input_money, is_continue, print_player_cards, get_actions, \
+    choose_action, print_player_info, clear_terminal
 
 clear_terminal()
 separator()
@@ -85,13 +85,13 @@ while True:
         print()
 
         # print dealer cards
-        title(dealer.get_name)
+        player_title(dealer.get_name)
         for dealer_card in dealer.cards:
             print_player_cards(forming_cards(dealer_card))
         print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_score()}")
 
         # print player cards
-        title(player.get_name)
+        player_title(player.get_name)
         for player_card in player.cards[cards_index:]:
             print_player_cards(forming_cards(player_card))
 
@@ -206,8 +206,7 @@ while True:
         cards_index += 1
 
     if not blackjack and not stop_game:
-        if len(surrender) == 1 and surrender[0] != 1 \
-                or len(surrender) > 1:
+        if len(surrender) == 1 and surrender[0] != 1 or len(surrender) > 1:
             # dealer must taking cards until 17 score
             while dealer.get_score() < 17:
                 dealer.hit(deck.get_card())
@@ -216,13 +215,13 @@ while True:
     print()
 
     # print final dealer and player card
-    title(dealer.get_name)
+    player_title(dealer.get_name)
     for dealer_card in dealer.cards:
         print_player_cards(forming_cards(dealer_card))
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_score()}")
 
     if not is_split:
-        title(player.get_name)
+        player_title(player.get_name)
         for card in player.cards:
             print_player_cards(forming_cards(card))
 
@@ -232,7 +231,7 @@ while True:
             player.money
         )
     else:
-        title(player.get_name)
+        player_title(player.get_name)
         print(f"{'':>{int(term_width / 3)}}"
               f"{player.get_name.title()}"
               f" score list: {player.get_score_list}")
