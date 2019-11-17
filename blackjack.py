@@ -25,9 +25,7 @@ dealer = Dealer('dealer')
 player = Player(player_name)
 
 chips: List[int] = [1, 5, 25, 50, 100, 500, 1000]
-bet: Union[int, float] = 0
-bets: List[Union[int, float]] = []
-sum_bets: Union[int, float] = 0
+total_bet: Union[int, float] = 0
 cards_index: int = 0
 insurance: Union[int, float] = 0
 surrender: List[int] = []
@@ -67,18 +65,17 @@ while True:
                 break
             print(f'{number:>{int(term_width / 3 + 1)}}. {chip}')
 
-        bet = make_bet(available_chips)
-        bets.append(bet)
-        player.money -= bets[-1]
+        bet: Union[int, float] = make_bet(available_chips)
+        player.money -= bet
+        total_bet += bet
 
         separator()
-        print(f"{'':>{int(term_width / 3)}}Your bet: {sum(bets)}")
+        print(f"{'':>{int(term_width / 3)}}Your bet: {total_bet}")
         if player.money and is_continue('Add chip'):
             continue
         break
 
-    bet = sum(bets)
-    sum_bets = bet
+    current_bet: Union[int, float] = total_bet
 
     # player part game
     while cards_index < len(player):
@@ -101,12 +98,12 @@ while True:
                     break
                 else:
                     if len(player) == 2:
-                        sum_bets -= bet / 2
+                        current_bet -= total_bet / 2
                         print(f"{'':>{int(term_width / 3)}}Lost insurance.\n")
 
             print_player_info(
                 player.get_score(cards_index),
-                sum_bets,
+                current_bet,
                 player.money
             )
 
@@ -129,11 +126,11 @@ while True:
                             "Continue (y) or end the game"
                             " and take the bet back (n)"
                     ):
-                        player.money += bet
+                        player.money += total_bet
                         stop_game = True
                         break
                 elif dealer.get_score() < 10:
-                    player.money += bet * 1.5
+                    player.money += total_bet * 1.5
                     blackjack = True
                     break
                 else:
@@ -149,7 +146,7 @@ while True:
                     dealer.get_score(),
                     len(dealer),
                     player.money,
-                    sum_bets,
+                    current_bet,
                     is_double_down,
                     is_split,
                     is_insurance
@@ -167,8 +164,8 @@ while True:
                     cards_index -= 1
                     break
                 elif choice == 'Surrender':
-                    player.money += bet / 2
-                    sum_bets -= bet / 2
+                    player.money += total_bet / 2
+                    current_bet -= total_bet / 2
                     surrender.remove(surrender[cards_index])
                     surrender.insert(cards_index, 1)
                     break
@@ -176,15 +173,15 @@ while True:
                     # player can choice double down one time per game
                     is_double_down = True
                     player.hit(deck.get_card(), cards_index)
-                    player.money -= bet
-                    sum_bets += bet
+                    player.money -= total_bet
+                    current_bet += total_bet
                     cards_index -= 1
                     break
                 elif choice == 'Insurance':
                     # player can choice insurance one time per game
                     is_insurance = True
-                    player.money -= bet / 2
-                    sum_bets += bet / 2
+                    player.money -= total_bet / 2
+                    current_bet += total_bet / 2
                     dealer.hit(deck.get_card())
                     cards_index -= 1
                     break
@@ -198,8 +195,8 @@ while True:
                     surrender.remove(surrender[cards_index])
                     surrender.append(0)
                     surrender.append(0)
-                    player.money -= bet
-                    sum_bets += bet
+                    player.money -= total_bet
+                    current_bet += total_bet
                     cards_index -= 1
                     break
                 else:
@@ -228,7 +225,7 @@ while True:
 
         print_player_info(
             player.get_score(0),
-            sum_bets,
+            current_bet,
             player.money
         )
     else:
@@ -252,7 +249,7 @@ while True:
                     or 21 > player.get_score(index) == dealer.get_score() \
                     or player.get_score(index) == 21 == dealer.get_score():
                 push += 1
-                player.money += bet
+                player.money += total_bet
 
             elif player.get_score(index) < 21 < dealer.get_score() \
                     or player.get_score(index) == 21 < dealer.get_score() \
@@ -261,15 +258,15 @@ while True:
                 if not surrender[index]:
                     win += 1
                     if is_double_down:
-                        player.money += (bet * 2) * 1.5
+                        player.money += (total_bet * 2) * 1.5
                     else:
-                        player.money += bet * 1.5
+                        player.money += total_bet * 1.5
                 else:
                     lose += 1
             else:
                 if dealer.get_score() == 21 != player.get_score(index) \
                         and len(dealer) == 2 and is_insurance:
-                    player.money += bet
+                    player.money += total_bet
                     print(f"{'':>{int(term_width / 3)}}"
                           f"{player.get_name.title()} "
                           f"received insurance.\n")
@@ -303,9 +300,9 @@ while True:
         # set default values if continue the game
         del player.cards
         del dealer.cards
-        cards_index, win, lose, push = 0, 0, 0, 0
+        cards_index, win, lose, push, total_bet = 0, 0, 0, 0, 0
         is_insurance, is_double_down, is_split = False, False, False
         blackjack, stop_game = False, False
-        bets, surrender = [], []
+        surrender = []
         continue
     break
