@@ -17,7 +17,7 @@ def separator() -> None:
 
 
 def player_title(player_name: str) -> None:
-    """Function print separator with player title"""
+    """Function print separator with player name"""
     player_name += ' cards'
     len_title_line: int = (
         (int(term_width / 2) - int((len(player_name) / 2) + 1))
