@@ -1,6 +1,6 @@
 # Blackjack. Terminal Game.
 
-![1](https://user-images.githubusercontent.com/23107809/68994901-fb286080-0898-11ea-84a2-56a7c2775adb.png)
-![2](https://user-images.githubusercontent.com/23107809/68994903-ffed1480-0898-11ea-9295-102e9abc4051.png)
-![3](https://user-images.githubusercontent.com/23107809/68994905-01b6d800-0899-11ea-8aac-6515e9d74976.png)
-![4](https://user-images.githubusercontent.com/23107809/68994907-04193200-0899-11ea-8400-c0059cc69d1f.png)
+![2019-11-17-155443_906x597_scrot](https://user-images.githubusercontent.com/23107809/69007895-0d67d480-0955-11ea-9092-82a58b8ac6ae.png)
+![2019-11-17-155450_906x597_scrot](https://user-images.githubusercontent.com/23107809/69007896-0d67d480-0955-11ea-9383-94d95b8d8288.png)
+![2019-11-17-160129_906x597_scrot](https://user-images.githubusercontent.com/23107809/69007897-0e006b00-0955-11ea-8d3f-0438b37cd53a.png)
+![2019-11-17-160144_906x597_scrot](https://user-images.githubusercontent.com/23107809/69007898-0e006b00-0955-11ea-82b3-fa0c8475b952.png)
