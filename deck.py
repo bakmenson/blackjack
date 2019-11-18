@@ -10,8 +10,10 @@ class Deck:
                    '\x1b[0;31;47m' + chr(9829) + '\x1b[0m',
                    '\x1b[0;30;47m' + chr(9827) + '\x1b[0m')
 
-    _card_faces = (*(str(_) for _ in range(2, 11)), 'J', 'Q', 'K', 'A')
-    _card_values = (*(_ for _ in range(2, 10)), *(10 for _ in range(4)), 11)
+    # _card_faces = (*(str(_) for _ in range(2, 11)), 'J', 'Q', 'K', 'A')
+    # _card_values = (*(_ for _ in range(2, 10)), *(10 for _ in range(4)), 11)
+    _card_faces = ('3',)
+    _card_values = (3,)
 
     def _get_deck(self) -> Tuple[Any, ...]:
         """Method returns deck of cards (4 cards for each suit)"""

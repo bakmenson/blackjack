@@ -186,15 +186,18 @@ while True:
                     cards_index -= 1
                     break
                 elif choice == 'Split':
+                    # TODO: if split a cup of Aces, stop after split
                     is_split = True
                     split_card: List = [
                         [player_card[1], *deck.get_card()],
                         [player_card[0], *deck.get_card()]
                     ]
                     player.split_cards(cards_index, split_card)
+
                     surrender.remove(surrender[cards_index])
-                    surrender.append(0)
-                    surrender.append(0)
+                    for i in range(2):
+                        surrender.append(0)
+
                     player.money -= total_bet
                     current_bet += total_bet
                     cards_index -= 1
