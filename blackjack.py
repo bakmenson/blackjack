@@ -109,9 +109,7 @@ while True:
             if surrender:
                 if surrender[cards_index]:
                     surrender.remove(surrender[cards_index])
-                    surrender.append(0)
-            else:
-                surrender.append(0)
+            surrender.append(0)
 
             # check if player has blackjack on first hand
             if player.get_score() == 21 and len(player_card) == 2:
