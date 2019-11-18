@@ -21,7 +21,7 @@ while True:
     break
 
 deck = Deck()
-dealer = Dealer('dealer')
+dealer = Dealer()
 player = Player(player_name)
 
 chips: List[int] = [1, 5, 25, 50, 100, 500, 1000]

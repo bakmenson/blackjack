@@ -5,6 +5,7 @@ from dealer import Dealer
 
 @dataclass
 class Player(Dealer):
+    _name = 'unknown name'
     _money: Union[int, float] = 0
 
     def __len__(self):

@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Dealer:
-    _name: str = 'unknown player'
+    _name: str = 'dealer'
     _cards: List = field(default_factory=list)
 
     def __len__(self):
