@@ -186,7 +186,6 @@ while True:
                     cards_index -= 1
                     break
                 elif choice == 'Split':
-                    # TODO: if split a cup of Aces, stop after split
                     is_split = True
                     split_card: List = [
                         [player_card[1], *deck.get_card()],
