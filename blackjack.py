@@ -97,7 +97,7 @@ while True:
                 if dealer.get_score() == 21:
                     break
                 else:
-                    if len(player) == 2:
+                    if not is_split and len(player_card) == 2:
                         current_bet -= total_bet / 2
                         print(f"{'':>{int(term_width / 3)}}Lost insurance.\n")
 
@@ -115,7 +115,7 @@ while True:
                 surrender.append(0)
 
             # check if player has blackjack on first hand
-            if player.get_score() == 21 and len(player) == 2:
+            if player.get_score() == 21 and len(player_card) == 2:
                 if dealer.get_score() == 11:
                     print(
                         f"{'':>{int(term_width / 3)}}{player.get_name.title()}"
@@ -200,7 +200,13 @@ while True:
 
                     player.money -= total_bet
                     current_bet += total_bet
-                    cards_index -= 1
+
+                    # if was split two Aces, player can hit one card
+                    # for each Ace
+                    if split_card[0][0][0] == split_card[1][0][0] == 11:
+                        cards_index += 1
+                    else:
+                        cards_index -= 1
                     break
                 else:
                     break
