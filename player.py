@@ -13,10 +13,12 @@ class Player(Dealer):
 
     @property
     def money(self) -> Union[int, float]:
+        """Method returns amount of player money"""
         return self._money
 
     @money.setter
     def money(self, value: Union[int, float]) -> None:
+        """Method sets player amount of money"""
         self._money = value
 
     def split_cards(
