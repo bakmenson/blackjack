@@ -27,7 +27,6 @@ player = Player(player_name)
 chips: List[int] = [1, 5, 25, 50, 100, 500, 1000]
 total_bet: Union[int, float] = 0
 cards_index: int = 0
-insurance: Union[int, float] = 0
 surrender: List[int] = []
 win: int = 0
 push: int = 0
