@@ -7,6 +7,9 @@ from dealer import Dealer
 class Player(Dealer):
     _money: Union[int, float] = 0
 
+    def __len__(self):
+        return len(self._cards)
+
     @property
     def money(self) -> Union[int, float]:
         return self._money
