@@ -51,6 +51,9 @@ player_money: Union[int, float] = input_money()
 
 # the game
 while True:
+    # take a deck of cards
+    deck.get_deck()
+
     # players takes cards
     player.cards = deck.get_card(2)
     dealer.cards = deck.get_card()
