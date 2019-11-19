@@ -2,8 +2,29 @@ from typing import Any, List, Union, Tuple
 from os import name
 from subprocess import call
 from shutil import get_terminal_size
+from webbrowser import open
 
 term_width: int = get_terminal_size()[0]
+
+
+def blackjack_wiki() -> None:
+    """Function open wiki page blackjack in default browser or None"""
+    while True:
+        try:
+            choice = int(input(f"\n{'':>{int(term_width / 2 - 11)}}>>> "))
+            if choice <= 0 or choice > 2:
+                raise IndexError(f"{'':>{int(term_width / 2 - 11)}}"
+                                 f"Command not found.")
+            else:
+                if choice == 2:
+                    open('https://en.wikipedia.org/wiki/Blackjack')
+        except ValueError:
+            print(f"{'':>{int(term_width / 2 - 11)}}Enter a number in menu.")
+            continue
+        except IndexError as e:
+            print(e)
+            continue
+        break
 
 
 def clear_terminal() -> None:
