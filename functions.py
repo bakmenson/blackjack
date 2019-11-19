@@ -2,15 +2,8 @@ from typing import Any, List, Union, Tuple
 from os import name
 from subprocess import call
 from shutil import get_terminal_size
-from webbrowser import open
 
 term_width: int = get_terminal_size()[0]
-
-
-def blackjack_wiki(number: int) -> None:
-    """Function open wiki page blackjack in default browser or None"""
-    if number == 2:
-        open('https://en.wikipedia.org/wiki/Blackjack')
 
 
 def clear_terminal() -> None:
