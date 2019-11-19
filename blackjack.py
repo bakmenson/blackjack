@@ -209,8 +209,7 @@ while True:
                     player_money -= total_bet
                     current_bet += total_bet
 
-                    # if was split two Aces, player can hit one card
-                    # for each Ace
+                    # if was split two Aces
                     if split_cards[0][0][0] == 11:
                         cards_index += 1
                     else:
