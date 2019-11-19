@@ -11,7 +11,7 @@ separator()
 print(f"{'':>{int(term_width / 2 - 3)}}Welcome!")
 print(f"{'':>{int(term_width / 2 - 11)}}Blackjack. Terminal Game.\n")
 print(f"{'':>{int(term_width / 2 - 11)}}1. Start game.")
-print(f"{'':>{int(term_width / 2 - 11)}}2. Read wiki.")
+print(f"{'':>{int(term_width / 2 - 11)}}2. Read wikipedia article.")
 blackjack_wiki()
 
 player_name = str()
