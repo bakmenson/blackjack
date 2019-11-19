@@ -3,19 +3,26 @@ from deck import Deck
 from player import Player
 from functions import term_width, forming_cards, player_title, make_bet, \
     separator, input_money, is_continue, print_player_cards, get_actions, \
-    choose_action, print_player_info, clear_terminal
+    choose_action, print_player_info, clear_terminal, blackjack_wiki
 
 clear_terminal()
 separator()
+
+print(f"{'':>{int(term_width / 2 - 3)}}Welcome!")
+print(f"{'':>{int(term_width / 2 - 11)}}Blackjack. Terminal Game.\n")
+print(f"{'':>{int(term_width / 2 - 11)}}1. Start game.")
+print(f"{'':>{int(term_width / 2 - 11)}}2. Read wiki.")
+blackjack_wiki()
+
 player_name = str()
 while True:
     try:
-        player_name = input(f"{'':>{int(term_width / 2 - 14)}}"
+        player_name = input(f"\n{'':>{int(term_width / 2 - 11)}}"
                             f"Enter your name >>> ")
         if not player_name or player_name == ' ' or player_name.isdigit():
             raise ValueError
     except ValueError:
-        print(f"{'':>{int(term_width / 2 - 14)}}Incorrect player name.")
+        print(f"{'':>{int(term_width / 2 - 11)}}Incorrect player name.")
         continue
     break
 
