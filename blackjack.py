@@ -211,7 +211,7 @@ while True:
 
                     # if was split two Aces, player can hit one card
                     # for each Ace
-                    if split_cards[0][0][0] == split_cards[1][0][0] == 11:
+                    if split_cards[0][0][0] == 11:
                         cards_index += 1
                     else:
                         cards_index -= 1
