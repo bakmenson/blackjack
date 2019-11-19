@@ -163,7 +163,6 @@ while True:
                 for number, action in enumerate(actions, start=1):
                     print(f"{'':>{int(term_width / 3)}}{number}. {action}")
 
-                # choice = choose_action(actions)
                 action = choose_action(len(actions))
 
                 if actions[action - 1] == 'Hit':
