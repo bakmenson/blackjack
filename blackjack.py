@@ -12,7 +12,7 @@ print(f"{'':>{int(term_width / 2 - 3)}}Welcome!")
 print(f"{'':>{int(term_width / 2 - 11)}}Blackjack. Terminal Game.\n")
 print(f"{'':>{int(term_width / 2 - 11)}}1. Start game.")
 print(f"{'':>{int(term_width / 2 - 11)}}2. Read Wikipedia article.")
-blackjack_wiki()
+blackjack_wiki(choose_action(2))
 
 player_name = str()
 while True:
@@ -160,19 +160,20 @@ while True:
                 for number, action in enumerate(actions, start=1):
                     print(f"{'':>{int(term_width / 3)}}{number}. {action}")
 
-                choice = choose_action(actions)
+                # choice = choose_action(actions)
+                action = choose_action(len(actions))
 
-                if choice == 'Hit':
+                if actions[action - 1] == 'Hit':
                     player.hit(deck.get_card(), cards_index)
                     cards_index -= 1
                     break
-                elif choice == 'Surrender':
+                elif actions[action - 1] == 'Surrender':
                     player_money += total_bet / 2
                     current_bet -= total_bet / 2
                     surrender.remove(surrender[cards_index])
                     surrender.insert(cards_index, 1)
                     break
-                elif choice == 'Double down':
+                elif actions[action - 1] == 'Double down':
                     # player can choice double down one time per game
                     is_double_down = True
                     player.hit(deck.get_card(), cards_index)
@@ -180,7 +181,7 @@ while True:
                     current_bet += total_bet
                     cards_index -= 1
                     break
-                elif choice == 'Insurance':
+                elif actions[action - 1] == 'Insurance':
                     # player can choice insurance one time per game
                     is_insurance = True
                     player_money -= total_bet / 2
@@ -188,7 +189,7 @@ while True:
                     dealer.hit(deck.get_card())
                     cards_index -= 1
                     break
-                elif choice == 'Split':
+                elif actions[action - 1] == 'Split':
                     is_split = True
                     split_cards: List = [
                         [player_card[1], *deck.get_card()],
