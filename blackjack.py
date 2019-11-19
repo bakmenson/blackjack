@@ -1,9 +1,10 @@
 from typing import Union, List
+from webbrowser import open
 from deck import Deck
 from player import Player
 from functions import term_width, forming_cards, player_title, make_bet, \
     separator, input_money, is_continue, print_player_cards, get_actions, \
-    choose_action, print_player_info, clear_terminal, blackjack_wiki
+    choose_action, print_player_info, clear_terminal
 
 clear_terminal()
 separator()
@@ -12,7 +13,9 @@ print(f"{'':>{int(term_width / 2 - 3)}}Welcome!")
 print(f"{'':>{int(term_width / 2 - 11)}}Blackjack. Terminal Game.\n")
 print(f"{'':>{int(term_width / 2 - 11)}}1. Start game.")
 print(f"{'':>{int(term_width / 2 - 11)}}2. Read Wikipedia article.")
-blackjack_wiki(choose_action(2))
+
+if choose_action(2) == 2:
+    open('https://en.wikipedia.org/wiki/Blackjack')
 
 player_name = str()
 while True:
