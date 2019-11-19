@@ -184,13 +184,13 @@ def get_actions(
     return actions_list
 
 
-def choose_action(actions: List) -> str:
-    """Function returns selected action."""
+def choose_action(action: int) -> int:
+    """Function returns selected action number."""
     action_num: int = 0
     while True:
         try:
             action_num = int(input(f"{'':>{int(term_width / 3)}}>>> "))
-            if action_num <= 0 or action_num > len(actions):
+            if action_num <= 0 or action_num > action:
                 raise IndexError
         except ValueError:
             print(f"{'':>{int(term_width / 3)}}Wrong command.")
@@ -199,4 +199,4 @@ def choose_action(actions: List) -> str:
             print(f"{'':>{int(term_width / 3)}}Wrong command.")
             continue
         break
-    return actions[action_num - 1]
+    return action_num
