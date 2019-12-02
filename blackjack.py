@@ -2,8 +2,8 @@ from typing import Union, List
 from webbrowser import open
 from deck import Deck
 from player import Player
-from functions import term_width, forming_cards, player_title, make_bet, \
-    separator, input_money, is_continue, print_player_cards, get_actions, \
+from functions import term_width, player_title, make_bet, separator, \
+    input_money, is_continue, print_player_cards, get_actions, \
     choose_action, print_player_info, clear_terminal
 
 clear_terminal()
@@ -96,13 +96,13 @@ while True:
         # print dealer cards
         player_title(dealer.get_name)
         for dealer_card in dealer.cards:
-            print_player_cards(forming_cards(dealer_card))
+            print_player_cards(dealer_card)
         print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_score()}")
 
         # print player cards
         player_title(player.get_name)
         for player_card in player.cards[cards_index:]:
-            print_player_cards(forming_cards(player_card))
+            print_player_cards(player_card)
 
             if is_insurance:
                 if dealer.get_score() == 21:
@@ -234,13 +234,13 @@ while True:
     # print final dealer and player card
     player_title(dealer.get_name)
     for dealer_card in dealer.cards:
-        print_player_cards(forming_cards(dealer_card))
+        print_player_cards(dealer_card)
     print(f"{'':>{int(term_width / 3)}}Score: {dealer.get_score()}")
 
     if not is_split:
         player_title(player.get_name)
         for card in player.cards:
-            print_player_cards(forming_cards(card))
+            print_player_cards(card)
 
         print_player_info(
             player.get_score(0),

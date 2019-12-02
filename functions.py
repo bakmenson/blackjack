@@ -59,7 +59,7 @@ def forming_cards(player_cards: List[Tuple[int, str, str]]) -> List[Any]:
 
 def print_player_cards(cards) -> None:
     """Function prints formed (forming_cards()) cards"""
-    join_cards = tuple(''.join(i) for i in zip(*cards))
+    join_cards = tuple(''.join(i) for i in zip(*forming_cards(cards)))
     len_short_str: int = min(len(i) for i in join_cards)
     for card in join_cards:
         align_str: int = (len(card) - len_short_str) \
